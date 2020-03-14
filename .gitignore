@@ -1,0 +1,5 @@
+.texpadtmp
+*.pdf
+*.docx
+test.*
+.idea

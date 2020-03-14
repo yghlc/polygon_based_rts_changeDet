@@ -100,6 +100,7 @@
 
 \author[a]{Lingcao Huang}
 \author[a]{Lin Liu}
+\author[b]{more}
 %\author[b]{Jing Luo}
 %\author[b]{Zhanju Lin}
 %\author[b]{Fujun Niu}
@@ -107,6 +108,7 @@
 
 
 \address[a]{Earth System Science Programme, Faculty of Science, The Chinese University of Hong Kong, Hong Kong SAR, China.}
+\address[b]{Add a few more co-authors?}
 %\address[b]{Northwest Institute of Eco-Environment and Resources, Chinese Academy of Sciences, Lanzhou, China.}
 
 \begin{abstract}
@@ -114,12 +116,12 @@
 Retrogressive thaw slumps (RTSs) are among the most dynamic landforms resulting from the thawing of ice-rich permafrost. 
 However, their distribution and evolution are poorly quantified due to the challenges in accurately mapping them from remote sensing images. 
 Building on the previous work on mapping RTSs using deep learning, we apply the same method to multi-temporal images, aiming to quantify RTS development in different years. 
-Firstly, we selected 36 active RTSs in Beiluhe on the Tibetan Plateau and manually delineated their boundaries on Planet CubeSat images taken in July 2017, 2018, and 2019. 
-Secondly, we derived training data from these boundaries and Planet images, then trained the DeepLabv3+ model. 
-Thirdly, we predicted RTSs in 2017, 2018, and 2019 Planet images using the well-trained model. Lastly, we conducted polygon-based change detection (2017 vs. 2018 and 2018 vs. 2019) on the mapped RTSs in different years, then obtained change polygons corresponding to the expanding areas toward upslope. 
-The results show that from 2017 to 2018, there are 35 change polygons, and their areas range from 108 $m^2$ to 2273 $m^2$ with a mean of 1284 $m^2$; 
-from 2018 to 2019, 31 change polygons are obtained, and their minimum, maximum, and average areas are 142 $m^2$, 9360 $m^2$, and 1913 $m^2$, respectively. 
-Visual inspection shows that most change polygons can accurately outline the expanding areas, yet a few of them are false positives, and a few expanding areas are missed. 
+%Firstly, we selected 36 active RTSs in Beiluhe on the Tibetan Plateau and manually delineated their boundaries on Planet CubeSat images taken in July 2017, 2018, and 2019. 
+%Secondly, we derived training data from these boundaries and Planet images, then trained the DeepLabv3+ model. 
+%Thirdly, we predicted RTSs in 2017, 2018, and 2019 Planet images using the well-trained model. Lastly, we conducted polygon-based change detection (2017 vs. 2018 and 2018 vs. 2019) on the mapped RTSs in different years, then obtained change polygons corresponding to the expanding areas toward upslope. 
+%The results show that from 2017 to 2018, there are 35 change polygons, and their areas range from 108 $m^2$ to 2273 $m^2$ with a mean of 1284 $m^2$; 
+%from 2018 to 2019, 31 change polygons are obtained, and their minimum, maximum, and average areas are 142 $m^2$, 9360 $m^2$, and 1913 $m^2$, respectively. 
+%Visual inspection shows that most change polygons can accurately outline the expanding areas, yet a few of them are false positives, and a few expanding areas are missed. 
 One advantage of using multi-temporal images to map RTSs then quantify their development is that this strategy can significantly reduce incorrect mapping results because a specific incorrect one would unlikely occur at the same location across multi-temporal images. 
 However, outlining the expanding areas requires very high accuracy of delineating RTSs in different images. 
 This study demonstrates that the deep-learning-based mapping method can potentially apply to large areas for mapping RTSs and quantifying their development if high-resolution remote sensing images are available.  
@@ -147,7 +149,14 @@ CubeSat  \sep Deep Learning \sep Permafrost \sep Retrogressive Thaw Slumps \sep 
 \section{Introduction}
 \label{sec_intro}
 
-Evolution of retrogressive thaw slumps is poor quantified in most permafrost areas.
+
+
+Permafrost occurs \citep{zhang1999statistics}.
+
+Evolution of retrogressive thaw slumps is poor quantified in most permafrost areas.\\\\
+
+
+Contribution of this works: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). (2) What’s the IOU value of mapping polygons are required for automatic change detection? For polygon-based change detection, we also can calculate F1 score, but it rely on the accuracies of mapping results. \\\\
  
 
 
@@ -160,14 +169,29 @@ Beiluhe, on the Tibetan Plateau.
 \label{sec_meth}
 
 Preparing multi-temporal Planet CubeSat images. 
-download, extract three bands, sharpening, co-registration. 
+download, extract three bands, sharpening, co-registration. \\\\
 
 
+collection of ground truth polygons from multi-temporal Planet images. \\\\
+
+
+Mapping method: the same to the 2020 RSE paper. \\\\
+
+
+Polygon-based change detection. \\\\
+
+Calculating the retreat distance. \\\\
+
+Removing false positives based on multi-temporal images. \\\\
+
+
+Validation. \\\\\
 
 
 
 \section{Discussion}
 \label{sec_discussion}
+
 
 
 
@@ -181,6 +205,7 @@ download, extract three bands, sharpening, co-registration.
 \label{sec_data_codes}
 
 Planet images can be downloaded via. 
+Codes are available on GitHub after the acceptance of the paper:
 
 \section{Acknowledgments}
 \label{sec_acknowledgments}
@@ -202,7 +227,9 @@ Thanks to ...
 %% bibitems, please use
 %%
 \bibliographystyle{elsarticle-harv} 
-\bibliography{poygon_based_rts_changeDet.bib}
+%\bibliography{poygon_based_rts_changeDet.bib}
+% the bib file in "~/codes/Texpad/shared_files"
+\bibliography{permafrost_rs_ref.bib}
 
 %% else use the following coding to input the bibitems directly in the
 %% TeX file.
