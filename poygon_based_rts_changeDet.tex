@@ -150,37 +150,43 @@ CubeSat  \sep Deep Learning \sep Permafrost \sep Retrogressive Thaw Slumps \sep 
 \label{sec_intro}
 
 % some background
-Permafrost is the ground remains 0$^\circ$C for at least two consecutive years and is warming at the global scale \citep{biskaborn2019permafrost}. 
+Permafrost is the ground that remains 0$^\circ$C for at least two consecutive years and is warming at the global scale \citep{biskaborn2019permafrost}. 
 Permafrost warming can cause permafrost degradation including active layer thickening, development of thermokarst landforms, shrinking of permafrost extent \citep{czudek_thermokarst_1970,jorgenson_response_2005,osterkamp2007Characteristics,aakerman2008thawing,zhao2010Thermal}. 
 Furthermore, it can threaten the safety of infrastructure, release greenhouse gases, and alter the local ecosystem \citep{tong_effect_1996,yang2010permafrost,bowden2010climate,grosse_vulnerability_2011,vonk2015reviews,schuur_climate_2015,olefeldt_circumpolar_2016,schuster2018permafrost,hjort2018degrading}.
+
+
+% Introduction on the retrogressive thaw slumps
+A retrogressive thaw slump (RTS) is a dynamic landform resulting from the thawing of ice-rich permafrost \citep{czudek_thermokarst_1970, jorgenson_thermokarst_2013,farquharson2016spatial,jones2019rapid}. 
+Usually, RTSs are triggered by lateral stream erosion or active layer detachments \citep{french2017periglacial} and can be active for decades \citep{burn1989geomorphology, lacelle2010climatic, swanson2018growth,lewkowicz2019extremes}. 
+For instance, a detachment slide occurs due to the melting of ground ice or intensive precipitation and removes soil above permafrost, then exposes it to rapid thawing and initiates an RTS. 
+The main component of an RTS are the headwall, slump floor, and slump lobe \citep{lantuit_fifty_2008}. 
+At the headwall, the exposed permafrost can continue thawing in each summer, which would further expands the thawed area towards upslope \citep{french2017periglacial}. 
+Moreover, RTSs can significantly alter the local ecosystem such as mass wasting of soil as well as vegetation \citep{gooseff2009effects} and increases of mercury concentrations in the downstream aquatic envionment \citep{pierre2018unprecedented}.
+
+
+% literature on the occurence and development of RTSs.
+% the maximum retreat rates are 6--8 meters per year \citep{jorgenson_thermokarst_2013}
 
 
 
 It underlays approximately one-quarter of the land surface in the Northern Hemisphere \citep{zhang1999statistics}.
 
 
-%The data we show here are good but not sufficent for the conclusion. 
-
-
-
-% Carbon, Mercury, 
-%Permafrost occurs \citep{zhang1999statistics}.
-
-% literature on the occurence of RTSs.
-
+% The retreat rate of thaw slumps
+The retreat rate of thaw slumps in most of the permafrost regions are unknown. \\\\ 
 % literature reviews on development of RTS. (the method to measure them)
 
-% 
-
-Evolution of retrogressive thaw slumps is poor quantified in most permafrost areas.\\\\
-
+Evolution of retrogressive thaw slumps is poor quantified in most permafrost areas. \\
 NO study on mapping RTS development automatically. 
 
-% Motivation and Objectives. and contributions. 
+% Motivation
+Combining the deep learning algorithms and multi-temporal CubeSat images can automatically quantify the RTSs development.
+
+% Objectives, contributions, and outline of this paper.
 
 Contribution of this works: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). 
 (2) What’s the IOU value of mapping polygons are required for automatic change detection? For polygon-based change detection, we also can calculate F1 score, but it rely on the accuracies of mapping results. \\\\
- 
+
 
 
 \section{Study area}
@@ -211,6 +217,7 @@ Removing false positives based on multi-temporal images. \\\\
 Validation. \\\\\
 
 
+%The data we show here are good but not sufficient for the conclusion. 
 
 \section{Discussion}
 \label{sec_discussion}
