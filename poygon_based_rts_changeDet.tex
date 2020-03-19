@@ -156,36 +156,50 @@ Furthermore, it can threaten the safety of infrastructure, release greenhouse ga
 
 
 % Introduction on the retrogressive thaw slumps
-A retrogressive thaw slump (RTS) is a dynamic landform resulting from the thawing of ice-rich permafrost \citep{czudek_thermokarst_1970, jorgenson_thermokarst_2013,farquharson2016spatial,jones2019rapid}. 
-Usually, RTSs are triggered by lateral stream erosion or active layer detachments \citep{french2017periglacial} and can be active for decades \citep{burn1989geomorphology, lacelle2010climatic, swanson2018growth,lewkowicz2019extremes}. 
+A retrogressive thaw slump (RTS) is one of dynamic landforms resulting from the thawing of ice-rich permafrost \citep{czudek_thermokarst_1970, jorgenson_thermokarst_2013,farquharson2016spatial,jones2019rapid}. 
+Usually, RTSs are triggered by lateral stream erosion or active layer detachments \citep{french2017periglacial} and can be active for decades \citep{burn1989geomorphology, lacelle2010climatic, swanson2018growth}. 
 For instance, a detachment slide occurs due to the melting of ground ice or intensive precipitation and removes soil above permafrost, then exposes it to rapid thawing and initiates an RTS. 
 The main component of an RTS are the headwall, slump floor, and slump lobe \citep{lantuit_fifty_2008}. 
 At the headwall, the exposed permafrost can continue thawing in each summer, which would further expands the thawed area towards upslope \citep{french2017periglacial}. 
-Moreover, RTSs can significantly alter the local ecosystem such as mass wasting of soil as well as vegetation \citep{gooseff2009effects} and increases of mercury concentrations in the downstream aquatic envionment \citep{pierre2018unprecedented}.
+Moreover, RTSs can significantly alter the local ecosystem such as mass wasting of soil as well as vegetation \citep{gooseff2009effects} and increases of mercury concentrations in the downstream aquatic environment \citep{pierre2018unprecedented}.
 
 
-% literature on the occurence and development of RTSs.
-% the maximum retreat rates are 6--8 meters per year \citep{jorgenson_thermokarst_2013}
+% literature on the occurrence and development of RTSs.
+The occurrence and dynamics of RTSs have been reported in many local permafrost areas, but their development in most areas is still unknown. 
+The RTS occurrence has been reported in northern and central Alaska (e.g., \citealp{swanson2018growth,balser2014timing}), northern Canada (e.g., \citealp{burn1990canadian, cassidy2017impacts, armstrong2018thaw,lewkowicz2019extremes}) , Siberia (e.g., \citealp{leibman2003dynamics, zwieback2018sub}) and the Tibetan Plateau (e.g., \citealp{niu2005engineering, niu2016thaw}). 
+As reported in some local or regional regions, their number and affected areas also increased dramatically in recent decades \citep{luo2019recent, lewkowicz2019extremes}.
+Typical, their retreat rates are 6--8 m yr$^{-1}$ \citep{jorgenson_thermokarst_2013}, but vary in different regions such as 16 m yr$^{-1}$ reported in Yukon Territory \citep{burn1989geomorphology} and 38 m yr$^{-1}$  in Alaska \citep{swanson2018growth}.
+However, the occurrence and retreat rates of RTSs in most permafrost areas are still unknown, especially on the Tibetan Plateau. 
+%Possible reasons include (1) RTSs scatter in remote and inaccessible regions, which makes field measurements challenging and (2) their small size as well as similarity to the surroundings presents difficulties for the automatic algorithms utilizing remote sensing images.  
 
+% why we need an automatically method. 
+An automatically mapping method is essential for quantifying RTS development throughout permafrost areas. 
+Permafrost underlays approximately one-quarter of the land surface in the Northern Hemisphere \citep{zhang1999statistics} and most areas are remote and inaccessible. 
+Therefore, it is impossible to conduct field measurement for RTS development. 
+The advance of remote sensing satellites, especially, the CubeSat constellation provides multi-temporal and high-resolution images covering the global land surface. 
+Manual delineation on these images can be used to quantify RTSs development but it is impractical due to large areas and the huge volume of images as well as its characteristics of time-consuming and labor-intensive. 
+Therefore, automatic methods are necessary for addressing the unknown question related RTSs development throughout permafrost areas. 
 
-
-It underlays approximately one-quarter of the land surface in the Northern Hemisphere \citep{zhang1999statistics}.
-
-
-% The retreat rate of thaw slumps
-The retreat rate of thaw slumps in most of the permafrost regions are unknown. \\\\ 
-% literature reviews on development of RTS. (the method to measure them)
-
-Evolution of retrogressive thaw slumps is poor quantified in most permafrost areas. \\
-NO study on mapping RTS development automatically. 
 
 % Motivation
 Combining the deep learning algorithms and multi-temporal CubeSat images can automatically quantify the RTSs development.
+A previous work has utilized deep learning algorithms to automatically delineate RTSs and output accurate mapping results \citep{huang2020using}. 
+We can apply the same mapping method to multi-temporal images then delineate the RTSs in multi-temporal images. 
+By comparing these multi-temporal RTS boundaries, we can quantify the development of these RTSs and obtain their retreat rate. 
 
-% Objectives, contributions, and outline of this paper.
+%Evolution of retrogressive thaw slumps is poor quantified in most permafrost areas. 
+%NO study on mapping RTS development automatically. 
 
-Contribution of this works: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). 
-(2) What’s the IOU value of mapping polygons are required for automatic change detection? For polygon-based change detection, we also can calculate F1 score, but it rely on the accuracies of mapping results. \\\\
+% Objectives, outline of this paper and contributions 
+The objectives of this study are (1) to extend the automatic mapping method proposed by \cite{huang2020using} to multi-temporal images and (2) to develop a method to automatically quantify the RTS development based on multi-temporal mapping results and obtain their retreat rates. 
+We train a single DeepLabv3+ model using multi-temporal images then use this model to predict RTS boundaries in different years.
+Then we propose a polygon-based change detection to remove incorrect mapping results and obtain change polygons covering expanding areas.  
+We calculate the medial axis of each change polygon, then based on the medial axis to obtain the retreat rates.  
+We also run the k-fold (k=3,5,10) cross-validation evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe on the Tibetan Plateau. 
+To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development on remote sensing images and very first study reporting RTS retreat rates on the Tibetan Plateau. 
+
+%Contribution of this work: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). 
+%(2) What’s the IOU value of mapping polygons are required for automatic change detection? For polygon-based change detection, we also can calculate F1 score, but it rely on the accuracies of mapping results. \\\\
 
 
 
