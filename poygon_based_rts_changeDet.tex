@@ -204,54 +204,82 @@ To the best of our knowledge, this would be the first study that provides an aut
 
 
 \section{Study area and data}
-\label{sec_studyarea}
+\label{sec_studyarea_data}
 
 % Study area
+The Beiluhe region ($92.50^\circ$E to $93.51^\circ$E, $34.69^\circ$N to $35.18^\circ$N) on the Tibetan Plateau (Fig. \ref{fig_multi_rts_image_studyarea}a) is our study area.
+The elevation is between 4418 and 5320 m; mean annual air temperature is \SI{-3.8}{\celsius}; annual precipitation is around 300 mm  \citep{luo_thermokarst_2015}.
+It is underlain by ice-rich permafrost with thickness ranges from 20 to 80 m: 70\% and 20\% of this region has ice content greater than 30\% and 50\%, respectively \citep{zhou_geocryology_2000, luo_thermokarst_2015}; 
+the type of ground ice is mainly massive ice \citep{guodong1983mechanism}. 
+The active layer thickness and mean annual ground temperature ($\sim$15 m) ranges from 1.5 to 2.0 m and \SI{-2.0} to \SI{-0.5}{\celsius}, respectively \citep{zhou_geocryology_2000, wu2010changes, luo_thermokarst_2015,  wu2015changes}. 
+As reported by a few studies, more than 200 RTSs developed in this region and their number and affected areas increased dramatically in the past decade \citep{huang2020using,luo2019recent}.  
+For example, an RTS developed toward upslope from 2017 to 2019, and the development is captured by Planet CubeSat as shown in Fig. \ref{fig_multi_rts_image_studyarea} b to d. 
+We also choose a region (i.e., Test area) next to Beiluhe as shown in Fig. \ref{fig_multi_rts_image_studyarea}a for testing our automatic method. 
+The test area has 50 RTSs \citep{huang2020using} but does not have more detailed ground information. 
 
-Beiluhe, on the Tibetan Plateau.
-
-% Area for testing, should mention it here? I don't think so
-
-%The study area ($92.50^\circ$E to $93.51^\circ$E, $34.69^\circ$N to $35.18^\circ$N) is in the Beiluhe region on the Tibetan Plateau (Fig. \ref{fig_rts_groundphoto}a), with an approximate size of 5200 km$^2$. The elevation ranges from 4418 m to 5320 m, with a mean of 4673 m. The records from a nearby meteorological station ($93.08^\circ$E, $35.22^\circ$N) show that the mean annual air temperature and annual precipitation are \SI{-3.8}{\celsius}, and around 300 mm, respectively \citep{luo_thermokarst_2015}. The vegetation includes alpine meadow (occupies \textgreater 45\% of the area) and alpine grassland (occupies \textless 20\% of the area) \citep{luo_thermokarst_2015}. 
-%
-%Most of this area is underlain by ice-rich permafrost: 70\% of the area has a volumetric ice content higher than 30\%, 
-%%, while 20\% has ice contents \textgreater 50\%, 
-%and the thickness of permafrost ranges from 20 to 80 m \citep{zhou_geocryology_2000, luo_thermokarst_2015}. According to the in situ observations from over 40 boreholes in the study area, the type of ground ice is mainly massive ice, whose formation is due to repeated segregation \citep{guodong1983mechanism}. The mean annual ground temperature at the depth of zero annual amplitude ($\sim$15 m) is between \SI{-2.0} and \SI{-0.5}{\celsius}, and the active layer thickness is between 1.5 and 2.0 m \citep{zhou_geocryology_2000, luo_thermokarst_2015, wu2010changes, wu2015changes}.
+% Area for testing, should mention it here? I don't think so. Mentioned as above. 
+%Test area: 50 RTS \citep{huang2020using}.
 
 %[ht]
 \begin{figure} 
 	\centering
 	\includegraphics[width=14cm]{figs/rts_multi_images_study_area_v2_trim.jpg}
-	\caption{The study area and development of a retrogressive thaw slump (RTS). The red and black rectangle in (a) shows the extent of our study area and test area on the Tibetan Plateau. (b) to (d) are Planet images (2017, 2018, and 2019) of an RTS whose central location is 92.912$^\circ$ E, 34.848$^\circ$ N.  The white arrows point the position of the headwall. In (b), the yellow arrow indicates the upslope direction.}
-	\label{fig_rts_groundphoto}
+	\caption{The study area and development of a retrogressive thaw slump (RTS). The red and black rectangle in (a) shows the extent of our study area and test area on the Tibetan Plateau. (b) to (d) are Planet images (2017, 2018, and 2019) of an RTS whose central location is 92.912$^\circ$ E, 34.848$^\circ$ N. The white arrows point the position of the headwall. In (b), the yellow arrow indicates the upslope direction.}
+	\label{fig_multi_rts_image_studyarea}
 \end{figure}
 
 
 
 %Data
+The data include images from Planet CubeSat \citep{team2017planet} and RTS boundaries in July 2017, 2018, and 2019.
+%address why only choose the images starting from 2017? 
+We only use images after 2017 because images from Planet CubeSat constellation are available after that time in our study area.  
+These images have four bands (blue, green, red, and near-infrared) with the spatial resolution of 3 m. 
+%And a list of all the images are presented Table ? in supplementary files. 
+%TODO: Put a list to in the supplementary materials for all the image file name
+The RTS boundaries are derived from manual delineation of Planet images, parts of which will be used for training our automatic method. 
+We consider all the RTS boundaries as ground truths in the validation step.
+The steps of downloading as well as pre-processing of Planet images and collecting ground truths are presented by \cite{huang2020using}.
 
 
 \section{Methods}
 \label{sec_meth}
 
-Preparing multi-temporal Planet CubeSat images. 
-download, extract three bands, sharpening, co-registration. \\\\
+\subsection{Co-registration of multi-temporal planet images}
+\label{subsec_coregistration}
+
+%Preparing multi-temporal Planet CubeSat images. 
+%download, extract three bands, sharpening, co-registration. \\\\
+%
+%
+%collection of ground truth polygons from multi-temporal Planet images. \\\\
+%
+%
+%Mapping method: the same to the 2020 RSE paper. \\\\
+
+\subsection{Training using multi-temporal planet images}
+\label{subsec_training}
 
 
-collection of ground truth polygons from multi-temporal Planet images. \\\\
+\subsection{Polygon-based change detection}
+\label{subsec_polygonchangeDet}
 
+%Polygon-based change detection. \\\\
 
-Mapping method: the same to the 2020 RSE paper. \\\\
+\subsection{Calculating retreat distance}
+\label{subsec_cal_retreat_dis}
 
+%Calculating the retreat distance. \\\\
 
-Polygon-based change detection. \\\\
+\subsection{Post-processing}
+\label{subsec_post_processing}
 
-Calculating the retreat distance. \\\\
+%Removing false positives based on multi-temporal images. \\\\
 
-Removing false positives based on multi-temporal images. \\\\
+\subsection{Validation}
+\label{subsec_post_processing}
 
-
-Validation. \\\\\
+%Validation. \\\\\
 
 
 %The data we show here are good but not sufficient for the conclusion. 
@@ -272,7 +300,7 @@ good
 \label{sec_data_codes}
 
 Planet images can be downloaded via. 
-Codes are available on GitHub after the acceptance of the paper:
+Codes are available on GitHub (\url{https://github.com/yghlc/ChangeDet_DL}) after the acceptance of this paper.
 
 \section{Acknowledgments}
 \label{sec_acknowledgments}
