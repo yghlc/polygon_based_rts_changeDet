@@ -282,8 +282,8 @@ We downloaded Planet images via Planet website (\url{www.planet.com}) via its Ed
 For the images of each year, we followed the same steps presented by \cite{huang2020using} to pre-process them and obtained a mosaic covering the study area. 
 %The steps of downloading, band extracting, stretching, and sharpening of these images in different years are presented by \cite{huang2020using}. 
 %Co-registration
-To increase the relative positional accuracy among multi-temporal images, we apply co-registration to these images. 
-Firstly, we chose the mosaic image in \cite{huang2020using} as the reference image because it has been well pre-processed. Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to find tie-points between other Planet images and the reference image \citep{huang2016a}. 
+To increase the relative positional accuracy among multi-temporal images, we apply co-registration to the three mosaic images from 2017 to 2019. 
+Firstly, we chose the mosaic image in \cite{huang2020using} as the reference image because it has been well pre-processed. Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to find tie-points between other mosaic images and the reference image \citep{huang2016a}. 
 Lastly, we warped these images by using the Geospatial Data Abstraction Library (GDAL) with a first-order polynomial model.
 %TODO: add co-registration accuracy in the supplementary files, also mentioned original 10 m accuracy 
 
@@ -293,24 +293,56 @@ Lastly, we warped these images by using the Geospatial Data Abstraction Library 
 \subsection{Delineating RTSs in different years}
 \label{sec_delineating}
 
+We used a deep-learning-based algorithm \citep{huang2020using} to automatically delineate RTSs on multi-temporal images.
+Compared with the method in \cite{huang2020using},  the innovation of this work includes (1) training without using negative training polygons and (2) improving RTS mapping results by utilizing RTS dynamic information in multi-temporal images. 
+The details will be presented as the following.
 
-\subsubsection{Preparing training data}
+% not include negative training polygons, has bad results, but can be removed by the multi-temporal information. 
+
+\subsubsection{Preparing training data} 
 \label{sec_prepare_training}
 
-Training image are derived from multi-temporal images. 
-did not include negative training polygons. 
+%\subsubsection{Training a single model} 
+%\label{sec_training_model}
+
+% Preparing training data
+The training data were derived from training polygons and Planet images in 2017, 2018, and 2019. 
+We considered all the ground truths as positive training polygons but did not include any negative training polygons. 
+Negative training polygons are necessary for distinguish land cover that are similar to RTSs but need ground information or some initial tests to generate them. 
+However, generating negative training polygons will be impractical for mapping RTSs in a large area. 
+Without negative training polygons, the mapping results may contain a lot of false positives, but we can utilize the RTS dynamic information in multi-temporal images to remove them (see section \ref{sec_improving_using_rts_dynamic}).
+For the training polygons and Planet images in each year, we extracted sub-images with a buffer area of 300 m. 
+Then we subdivided all sub-images into patches by setting a patch size as 480 pixels with an overlap of 160 pixels. 
+Details of the extracting and subdividing operation are presented by \cite{huang2018automatic}.
+To improve the volume of training data and generalization of the trained model, we applied data augmentation (flipping, blurring, cropping, and scaling) to the patches. 
+Lastly, we merged all the patches from different years to a single training dataset. 
 
 
+\subsubsection{Training a single model and predicting RTSs in different years}
+\label{sec_train_prediction}
 
-\subsubsection{Training, Prediction, and post-processing}
-\label{sec_train_prediction_post}
+% training
+We trained a deep-learning model, i.e., DeepLabv3+ \citep{chen2018encoder-decoder}, by using the training data derived in section \ref{sec_prepare_training}. 
+\cite{huang2020using} have proofed that a well-trained DeepLabv3+ can delineate RTSs and obtain their boundaries that are very close to manual delineation. 
+In this study, instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features in multi-temporal images, more importantly, a universal model can save a lot of computing resources, especially when expanding the time domain.
+We used the same hyper-parameter presented in \cite{huang2020using} to train this model. 
+To evaluate the robustness of the model, we utilized k-fold cross-validation (k=3, 5, and 10)  as commonly used in machine learning. 
+ %TODO: How about the test Area? use which trained model?
+%k-fold cross-validation. 
 
-k-fold cross-validation. 
+% prediction
+We used the trained model to predict RTSs on in 2017, 2018, and 2019 mosaic images. 
+The steps of predicting RTSs in one year includes (1) dividing it to numerous small patches, (2) predicting RTS or non-RTS pixels, (3) mosaicked the binary patches using GDAL and obtained a binary mosaic, (4) polygonizing the binary mosaic, and (5) removing polygons small than  0.3 ha. 
+The size and overlap of each patches for prediction is the same to the one for preparing training data (section \ref{sec_prepare_training}) . 
+To improve efficiency, we adopted a parallel strategy to predict RTSs in different years.
 
-\subsubsection{Removing incorrect mapping results based on multi-temporal results}
-\label{sec_removing_based_multi_temporal}
+
+\subsubsection{Improving RTS mapping results using the RTS dynamic feature}
+\label{sec_improving_using_rts_dynamic}
 
 
+\subsubsection{Validating mapping results}
+\label{sec_validation_mapping}
 
 
 \subsection{Detecting changes of RTS boundaries}
@@ -323,18 +355,17 @@ k-fold cross-validation.
 
 %Calculating the retreat distance. \\\\
 
-\subsection{Post-processing}
-\label{sec_post_processing}
+
+\subsubsection{Validating RTS changes}
+\label{sec_validation_change}
+
+%Validation. \\\\\
+%\subsection{Post-processing}
+%\label{sec_post_processing}
 
 %Removing false positives based on multi-temporal images. \\\\
 
-\subsection{Validation}
-\label{sec_validation}
 
-%Validation. \\\\\
-
-
-%The data we show here are good but not sufficient for the conclusion. 
 
 \section{Results}
 \label{sec_result}
