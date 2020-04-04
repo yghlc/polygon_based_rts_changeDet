@@ -220,6 +220,8 @@ The test area has 50 RTSs \citep{huang2020using} but does not have more detailed
 % Area for testing, should mention it here? Mentioned as above. 
 %Test area: 50 RTS \citep{huang2020using}.
 
+%TODO: plot zoom in of the headwall. 
+
 %[ht]
 \begin{figure} 
 	\centering
@@ -324,7 +326,7 @@ Lastly, we merged all the patches from different years to a single training data
 % training
 We trained a deep-learning model, i.e., DeepLabv3+ \citep{chen2018encoder-decoder}, by using the training data derived in section \ref{sec_prepare_training}. 
 \cite{huang2020using} have proofed that a well-trained DeepLabv3+ can delineate RTSs and obtain their boundaries that are very close to manual delineation. 
-In this study, instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features in multi-temporal images, more importantly, a universal model can save a lot of computing resources, especially when expanding the time domain.
+In this study, instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features in multi-temporal images, more importantly, a generic model can save a lot of computing resources, especially when expanding the time domain.
 We used the same hyper-parameter presented in \cite{huang2020using} to train this model. 
 To evaluate the robustness of the model, we utilized k-fold cross-validation (k=3, 5, and 10)  as commonly used in machine learning. 
  %TODO: How about the test Area? use which trained model?
@@ -332,13 +334,39 @@ To evaluate the robustness of the model, we utilized k-fold cross-validation (k=
 
 % prediction
 We used the trained model to predict RTSs on in 2017, 2018, and 2019 mosaic images. 
-The steps of predicting RTSs in one year includes (1) dividing it to numerous small patches, (2) predicting RTS or non-RTS pixels, (3) mosaicked the binary patches using GDAL and obtained a binary mosaic, (4) polygonizing the binary mosaic, and (5) removing polygons small than  0.3 ha. 
-The size and overlap of each patches for prediction is the same to the one for preparing training data (section \ref{sec_prepare_training}) . 
+The steps of predicting RTSs in one year include (1) dividing it to numerous small patches, (2) predicting RTS or non-RTS pixels, (3) mosaicked the binary patches using GDAL and obtained a binary mosaic, (4) polygonizing the binary mosaic, and (5) removing polygons smaller than 0.3 ha. 
+The size and overlap of each patches for prediction is the same to the one for preparing training data (section \ref{sec_prepare_training}). 
 To improve efficiency, we adopted a parallel strategy to predict RTSs in different years.
 
 
 \subsubsection{Improving RTS mapping results using the RTS dynamic feature}
 \label{sec_improving_using_rts_dynamic}
+
+Many mapped polygons were erroneously identified as RTS polygons can be removed by utilizing the RTS dynamic feature. 
+As shown in Fig. \ref{fig_rts_expanding}, an active RTS can expand toward upslope annually, even for a non-active RTS, its extent cannot shrink. 
+Therefore, we can use this dynamic feature to remove non-RTS mapped polygons. 
+Firstly, we obtained a union (Fig. \ref{fig_rts_expanding}) of mapped polygons at the same location.
+The steps of obtaining the union include (1) choosing a mapped polygon as initial union, (2) scanning through all mapped polygons until find a mapped polygon that still available (not merged to other unions) and overlap the union, (3) merging the found mapped polygon to union and updating the union, and (4) repeating steps (2) and (3) until cannot find a new mapped polygon can be merged to the union. 
+Secondly, we calculated the intersection over union (IOU) for mapped polygons in each year (termed as ``time-IOU") as follows, 
+\begin{equation}
+IOU(A,B)_{year}=area(A \cap B)/area(A \cup B)
+\label{equ_time_iou}
+\end{equation}
+where \emph{A} is a mapped polygon in the specific year and \emph{B} is the union. 
+Due to the dynamic of RTSs, the time-IOU of an active RTS will monotonically increase over time. 
+If the RTS is already stabilized, its time-IOU will remain the same over time. 
+In consideration of the delineation error (e.g., the RTS boundaries in different years at non-headwall parts are not exactly overlap each other), a threshold of $-0.1$ was set to determine the time-IOU of an RTS is monotonically increasing, that is, if all the differences ($IOU_{next\_year}-IOU_{year}$) are greater than $-0.1$, we consider the time-IOU is monotonically increasing. 
+Thirdly, in the Beiluhe region, almost all the RTSs were initiated in or before 2016 \citep{luo2019recent}.
+Therefore, we can assume that at a specific location where an RTS emerges, it presents three mapped polygons and each in 2017, 2018, and 2019. 
+Lastly, we removed mapped polygons in a location that do not satisfy the three-polygon assumption or the time-IOU is not monotonically increasing.
+ 
+%[ht]
+\begin{figure} 
+	\centering
+	\includegraphics[width=14cm]{figs/rts_expanding_example_trim}
+	\caption{RTS polygons (a) representing their boundaries from 2017 to 2019 and the union (b) of these polygons. The background is 2019 Planet images, and the RTS is the same to the one shown in Fig. \ref{fig_multi_rts_image_studyarea}}
+	\label{fig_rts_expanding}
+\end{figure}
 
 
 \subsubsection{Validating mapping results}
