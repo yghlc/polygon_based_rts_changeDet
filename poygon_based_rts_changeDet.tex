@@ -369,9 +369,22 @@ Lastly, we removed mapped polygons in a location that do not satisfy the three-p
 \end{figure}
 
 
-\subsubsection{Validating mapping results}
-\label{sec_validation_mapping}
+\subsubsection{Validating mapped polygons}
+\label{sec_validate_mapped_polygons}
 
+To validate mapped polygons, we calculate F1 scores \citep{huang2020using} for mapped polygons in each year separately. 
+We set a threshold of 0.5 to decide a mapped polygon is a false positive or true positive.
+After obtaining the count of true positives, false positives, and false negatives, we can calculate the precision and recall, then calculate the F1 score using the following euqation. 
+\begin{equation}
+F1=2 \times Precision \times Recall / (Precision + Recall)
+\label{equ_f1score}
+\end{equation}
+More details of the F1 score and its implication can be found in \cite{huang2020using}.
+We repeated the calculation of F1 scores for different years and obtained the corresponding values. 
+
+To assess the performance of the delineating method in this paper, we calculated the average precision (AP) values for mapping results in different years, then averaged them. 
+AP values are based on precision-recall curves which is an effective metric for evaluating the algorithm performance \citep{huang2020using}.
+A higher average of AP values indicates the better performance of the method. 
 
 \subsection{Detecting changes of RTS boundaries}
 \label{sec_detect_rts_changes}
@@ -411,6 +424,8 @@ Lastly, we removed mapped polygons in a location that do not satisfy the three-p
 \label{sec_discussion}
 
 good
+
+A new emergence RTS was missed. 
 
 \section{Conclusions}
 \label{sec_conclusion}
