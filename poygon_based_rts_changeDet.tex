@@ -373,6 +373,7 @@ Lastly, we removed mapped polygons in a location that do not satisfy the three-p
 \label{sec_validate_mapped_polygons}
 
 To validate mapped polygons, we calculate F1 scores \citep{huang2020using} for mapped polygons in each year separately. 
+For each  year, we calculate IOU values between mapped polygons and the corresponding ground truths. 
 We set a threshold of 0.5 to decide a mapped polygon is a false positive or true positive.
 After obtaining the count of true positives, false positives, and false negatives, we can calculate the precision and recall, then calculate the F1 score using the following euqation. 
 \begin{equation}
@@ -389,7 +390,48 @@ A higher average of AP values indicates the better performance of the method.
 \subsection{Detecting changes of RTS boundaries}
 \label{sec_detect_rts_changes}
 
-%Polygon-based change detection. \\\\
+This study will provide a method to automatically detect changes of RTS boundaries and calculate their annual retreat distance.
+The RTS boundaries are in vector format and can be derived from manual delineation or automatic mapping. 
+The main steps include polygon-based change detection, removing false changes, and calculating retreat distance as follows, 
+
+\subsubsection{Polygon-based change detection}
+\label{sec_polygon_change_det}
+
+To obtain the annual RTS changes, we conducted change detection for RTS boundaries between this year and the previous year, that is, comparing 2017 with 2018 and 2018 with 2019. 
+ As shown in equation \ref{equ_polygon_diff}, for a specific location has mapped polygons in different years, a polygon in year \emph{t} minus the one in year \emph{t-1} can result in an expanding polygon (MultiPolygon). 
+We used the ``difference'' function in Shapely (\url{https://pypi.org/project/Shapely}) to implement the subtraction in equation \ref{equ_polygon_diff}.
+\begin{equation}
+E= P_{t} - P_{t-1}
+\label{equ_polygon_diff}
+\end{equation}
+where \emph{P} is a RTS polygon, \emph{t} is a year, and \emph{E} is the expanding polygon. 
+While $P_{t} - P_{t+1}$ can result in a shirking polygon but it does not correspond to the dynamic feature of an RTS. 
+
+%TODO: a figure showing a multiPolygon and its narrow parts. 
+
+%[ht]
+\begin{figure} 
+	\centering
+	\includegraphics[width=14cm]{figs/rts_polygon_change_det_trim}
+	\caption{Change detection example}
+	\label{fig_rts_change_det}
+\end{figure}
+
+
+
+%removing the narrow parts. 
+
+%a multi-polygon to polygons and calculate the attributes: area, circularity, 
+%zeroIntersection, two or more intersections, holes, relative elevation, retreat distance. 
+
+
+
+
+\subsubsection{Removing false changes}
+\label{sec_removing_false_change}
+
+%Polygon change detection. \\\\
+
 
 \subsubsection{Calculating retreat distance}
 \label{sec_cal_retreat_dis}
@@ -400,12 +442,6 @@ A higher average of AP values indicates the better performance of the method.
 \subsubsection{Validating RTS changes}
 \label{sec_validation_change}
 
-%Validation. \\\\\
-%\subsection{Post-processing}
-%\label{sec_post_processing}
-
-%Removing false positives based on multi-temporal images. \\\\
-
 
 
 \section{Results}
@@ -414,10 +450,13 @@ A higher average of AP values indicates the better performance of the method.
 \subsection{The performance of mapping task using multi-temporal images}
 \label{sec_mapping_performance}
 
+Improvement by applying time IOU and occurrence
+
 
 \subsection{RTSs expansion from 2017 to 2019}
 \label{sec_rst_expanding}
 
+Retreat distance. 
 
 
 \section{Discussion}
