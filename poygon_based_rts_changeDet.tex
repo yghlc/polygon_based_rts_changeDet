@@ -334,7 +334,12 @@ To evaluate the robustness of the model, we utilized k-fold cross-validation (k=
 
 % prediction
 We used the trained model to predict RTSs on in 2017, 2018, and 2019 mosaic images. 
-The steps of predicting RTSs in one year include (1) dividing it to numerous small patches, (2) predicting RTS or non-RTS pixels, (3) mosaicked the binary patches using GDAL and obtained a binary mosaic, (4) polygonizing the binary mosaic, and (5) removing polygons smaller than 0.3 ha. 
+The steps of predicting RTSs in one year include (1) dividing it to numerous small patches, 
+(2) predicting RTS or non-RTS pixels, 
+(3) mosaicked the binary patches using GDAL and obtained a binary mosaic, 
+(4) polygonizing the binary mosaic, and 
+%TODO: 0.3 ha, should I use ha or m^2
+(5) removing polygons smaller than 0.3 ha. 
 The size and overlap of each patches for prediction is the same to the one for preparing training data (section \ref{sec_prepare_training}). 
 To improve efficiency, we adopted a parallel strategy to predict RTSs in different years.
 
@@ -397,6 +402,15 @@ The main steps include polygon-based change detection, removing false changes, a
 \subsubsection{Polygon-based change detection}
 \label{sec_polygon_change_det}
 
+%a figure showing a multiPolygon and its narrow parts. 
+%[ht]
+\begin{figure} 
+	\centering
+	\includegraphics[width=14cm]{figs/rts_polygon_change_det_trim}
+	\caption{An example of the polygon-based change detection. (a) shows the boundaries of an RTS (Fig. \ref{fig_rts_expanding}a) in 2017 and 2018. $P_{2018}-P_{2017}$ results in an expanding multiPolygon (b) and the corresponding non-narrow parts (c). $P_{2017}-P_{2018}$ results in a shrinking multiPolygon (d).}
+	\label{fig_rts_change_det}
+\end{figure}
+
 To obtain the annual RTS changes, we conducted change detection for RTS boundaries between this year and the previous year, that is, comparing 2017 with 2018 and 2018 with 2019. 
  As shown in equation \ref{equ_polygon_diff}, for a specific location has mapped polygons in different years, a polygon in year \emph{t} minus the one in year \emph{t-1} can result in an expanding polygon or multiPolygon. 
 We used the ``difference'' function in Shapely (\url{https://pypi.org/project/Shapely}) to implement the subtraction in equation \ref{equ_polygon_diff}.
@@ -416,24 +430,43 @@ P_{non\text{-}narrow}= P.\text{buffer}(-r).\text{buffer}(r*f) \cap P
 where \emph{P} is a polygon or multiPolygon, \emph{r} is the value of buffer operation,  \emph{f} is a factor between 1 to 2 for avoiding uncertainties of buffer operation. 
 %TODO: check or update the r and f value in the codes
 In this study, we set \emph{r} as 3 and \emph{f} as 1.6 after initial experiments and used ``buffer'' function in Shapely.
-To make it practical for calculating polygon attributes (e.g., area and parameter) and removing false changes (section \ref{sec_removing_false_change}), we converted all the multiPolygons to Polygons.
+To make it practical for calculating polygon attributes (e.g., area and parameter) and removing false changes (section \ref{sec_removing_false_change}), we converted all the multiPolygons to Polygons (termed as change polygons).
 
-%a figure showing a multiPolygon and its narrow parts. 
-%[ht]
-\begin{figure} 
-	\centering
-	\includegraphics[width=14cm]{figs/rts_polygon_change_det_trim}
-	\caption{An example of the polygon-based change detection. (a) shows the boundaries of an RTS (Fig. \ref{fig_rts_expanding}a) in 2017 and 2018. $P_{2018}-P_{2017}$ results in an expanding multiPolygon (b) and the corresponding non-narrow parts (c). $P_{2017}-P_{2018}$ results in a shrinking multiPolygon (d).}
-	\label{fig_rts_change_det}
-\end{figure}
+
 
 %a multi-polygon to polygons and calculate the attributes: area, circularity, 
 %zeroIntersection, two or more intersections, holes, relative elevation, retreat distance. 
 
-\subsubsection{Removing false changes}
+\subsubsection{Removing false change polygons}
 \label{sec_removing_false_change}
 
+%TODO: in this section, some threshold for removing operation need to confirm in codes or more experiments. 
 %Polygon change detection. \\\\
+This study utilized pre-set criteria to remove change polygons that are possibly incorrect. 
+%TODO: check using ha or m^2
+Firstly, we removed a change polygon if its size smaller than 36 $m^2$ or greater than 50000 $m^2$. 
+%minimum_change_area = 36
+%maximum_change_area = 50000
+Because (1) we assumed that minimum changes on Planet images are $2\times2$ pixels, that is, 36 $m^2$ and (2) as reported by \cite{huang2020using}, 90\% RTSs in Beiluhe are smaller than 50000 $m^2$. 
+%b_remove_polygons_with_holes = Yes
+% bad mapping results, actually, but can not remove a few because previous steps have remove mapped polygons based on multi-temporal images. 
+%TODO: need to discuss this in the discussion session.
+%b_remove_zero_intersection = Yes
+%b_remove_two_or_more_intersection = Yes
+Secondly, a change polygon derived from erroneous mapped polygons will be removed.
+We considered a mapped polygon as erroneous if it meets one of the following criteria: (1) with holes, (2) does not intersect any mapped polygons in other years, and (3) intersects two or more mapped polygons in other years.
+Usually, these erroneous mapped polygons are derived from automatic mapping methods. 
+%minimum_relative_elevation = 0
+Thirdly, we removed change polygons if their elevation difference (Equation \ref{equ_elevation_diff}) is smaller than zero. 
+\begin{equation}
+Elevation_{diff}=Elevation_{ChangePolygon_{(P_{t}-P_{t-1})}} -  Elevation_{P_{t-1}}
+\label{equ_elevation_diff}
+\end{equation}
+We used the 30 m DEM from Shuttle Radar Topography Mission (SRTM) \citep{farr2007shuttle} for calculating the elevation difference. 
+For a (change) polygon, We chose the mean of elevation within it as its elevation. 
+%minimum_retreat_distance = 6
+Lastly, we set a threshold of 6 m based on retreat distance (see section \ref{sec_cal_retreat_dis}) to remove change polygons with the consideration of Planet image resolution and delineation errors. 
+%minimum_change_circularity = 0 (no effect )
 
 
 \subsubsection{Calculating retreat distance}
