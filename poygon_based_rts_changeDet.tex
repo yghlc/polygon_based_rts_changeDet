@@ -355,7 +355,7 @@ IOU(A,B)_{year}=area(A \cap B)/area(A \cup B)
 where \emph{A} is a mapped polygon in the specific year and \emph{B} is the union. 
 Due to the dynamic of RTSs, the time-IOU of an active RTS will monotonically increase over time. 
 If the RTS is already stabilized, its time-IOU will remain the same over time. 
-In consideration of the delineation error (e.g., the RTS boundaries in different years at non-headwall parts are not exactly overlap each other), a threshold of $-0.1$ was set to determine the time-IOU of an RTS is monotonically increasing, that is, if all the differences ($IOU_{next\_year}-IOU_{year}$) are greater than $-0.1$, we consider the time-IOU is monotonically increasing. 
+In consideration of the delineation error (e.g., the RTS boundaries in different years at non-headwall parts are not exactly overlap each other as shown in Figs. \ref{fig_rts_expanding} and \ref{fig_rts_change_det}), a threshold of $-0.1$ was set to determine the time-IOU of an RTS is monotonically increasing, that is, if all the differences ($IOU_{next\_year}-IOU_{year}$) are greater than $-0.1$, we consider the time-IOU is monotonically increasing. 
 Thirdly, in the Beiluhe region, almost all the RTSs were initiated in or before 2016 \citep{luo2019recent}.
 Therefore, we can assume that at a specific location where an RTS emerges, it presents three mapped polygons and each in 2017, 2018, and 2019. 
 Lastly, we removed mapped polygons in a location that do not satisfy the three-polygon assumption or the time-IOU is not monotonically increasing.
@@ -398,34 +398,37 @@ The main steps include polygon-based change detection, removing false changes, a
 \label{sec_polygon_change_det}
 
 To obtain the annual RTS changes, we conducted change detection for RTS boundaries between this year and the previous year, that is, comparing 2017 with 2018 and 2018 with 2019. 
- As shown in equation \ref{equ_polygon_diff}, for a specific location has mapped polygons in different years, a polygon in year \emph{t} minus the one in year \emph{t-1} can result in an expanding polygon (MultiPolygon). 
+ As shown in equation \ref{equ_polygon_diff}, for a specific location has mapped polygons in different years, a polygon in year \emph{t} minus the one in year \emph{t-1} can result in an expanding polygon or multiPolygon. 
 We used the ``difference'' function in Shapely (\url{https://pypi.org/project/Shapely}) to implement the subtraction in equation \ref{equ_polygon_diff}.
 \begin{equation}
 E= P_{t} - P_{t-1}
 \label{equ_polygon_diff}
 \end{equation}
-where \emph{P} is a RTS polygon, \emph{t} is a year, and \emph{E} is the expanding polygon. 
-While $P_{t} - P_{t+1}$ can result in a shirking polygon but it does not correspond to the dynamic feature of an RTS. 
+where \emph{P} is an RTS polygon, \emph{t} represents year, and \emph{E} is the expanding polygon or multiPolygon. 
+While $P_{t} - P_{t+1}$ can result in a shirking polygon, but it does not correspond to the dynamic feature of an RTS; instead, it is a result of delineation errors. 
+Fig. \ref{fig_rts_change_det} shows an example of the subtraction operation between the RTS boundaries in 2017 and 2018. 
+%removing the narrow parts. 
+With the consideration of delineation errors and the resolution (3 m) of Planet images, we removed the narrow parts of expanding multiPolygons using buffer operation as follows, 
+\begin{equation}
+P_{non\text{-}narrow}= P.\text{buffer}(-r).\text{buffer}(r*f) \cap P
+\label{equ_polygon_buffer}
+\end{equation}
+where \emph{P} is a polygon or multiPolygon, \emph{r} is the value of buffer operation,  \emph{f} is a factor between 1 to 2 for avoiding uncertainties of buffer operation. 
+%TODO: check or update the r and f value in the codes
+In this study, we set \emph{r} as 3 and \emph{f} as 1.6 after initial experiments and used ``buffer'' function in Shapely.
+To make it practical for calculating polygon attributes (e.g., area and parameter) and removing false changes (section \ref{sec_removing_false_change}), we converted all the multiPolygons to Polygons.
 
-%TODO: a figure showing a multiPolygon and its narrow parts. 
-
+%a figure showing a multiPolygon and its narrow parts. 
 %[ht]
 \begin{figure} 
 	\centering
 	\includegraphics[width=14cm]{figs/rts_polygon_change_det_trim}
-	\caption{Change detection example}
+	\caption{An example of the polygon-based change detection. (a) shows the boundaries of an RTS (Fig. \ref{fig_rts_expanding}a) in 2017 and 2018. $P_{2018}-P_{2017}$ results in an expanding multiPolygon (b) and the corresponding non-narrow parts (c). $P_{2017}-P_{2018}$ results in a shrinking multiPolygon (d).}
 	\label{fig_rts_change_det}
 \end{figure}
 
-
-
-%removing the narrow parts. 
-
 %a multi-polygon to polygons and calculate the attributes: area, circularity, 
 %zeroIntersection, two or more intersections, holes, relative elevation, retreat distance. 
-
-
-
 
 \subsubsection{Removing false changes}
 \label{sec_removing_false_change}
