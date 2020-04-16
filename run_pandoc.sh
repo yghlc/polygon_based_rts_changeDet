@@ -1,9 +1,9 @@
 #!/bin/bash
 
 tmp=.texpadtmp
-rm poygon_based_rts_changeDet.docx 
-pandoc -o poygon_based_rts_changeDet.docx -s poygon_based_rts_changeDet.tex \
-	--bibliography=poygon_based_rts_changeDet.bib
+rm polygon_based_rts_changeDet.docx 
+pandoc -o polygon_based_rts_changeDet.docx -s polygon_based_rts_changeDet.tex \
+	--bibliography=polygon_based_rts_changeDet.bib
 
 #rm test.docx
 #pandoc -o test.docx -s test.tex \
