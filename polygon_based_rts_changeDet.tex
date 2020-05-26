@@ -469,16 +469,21 @@ Lastly, we set a threshold of 6 m based on retreat distance (see section \ref{se
 %minimum_change_circularity = 0 (no effect )
 
 
-\subsubsection{Calculating retreat distance}
+\subsubsection{Calculating and validating retreat distance}
 \label{sec_cal_retreat_dis}
+
+Step 1: got medial circles, sorted the circles by radius, resample the circles by  the data and find out what is the results. 
 
 We calculated the retreat distance for each change polygon based on its medial axis. 
 
-We used the algorithm \citep{zhu2014computing}.
+We used the algorithm medial circle \citep{zhu2014computing}.
 
-\subsubsection{Validating RTS changes}
-\label{sec_validation_change}
+% manually calculate the retreat distance by drawing a line indicating toward slope direction. 
 
+% an RTS may have two or more branches
+
+%\subsubsection{Validating RTS changes}
+%\label{sec_validation_change}
 
 
 \section{Results}
