@@ -178,7 +178,7 @@ Permafrost underlays approximately one-quarter of the land surface in the Northe
 Therefore, it is impossible to conduct field measurement for RTS development. 
 The advance of remote sensing satellites, especially, the CubeSat constellation provides multi-temporal and high-resolution images covering the global land surface. 
 Manual delineation on these images can be used to quantify RTSs development but is impractical due to large areas and the huge volume of images as well as its characteristics of time-consuming and labor-intensive. 
-Therefore, automatic methods are necessary for addressing the unknown question related RTS development throughout permafrost areas. 
+Therefore, automatic methods are necessary for addressing the unknown questions related to RTS development throughout permafrost areas. 
 
 
 % Motivation
@@ -196,7 +196,7 @@ We train a single DeepLabv3+ model using multi-temporal images then use this mod
 Then we propose a polygon-based change detection to remove incorrect mapping results and obtain change polygons covering expanding areas.  
 We calculate the medial axis of each change polygon, then based on the medial axis to obtain the retreat rates.  
 We also run the k-fold (k=3,5,10) cross-validation to evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe. 
-To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development on remote sensing images and very first study reporting RTS retreat rates on the Tibetan Plateau. 
+To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development on remote sensing images and very first study reporting retreat rates of RTSs on the Tibetan Plateau. 
 
 %Contribution of this work: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). 
 %(2) What’s the IOU value of mapping polygons are required for automatic change detection? For polygon-based change detection, we also can calculate F1 score, but it rely on the accuracies of mapping results. \\\\
@@ -207,7 +207,7 @@ To the best of our knowledge, this would be the first study that provides an aut
 \label{sec_studyarea_data}
 
 % Study area
-The Beiluhe region ($92.50^\circ$E to $93.51^\circ$E, $34.69^\circ$N to $35.18^\circ$N) on the Tibetan Plateau (Fig. \ref{fig_multi_rts_image_studyarea}a) is our study area.
+Our study area is the Beiluhe region ($92.50^\circ$E to $93.51^\circ$E, $34.69^\circ$N to $35.18^\circ$N) on the Tibetan Plateau as shown in Fig. \ref{fig_multi_rts_image_studyarea}a.
 The elevation is between 4418 and 5320 m; mean annual air temperature is \SI{-3.8}{\celsius}; annual precipitation is around 300 mm  \citep{luo_thermokarst_2015}.
 It is underlain by ice-rich permafrost with thickness ranges from 20 to 80 m: 70\% and 20\% of this region has ice content greater than 30\% and 50\%, respectively \citep{zhou_geocryology_2000, luo_thermokarst_2015}; 
 the type of ground ice is mainly massive ice \citep{guodong1983mechanism}. 
@@ -239,9 +239,9 @@ In July, vegetation reaches its maximum coverage, and active RTSs are on the rap
 Therefore, identifying RTSs would be relatively easy during this period.
 These images have four bands (blue, green, red, and near-infrared) with the spatial resolution of 3 m. 
 Each image covers an approximate area of 10 km by 30 km.
-Table \ref{table_image_list} lists the count and acquisition date of these images in from 2017 to 2019. 
+Table \ref{table_image_list} lists the count and acquisition date of these images from 2017 to 2019. 
 Because of the variation of cloud cover and image coverage, the image count in different years are different.
-The RTS boundaries are derived from manual delineation on Planet images using the same method in \cite{huang2020using}, parts of which will be used for training our automatic method. 
+The RTS boundaries are derived from manual delineation on Planet images using the same method proposed by \cite{huang2020using}, parts of which will be used for training our automatic method. 
 We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
 %The steps of downloading as well as pre-processing of Planet images and collecting ground truths are presented by \cite{huang2020using}.
 
@@ -351,7 +351,7 @@ Many mapped polygons were erroneously identified as RTS polygons can be removed 
 As shown in Fig. \ref{fig_rts_expanding}, an active RTS can expand toward upslope annually, even for a non-active RTS, its extent cannot shrink. 
 Therefore, we can use this dynamic feature to remove non-RTS mapped polygons. 
 Firstly, we obtained a union (Fig. \ref{fig_rts_expanding}) of mapped polygons at the same location.
-The steps of obtaining the union include (1) choosing a mapped polygon as initial union, (2) scanning through all mapped polygons until find a mapped polygon that still available (not merged to other unions) and overlap the union, (3) merging the found mapped polygon to union and updating the union, and (4) repeating steps (2) and (3) until cannot find a new mapped polygon can be merged to the union. 
+The steps of obtaining the union include (1) choosing a mapped polygon as initial union, (2) scanning through all mapped polygons until find a mapped polygon that is still available (not merged to other unions) and overlaps the union, (3) merging the found mapped polygon to union and updating the union, and (4) repeating steps (2) and (3) until cannot find a new mapped polygon can be merged to the union. 
 Secondly, we calculated the intersection over union (IOU) for mapped polygons in each year (termed as ``time-IOU") as follows, 
 \begin{equation}
 IOU(A,B)_{year}=area(A \cap B)/area(A \cup B)
@@ -412,8 +412,8 @@ The main steps include polygon-based change detection, removing false changes, a
 \end{figure}
 
 To obtain the annual RTS changes, we conducted change detection for RTS boundaries between this year and the previous year, that is, comparing 2017 with 2018 and 2018 with 2019. 
- As shown in equation \ref{equ_polygon_diff}, for a specific location has mapped polygons in different years, a polygon in year \emph{t} minus the one in year \emph{t-1} can result in an expanding polygon or multiPolygon. 
-We used the ``difference'' function in Shapely (\url{https://pypi.org/project/Shapely}) to implement the subtraction in equation \ref{equ_polygon_diff}.
+ As shown in Equation \ref{equ_polygon_diff}, for a specific location has mapped polygons in different years, a polygon in year \emph{t} minus the one in year \emph{t-1} can result in an expanding polygon or multiPolygon. 
+We used the ``difference'' function in Shapely (\url{https://pypi.org/project/Shapely}) to implement the subtraction in Equation \ref{equ_polygon_diff}.
 \begin{equation}
 E= P_{t} - P_{t-1}
 \label{equ_polygon_diff}
@@ -472,19 +472,47 @@ Lastly, we set a threshold of 6 m based on retreat distance (see section \ref{se
 \subsubsection{Calculating and validating retreat distance}
 \label{sec_cal_retreat_dis}
 
-Step 1: got medial circles, sorted the circles by radius, resample the circles by  the data and find out what is the results. 
+% To calculate the retreat distance
+We utilized medial circles, the inscribed circles contained in a change polygon and tangent to it in at least two points, to calculate the annual retreat distance of RTSs. 
+A series of medial circles can represent the shape of a polygon, and their centers indicate the medial axis of the polygon \citep{zhu2014computing}, such as the circles and red lines in Fig. \ref{fig_retreat_dis}a. 
+% as illustrated in Fig \ref{fig_retreat_dis},
+Among these medial circles, the diameter of the maximum one is a good approximation (Fig. \ref{fig_retreat_dis}b).
+However, due to the irregular and complicated shapes of change polygons, medial circles may underestimate the maximum retreat distance and cannot handle multiple retreat branches as well as ones with extreme elongated shape. 
+To assess the underestimation and provide supplement information of retreat distance, we automatically draw lines crossing the center of the maximum medial circle to intersect the change polygons and calculate the distance based on these intersected line segments, as illustrated in Fig .\ref{fig_retreat_dis}c. 
+The direction of these lines can be determined by (1) the direction of the maximum elevation difference and (2) from the centroid of the corresponding old polygon to the circle center. 
+The retreat distance based on the line segments tend to be overestimated but can only provide additional information because their accuracies are highly sensitive to elevation accuracy and shape of the RTS boundary in the previous year (e.g., the old polygon in Fig. \ref{fig_retreat_dis}). 
+The difference of these three can indicate the confidences of the retreat distance. A small value of difference indicate high confidence, and vice versa. 
+We calculate the confidence based on the following equation: 
+\begin{equation}
+PlaceholderFOR=dis_{confidence}
+\label{equ_dis_confid}
+\end{equation}
 
-We calculated the retreat distance for each change polygon based on its medial axis. 
+% We used the algorithm medial circle \citep{zhu2014computing}.
 
-We used the algorithm medial circle \citep{zhu2014computing}.
+% TODO: Use the medial circle directly, for the one with lines along maximum elevation difference or the old polygon center, may put them into the supplementary files. 
+
+%Step 1: got medial circles, sorted the circles by radius, resample the circles by  the data and find out what is the results. 
+
+%We calculated the retreat distance for each change polygon based on its medial axis. 
 
 % manually calculate the retreat distance by drawing a line indicating toward slope direction. 
+% an RTS may have two or more branches, group RTS change polygons belongs to the same polygons. 
+To validate the retreat distance, we manually draw line indicating expanding direction, and based these lines to calculate retreat distances as ground truth, as shown in Fig. \ref{fig_retreat_dis}d. 
+For the case where an RTS has more than one expanding branches, we use chose the maximum one as its retreat distance. 
 
-% an RTS may have two or more branches
+%a figure showing a multiPolygon and its narrow parts. 
+%[ht]
+\begin{figure} 
+	\centering
+	\includegraphics[width=14cm]{figs/retreat_distance_trim.jpg}
+	\caption{Calculating the retreat distance from a change polygon based on its medial axis and circles. (a) shows the medial axis (red lines) and some medial circles as well as circle centers (greed points). (b) shows the maximum medial circle whose diameter can be considered as the retread distance. Other two approaches: along the direction of maximum elevation difference and from the centroid (the red point in (c)) of the old polygon to the center of the maximum medial circle, are shown as yellow and red lines in (c), respectively. The background in (c) is the SRTM elevation, and the brighter color indicates higher elevation. (d) shows a manually drawn line pointing the retreat direction, and based on which to derive the retreat distance $L$. }
+	\label{fig_retreat_dis}
+\end{figure}
+
 
 %\subsubsection{Validating RTS changes}
 %\label{sec_validation_change}
-
 
 \section{Results}
 \label{sec_result}
@@ -500,23 +528,26 @@ Improvement by applying time IOU and occurrence
 
 Retreat distance. 
 
+change areas. 
 
 \section{Discussion}
 \label{sec_discussion}
 
-good
+good,
+
+the accuracies of retreat distances. 
 
 A new emergence RTS was missed. 
 
 \section{Conclusions}
 \label{sec_conclusion}
 
- good
+ good,
 
 \section{Data and codes}
 \label{sec_data_codes}
 
-Planet images can be downloaded via. 
+Planet images can be downloaded via \url{https://www.planet.com/}. 
 Codes are available on GitHub (\url{https://github.com/yghlc/ChangeDet_DL}) after the acceptance of this paper.
 
 \section{Acknowledgments}
