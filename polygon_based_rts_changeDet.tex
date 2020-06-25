@@ -472,6 +472,8 @@ Lastly, we set a threshold of 6 m based on retreat distance (see section \ref{se
 \subsubsection{Calculating and validating retreat distance}
 \label{sec_cal_retreat_dis}
 
+%TODO: this part (retreat distance) needs to be rewrite 
+
 % To calculate the retreat distance
 We utilized medial circles, the inscribed circles contained in a change polygon and tangent to it in at least two points, to calculate the annual retreat distance of RTSs. 
 A series of medial circles can represent the shape of a polygon, and their centers indicate the medial axis of the polygon \citep{zhu2014computing}, such as the circles and red lines in Fig. \ref{fig_retreat_dis}a. 
@@ -520,7 +522,16 @@ For the case where an RTS has more than one expanding branches, we use chose the
 \subsection{The performance of mapping task using multi-temporal images}
 \label{sec_mapping_performance}
 
-Improvement by applying time IOU and occurrence
+%Mapping results using multi-temporal remote sensing images,  without negative training polygons. 
+
+% results from k-fold cross-validation
+
+%compared to the one with negative training polygons?
+
+%Improvement by applying time IOU and occurrence
+
+
+Comparsion with the RSE 2020 paper, the AP values and F1 scores are lower, indicating the challenging of mapping RTSs in different years. 
 
 
 \subsection{RTSs expansion from 2017 to 2019}
@@ -547,7 +558,7 @@ A new emergence RTS was missed.
 \section{Data and codes}
 \label{sec_data_codes}
 
-Planet images can be downloaded via \url{https://www.planet.com/}. 
+Planet images can be downloaded via Planet Website( \url{https://www.planet.com/}). 
 Codes are available on GitHub (\url{https://github.com/yghlc/ChangeDet_DL}) after the acceptance of this paper.
 
 \section{Acknowledgments}
