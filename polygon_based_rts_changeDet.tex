@@ -245,6 +245,7 @@ The RTS boundaries are derived from manual delineation on Planet images using th
 We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
 %The steps of downloading as well as pre-processing of Planet images and collecting ground truths are presented by \cite{huang2020using}.
 
+%TODO: this table only list the images for Beiluhe study area, not includes the test Area.
 \begin{table}[ht]
 \footnotesize
 \caption{Count and acquisition date of images from the Planetscope satellites.}
@@ -368,7 +369,7 @@ Lastly, we removed mapped polygons in a location that do not satisfy the three-p
 %[ht]
 \begin{figure} 
 	\centering
-	\includegraphics[width=14cm]{figs/rts_expanding_example_trim}
+	\includegraphics[width=14cm]{figs/rts_expanding_example_trim.jpg}
 	\caption{RTS polygons (a) representing their boundaries from 2017 to 2019 and the union (b) of these polygons. The background is 2019 Planet images, and the RTS is the same to the one shown in Fig. \ref{fig_multi_rts_image_studyarea}}
 	\label{fig_rts_expanding}
 \end{figure}
@@ -378,7 +379,7 @@ Lastly, we removed mapped polygons in a location that do not satisfy the three-p
 \label{sec_validate_mapped_polygons}
 
 To validate mapped polygons, we calculate F1 scores \citep{huang2020using} for mapped polygons in each year separately. 
-For each  year, we calculate IOU values between mapped polygons and the corresponding ground truths. 
+For each year, we calculate IOU values between mapped polygons and the corresponding ground truths. 
 We set a threshold of 0.5 to decide a mapped polygon is a false positive or true positive.
 After obtaining the count of true positives, false positives, and false negatives, we can calculate the precision and recall, then calculate the F1 score using the following euqation. 
 \begin{equation}
@@ -406,7 +407,7 @@ The main steps include polygon-based change detection, removing false changes, a
 %[ht]
 \begin{figure} 
 	\centering
-	\includegraphics[width=14cm]{figs/rts_polygon_change_det_trim}
+	\includegraphics[width=14cm]{figs/rts_polygon_change_det_trim.jpg}
 	\caption{An example of the polygon-based change detection. (a) shows the boundaries of an RTS (Fig. \ref{fig_rts_expanding}a) in 2017 and 2018. $P_{2018}-P_{2017}$ results in an expanding multiPolygon (b) and the corresponding non-narrow parts (c). $P_{2017}-P_{2018}$ results in a shrinking multiPolygon (d).}
 	\label{fig_rts_change_det}
 \end{figure}
@@ -519,19 +520,23 @@ For the case where an RTS has more than one expanding branches, we use chose the
 \section{Results}
 \label{sec_result}
 
-\subsection{The performance of mapping task using multi-temporal images}
+\subsection{Mapping resulting using multi-temporal images}
 \label{sec_mapping_performance}
+
 
 %Mapping results using multi-temporal remote sensing images,  without negative training polygons. 
 
-% results from k-fold cross-validation
+% results from k-fold cross-validation (mention it, then put into supplementary files)
 
 %compared to the one with negative training polygons?
 
 %Improvement by applying time IOU and occurrence
 
 
-Comparsion with the RSE 2020 paper, the AP values and F1 scores are lower, indicating the challenging of mapping RTSs in different years. 
+% compared with the results with negative training polygons
+Compared with the RSE 2020 paper, the AP values and F1 scores are lower, indicating the challenging of mapping RTSs in different years. 
+
+Compared the precision recall curves, the AP value is smaller, because we don't have the high values of recall and precision. 
 
 
 \subsection{RTSs expansion from 2017 to 2019}
@@ -549,6 +554,10 @@ good,
 the accuracies of retreat distances. 
 
 A new emergence RTS was missed. 
+
+If a few negative training polygons are available, including them for training can help improve the mapping results. 
+
+Limitations
 
 \section{Conclusions}
 \label{sec_conclusion}

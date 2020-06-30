@@ -3,7 +3,8 @@
 tmp=.texpadtmp
 rm polygon_based_rts_changeDet.docx 
 pandoc -o polygon_based_rts_changeDet.docx -s polygon_based_rts_changeDet.tex \
-	--bibliography=polygon_based_rts_changeDet.bib
+	--bibliography=../shared_files/permafrost_rs_ref.bib
+	#--bibliography=polygon_based_rts_changeDet.bib
 
 #rm test.docx
 #pandoc -o test.docx -s test.tex \
