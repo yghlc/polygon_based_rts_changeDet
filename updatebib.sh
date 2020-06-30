@@ -14,6 +14,9 @@ pdflatex ${project}.tex
 bibpath=/Users/huanglingcao/codes/Texpad/shared_files/permafrost_rs_ref.bib
 sed -i .bak -e s%\bibdata{permafrost_rs_ref.bib}%\bibdata{${bibpath}}%g ${project}.aux
 
+# in case that the bib file was change to polygon_based_rts_changeDet.bib, change it to permafrost_rs_ref.bib
+sed -i .bak -e s%\bibdata{polygon_based_rts_changeDet.bib}%\bibdata{${bibpath}}%g ${project}.aux
+
 # remove other label could cause errors
 cat ${project}.aux | grep \citation  > test.aux
 cat ${project}.aux | grep \bibdata >> test.aux
