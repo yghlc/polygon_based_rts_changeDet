@@ -568,7 +568,7 @@ As shown in Fig. \ref{table_accuracy_f1}c and d, the true positives are close to
 \begin{figure} 
 	\centering
 	\includegraphics[width=14cm]{figs/exp7_p_r_curves_trim.jpg}
-	\caption{Precision-recall curves and average precision of mapped polygons in 2017, 2018, and 2019. (a) and (b) are precision-recall curves and AP values without and with applying the assumption of RTS dynamic features.}
+	\caption{Precision-recall curves and average precision of mapped polygons in 2017, 2018, and 2019. (a) and (b) are precision-recall curves and AP values without and with applying the assumption of RTS dynamic features, respectively.}
 	\label{fig_p_r_curve_exp7}
 \end{figure}
 
@@ -584,7 +584,7 @@ The reason is that some of the mapped polygons do not well match RTS boundaries,
  
 %compared with the ones including negative training polygons 
 The assumption of RTS dynamic features cannot contribute to the improvement of mapping accuracies if the initial mapped results contain a small population of false positives. 
-As shown in Table S1, the F1 scores only improve a little after applying the RTS dynamic features. 
+As shown in Table S1, the F1 scores only improve a little after applying the RTS dynamic features, however, the AP values (Fig. S2) reduce 0.01 or 0.04 in different years.   
 The reasons include: (1) the number of false positives reduce around 70, but TP also reduces around 40, resulting in an almost unchanged F1 score 
 and (2) including the same negative training polygons used in \cite{huang2020using} has depressed the population of false positives. 
 
@@ -594,7 +594,13 @@ and (2) including the same negative training polygons used in \cite{huang2020usi
 \subsubsection{Comparison with one-year results}
 \label{sec_compare_with_201805_results}
 
-Compared the precision recall curves, the AP value is smaller, because we don't have the high values of recall and precision. 
+Both F1 score and AP values of mapped polygons in this paper are a little worse than the accuracy of one-year results presented in \cite{huang2020using}. 
+Regarding the F1 scores (Table \ref{table_accuracy_f1}) after applying RTS dynamic features, their difference are around 0.17, while the difference of AP values are around 0.2.
+Even the results including negative training polygons, the F1 score and AP values are smaller than one-year results at around 0.08 and 0.1, respectively. 
+One possible reason is related to the variation of features over time. 
+For example, the 2018 and 2019 Planet images (Fig. \ref{fig_multi_rts_image_studyarea} c and d) are brighter than the 2017 image (Fig. \ref{fig_multi_rts_image_studyarea}b), then confuse the Deeplabv3+ model during training. 
+
+%Compared the precision recall curves, the AP value is smaller, because we don't have the high values of recall and precision. 
 
 
 \subsection{RTSs expansion from 2017 to 2019}
