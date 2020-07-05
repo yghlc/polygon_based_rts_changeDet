@@ -245,7 +245,7 @@ The RTS boundaries are derived from manual delineation on Planet images using th
 We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
 %The steps of downloading as well as pre-processing of Planet images and collecting ground truths are presented by \cite{huang2020using}.
 
-%TODO: this table only list the images for Beiluhe study area, not includes the test Area.
+
 \begin{table}[ht]
 \footnotesize
 \caption{Count and acquisition date of images from the Planetscope satellites.}
@@ -258,9 +258,9 @@ We consider all the RTS boundaries as ground truths in the validation step, and 
  \multirow{2}{*}{ \textbf{Year/Month}}  & \multicolumn{2}{c}{ \textbf{Beiluhe}} &  \multicolumn{2}{c}{ \textbf{Test Area}}\\
  & Count & Acquisition date & Count & Acquisition date \\
 \midrule
- 2017 July & 71 & 17, 19, and 20 & 30 & 19 and 20 \\
- 2018 July & 52 & 20, 24, and 25 & 31 & 15 and 16 \\
- 2019 July & 46 & 25, 27, and 30 & 52 &  8, 24, 25, 27, and 30\\
+ 2017 July & 71 & 17, 19, and 20 & 36 & 19 and 20 \\
+ 2018 July & 52 & 20, 24, and 25 & 33 & 15 and 16 \\
+ 2019 July & 46 & 25, 27, and 30 & 53 &  8, 24, 25, 27, and 30\\
 
 \bottomrule
 \end{tabular}
@@ -380,8 +380,8 @@ Lastly, we removed mapped polygons in a location that do not satisfy the three-p
 
 To validate mapped polygons, we calculate F1 scores \citep{huang2020using} for mapped polygons in each year separately. 
 For each year, we calculate IOU values between mapped polygons and the corresponding ground truths. 
-We set a threshold of 0.5 to decide a mapped polygon is a false positive or true positive.
-After obtaining the count of true positives, false positives, and false negatives, we can calculate the precision and recall, then calculate the F1 score using the following euqation. 
+We set a threshold of 0.5 to decide a mapped polygon is a false positive (FP) or true positive (TP).
+After obtaining the count of true positives, false positives, and false negatives (FN), we can calculate the precision and recall, then calculate the F1 score using the following euqation. 
 \begin{equation}
 F1=2 \times Precision \times Recall / (Precision + Recall)
 \label{equ_f1score}
@@ -491,6 +491,15 @@ PlaceholderFOR=dis_{confidence}
 \label{equ_dis_confid}
 \end{equation}
 
+%a figure showing a multiPolygon and its narrow parts. 
+%[ht]
+\begin{figure} 
+	\centering
+	\includegraphics[width=14cm]{figs/retreat_distance_trim.jpg}
+	\caption{Calculating the retreat distance from a change polygon based on its medial axis and circles. (a) shows the medial axis (red lines) and some medial circles as well as circle centers (greed points). (b) shows the maximum medial circle whose diameter can be considered as the retread distance. Other two approaches: along the direction of maximum elevation difference and from the centroid (the red point in (c)) of the old polygon to the center of the maximum medial circle, are shown as yellow and red lines in (c), respectively. The background in (c) is the SRTM elevation, and the brighter color indicates higher elevation. (d) shows a manually drawn line pointing the retreat direction, and based on which to derive the retreat distance $L$. }
+	\label{fig_retreat_dis}
+\end{figure}
+
 % We used the algorithm medial circle \citep{zhu2014computing}.
 
 % TODO: Use the medial circle directly, for the one with lines along maximum elevation difference or the old polygon center, may put them into the supplementary files. 
@@ -504,14 +513,6 @@ PlaceholderFOR=dis_{confidence}
 To validate the retreat distance, we manually draw line indicating expanding direction, and based these lines to calculate retreat distances as ground truth, as shown in Fig. \ref{fig_retreat_dis}d. 
 For the case where an RTS has more than one expanding branches, we use chose the maximum one as its retreat distance. 
 
-%a figure showing a multiPolygon and its narrow parts. 
-%[ht]
-\begin{figure} 
-	\centering
-	\includegraphics[width=14cm]{figs/retreat_distance_trim.jpg}
-	\caption{Calculating the retreat distance from a change polygon based on its medial axis and circles. (a) shows the medial axis (red lines) and some medial circles as well as circle centers (greed points). (b) shows the maximum medial circle whose diameter can be considered as the retread distance. Other two approaches: along the direction of maximum elevation difference and from the centroid (the red point in (c)) of the old polygon to the center of the maximum medial circle, are shown as yellow and red lines in (c), respectively. The background in (c) is the SRTM elevation, and the brighter color indicates higher elevation. (d) shows a manually drawn line pointing the retreat direction, and based on which to derive the retreat distance $L$. }
-	\label{fig_retreat_dis}
-\end{figure}
 
 
 %\subsubsection{Validating RTS changes}
@@ -520,21 +521,78 @@ For the case where an RTS has more than one expanding branches, we use chose the
 \section{Results}
 \label{sec_result}
 
-\subsection{Mapping resulting using multi-temporal images}
+%\subsection{The mapping performance when using multi-temporal images}
+\subsection{Mapping results in multi-temporal images}
 \label{sec_mapping_performance}
 
+\subsubsection{Mapped polygons in 2017, 2018, and 2019}
+\label{sec_mapped_polygons}
 
-%Mapping results using multi-temporal remote sensing images,  without negative training polygons. 
+The mapped polygons accurately delineate most RTS boundaries on images taken in 2017, 2018, and 2019, with F1 scores of 0.673, 0.680, and 0.678, respectively.
+Among the mapped polygons, around two-third of them are true positives (black, blue, and red polygons in Fig. \ref{fig_mapping_results}), and remains are false positives (yellow polygons in Fig. \ref{fig_mapping_results}). 
+Table \ref{table_accuracy_f1} lists number of true positives, false positives, and false negatives, as well as precision, recall, and F1 scores in each year, with and without applying RTS-dynamic features.
+The distribution of mapped polygons for the entire Beiluhe region is shown in Fig. \ref{fig_mapping_results}a, amplifications of three locations are shows in Fig. \ref{fig_mapping_results}a, b, and c. 
+Compared with ground truths presented in Fig. S1 in the Supplementary Materials,  around 70 RTSs are missed in the mapped polygons such as the two RTSs marked by the yellow rectangle in Fig. \ref{table_accuracy_f1}b.
+As shown in Fig. \ref{table_accuracy_f1}c and d, the true positives are close to the ground truths, that is, the automatically delineated ones are similar to the ones from manual delineation. 
 
-% results from k-fold cross-validation (mention it, then put into supplementary files)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%% put the mapped polygons in Test Area to Supplementary Materials??? %%%%
+%%%%  However,  the results for test area are not good (F1 score around 0.1), maybe it's ok to exclude the test area in this manuscript. The focus of this manuscript is the polygon-based detection, not mapping, the get the retreat distance automatically. Also, the performance of Deeplabv3+ has been proved in the previous RES paper.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%compared to the one with negative training polygons?
 
+
+%%%%%%% Mapping results from exp7 %%%%%%%%%%%%%
+\begin{figure} 
+	\centering
+	\includegraphics[width=14cm]{figs/multi_mapping_results_trim.jpg}
+	\caption{Mapped polygons in different years after applying time-IOU. The black, blue, and red polygons are truth positives delineated on 2017, 2018, and 2019 images, respectively, while the yellow ones are false  positives. The background is the mosaic of 2019 Planet images. (a) shows the results in the entire Beiluhe region, and (b)--(d) are amplifications of three regions marked by rectangles in (a). }
+	\label{fig_mapping_results}
+\end{figure}
+
+%%%%%%% Mapping results from exp7 %%%%%%%%%%%%%\begin{table}[ht]
+\footnotesize  \centering  \caption{Accuracy of mapped polygons in 2017, 2018, and 2019, respectively, with and without considering RTS dynamic features. TP, FP, and FN are number of true positives, false positives, and false negatives.}    \begin{tabular}{c c c c c c c}
+\toprule    \textbf{Year} & \textbf{TP} & \textbf{FP} & \textbf{FN} & \textbf{Precision} & \textbf{Recall} & \textbf{F1 score} \\
+\midrule   2017 & 224   & 2493  & 42    & 0.082 & 0.842 & 0.150 \\   2018 & 234   & 1863  & 32    & 0.112 & 0.880 & 0.198 \\   2019 & 231   & 1579  & 36    & 0.128 & 0.865 & 0.222 \\   $2017_{RTS{\text -}dynamic}$ & 192   & 113   & 74    & 0.630 & 0.722 & 0.673 \\   $2018_{RTS{\text -}dynamic}$ & 194   & 111   & 72    & 0.636 & 0.729 & 0.680 \\   $2019_{RTS{\text -}dynamic}$ & 194   & 111   & 73    & 0.636 & 0.727 & 0.678 \\
+%   $2017_{time{\text -}IOU}$ & 192   & 113   & 74    & 0.630 & 0.722 & 0.673 \\%   $2018_{time{\text -}IOU}$ & 194   & 111   & 72    & 0.636 & 0.729 & 0.680 \\%   $2019_{time{\text -}IOU}$ & 194   & 111   & 73    & 0.636 & 0.727 & 0.678 \\
+
+\bottomrule    \end{tabular}
+%\vspace{1ex}
+%\raggedright \\ \textbf{TP}, \textbf{FP}, and \textbf{FN}: count of true positives, false positive, and false negative, \textbf{IOU}: IOU threshold, \textbf{Pre}: precision, \textbf{Rec}: recall, \textbf{F1}: F1 score  \label{table_accuracy_f1}\end{table}
+
+
+\subsubsection{Improvement when using multi-temporal images}
+\label{sec_improve_using_multi_images}
+
+%%%%%%% Mapping results from exp7 %%%%%%%%%%%%%
+\begin{figure} 
+	\centering
+	\includegraphics[width=14cm]{figs/exp7_p_r_curves_trim.jpg}
+	\caption{Precision-recall curves and average precision of mapped polygons in 2017, 2018, and 2019. (a) and (b) are precision-recall curves and AP values without and with applying the assumption of RTS dynamic features.}
+	\label{fig_p_r_curve_exp7}
+\end{figure}
+
+%Mapping results using multi-temporal remote sensing images, without negative training polygons. 
 %Improvement by applying time IOU and occurrence
 
+The F1 scores and AP values of mapped polygons from 2017 to 2019 improve significantly after applying the time-IOU and three-polygon criteria. 
+As shown in Table \ref{table_accuracy_f1} and Fig. \ref{fig_p_r_curve_exp7}, F1 scores improve around 0.5, from $\sim$0.2 to $\sim$0.7, and AP values improve from less than 0.1 to around 0.32. 
+By utilizing the dynamic features of RTSs in the multi-temporal images, the number of false positives reduces dramatically, from around 2000 to 100, as shown in Table \ref{table_accuracy_f1}.
+Therefore, the F1 scores and AP values improve significantly.
+However, the number of true positives reduce around 40, resulting in the increase of false negatives. 
+The reason is that some of the mapped polygons do not well match RTS boundaries, leading to violation with the assumption of RTS dynamic features. 
+ 
+%compared with the ones including negative training polygons 
+The assumption of RTS dynamic features cannot contribute to the improvement of mapping accuracies if the initial mapped results contain a small population of false positives. 
+As shown in Table S1, the F1 scores only improve a little after applying the RTS dynamic features. 
+The reasons include: (1) the number of false positives reduce around 70, but TP also reduces around 40, resulting in an almost unchanged F1 score 
+and (2) including the same negative training polygons used in \cite{huang2020using} has depressed the population of false positives. 
 
-% compared with the results with negative training polygons
-Compared with the RSE 2020 paper, the AP values and F1 scores are lower, indicating the challenging of mapping RTSs in different years. 
+
+%TODO: results from k-fold cross-validation (mention it, then put into supplementary files)
+
+\subsubsection{Comparison with one-year results}
+\label{sec_compare_with_201805_results}
 
 Compared the precision recall curves, the AP value is smaller, because we don't have the high values of recall and precision. 
 
@@ -558,6 +616,14 @@ A new emergence RTS was missed.
 If a few negative training polygons are available, including them for training can help improve the mapping results. 
 
 Limitations
+
+% compared with the results with negative training polygons
+Compared with the mapped polygons on images taken in May 2018 presented by \cite{huang2020using}, the results in this paper are worse.
+Less true positive, more false positive and false negatives. 
+ the AP values and F1 scores are lower, indicating the challenging of mapping RTSs in different years. 
+
+Mapping using multi-temporal images are more challenging. 
+
 
 \section{Conclusions}
 \label{sec_conclusion}
@@ -590,9 +656,9 @@ Thanks to ...
 %% bibitems, please use
 %%
 \bibliographystyle{elsarticle-harv} 
-\bibliography{polygon_based_rts_changeDet.bib}
+%\bibliography{polygon_based_rts_changeDet.bib}
 % the bib file in "~/codes/Texpad/shared_files"
-%\bibliography{permafrost_rs_ref.bib}
+\bibliography{permafrost_rs_ref.bib}
 
 %% else use the following coding to input the bibitems directly in the
 %% TeX file.
