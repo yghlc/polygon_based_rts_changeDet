@@ -466,7 +466,7 @@ Elevation_{diff}=Elevation_{ChangePolygon_{(P_{t}-P_{t-1})}} -  Elevation_{P_{t-
 We used the 30 m DEM from Shuttle Radar Topography Mission (SRTM) \citep{farr2007shuttle} for calculating the elevation difference. 
 For a (change) polygon, We chose the mean of elevation within it as its elevation. 
 %minimum_retreat_distance = 6
-Lastly, we set a threshold of 6 m based on retreat distance (see section \ref{sec_cal_retreat_dis}) to remove change polygons with the consideration of Planet image resolution and delineation errors. 
+Lastly, we set a threshold of 6 m for retreat distance (see section \ref{sec_cal_retreat_dis}) to remove change polygons with the consideration of Planet image resolution and delineation errors. 
 %minimum_change_circularity = 0 (no effect )
 
 
@@ -479,17 +479,20 @@ Lastly, we set a threshold of 6 m based on retreat distance (see section \ref{se
 We utilized medial circles, the inscribed circles contained in a change polygon and tangent to it in at least two points, to calculate the annual retreat distance of RTSs. 
 A series of medial circles can represent the shape of a polygon, and their centers indicate the medial axis of the polygon \citep{zhu2014computing}, such as the circles and red lines in Fig. \ref{fig_retreat_dis}a. 
 % as illustrated in Fig \ref{fig_retreat_dis},
-Among these medial circles, the diameter of the maximum one is a good approximation (Fig. \ref{fig_retreat_dis}b).
+Among these medial circles, the diameter of the maximum one is a good approximation (Fig. \ref{fig_retreat_dis}b) for the retreat distance.
 However, due to the irregular and complicated shapes of change polygons, medial circles may underestimate the maximum retreat distance and cannot handle multiple retreat branches as well as ones with extreme elongated shape. 
 To assess the underestimation and provide supplement information of retreat distance, we automatically draw lines crossing the center of the maximum medial circle to intersect the change polygons and calculate the distance based on these intersected line segments, as illustrated in Fig .\ref{fig_retreat_dis}c. 
 The direction of these lines can be determined by (1) the direction of the maximum elevation difference and (2) from the centroid of the corresponding old polygon to the circle center. 
-The retreat distance based on the line segments tend to be overestimated but can only provide additional information because their accuracies are highly sensitive to elevation accuracy and shape of the RTS boundary in the previous year (e.g., the old polygon in Fig. \ref{fig_retreat_dis}). 
-The difference of these three can indicate the confidences of the retreat distance. A small value of difference indicate high confidence, and vice versa. 
-We calculate the confidence based on the following equation: 
-\begin{equation}
-PlaceholderFOR=dis_{confidence}
-\label{equ_dis_confid}
-\end{equation}
+The retreat distance based on the line segments tend to be overestimated but can provide additional information because their accuracies are highly sensitive to elevation accuracy and shape of the RTS boundary in the previous year (e.g., the old polygon in Fig. \ref{fig_retreat_dis}). 
+The variation of these three distances can indicate the consistency of the three measurement mentioned above . %A small value of difference indicate high confidence, and vice versa. 
+We calculated the standard deviation of the three distance for each RTS and used it as an indicator for confidence of automatic calculation of retreat distance. 
+Usually, the higher variation are due to irregular shapes of change polygons. 
+For the case when an RTS contain several change polygons, we chose the maximum value as the RTS retreat distance.
+%We calculate the variation based on the following equation: 
+%\begin{equation}
+%PlaceholderFOR=dis_{confidence}
+%\label{equ_dis_confid}
+%\end{equation}
 
 %a figure showing a multiPolygon and its narrow parts. 
 %[ht]
@@ -598,13 +601,13 @@ Both F1 score and AP values of mapped polygons in this paper are a little worse 
 Regarding the F1 scores (Table \ref{table_accuracy_f1}) after applying RTS dynamic features, their difference are around 0.17, while the difference of AP values are around 0.2.
 Even the results including negative training polygons, the F1 score and AP values are smaller than one-year results at around 0.08 and 0.1, respectively. 
 One possible reason is related to the variation of features over time. 
-For example, the 2018 and 2019 Planet images (Fig. \ref{fig_multi_rts_image_studyarea} c and d) are brighter than the 2017 image (Fig. \ref{fig_multi_rts_image_studyarea}b), then confuse the Deeplabv3+ model during training. 
+For example, the 2018 and 2019 Planet images (Fig. \ref{fig_multi_rts_image_studyarea} c and d) are brighter than the 2017 image (Fig. \ref{fig_multi_rts_image_studyarea}b), which may confuse the Deeplabv3+ model during training. 
 
 %Compared the precision recall curves, the AP value is smaller, because we don't have the high values of recall and precision. 
 
 
-\subsection{RTSs expansion from 2017 to 2019}
-\label{sec_rst_expanding}
+\subsection{RTS expansion from 2017 to 2019}
+\label{sec_rts_expanding}
 
 Retreat distance. 
 
@@ -635,6 +638,8 @@ Mapping using multi-temporal images are more challenging.
 \label{sec_conclusion}
 
  good,
+ 
+% Contribution of this works: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). 
 
 \section{Data and codes}
 \label{sec_data_codes}
