@@ -482,7 +482,7 @@ A series of medial circles can represent the shape of a polygon, and their cente
 Among these medial circles, the diameter of the maximum one is a good approximation (Fig. \ref{fig_retreat_dis}b) for the retreat distance.
 However, due to the irregular and complicated shapes of change polygons, medial circles may underestimate the maximum retreat distance and cannot handle multiple retreat branches as well as ones with extreme elongated shape. 
 To assess the underestimation and provide supplement information of retreat distance, we automatically draw lines crossing the center of the maximum medial circle to intersect the change polygons and calculate the distance based on these intersected line segments, as illustrated in Fig .\ref{fig_retreat_dis}c. 
-The direction of these lines can be determined by (1) the direction of the maximum elevation difference and (2) from the centroid of the corresponding old polygon to the circle center. 
+The direction of these lines can be determined by (1) the direction of the maximum elevation difference and (2) from the centroid of the corresponding old polygon to the center of the circle. 
 The retreat distance based on the line segments tend to be overestimated but can provide additional information because their accuracies are highly sensitive to elevation accuracy and shape of the RTS boundary in the previous year (e.g., the old polygon in Fig. \ref{fig_retreat_dis}). 
 The variation of these three distances can indicate the consistency of the three measurement mentioned above . %A small value of difference indicate high confidence, and vice versa. 
 We calculated the standard deviation of the three distance for each RTS and used it as an indicator for confidence of automatic calculation of retreat distance. 
@@ -609,9 +609,13 @@ For example, the 2018 and 2019 Planet images (Fig. \ref{fig_multi_rts_image_stud
 \subsection{RTS expansion from 2017 to 2019}
 \label{sec_rts_expanding}
 
-Retreat distance. 
+Retreat distance
+Expanding areas for each RTSs. 
 
-change areas. 
+How many RTS have expanding? 
+How to define an RTS was expanding?
+
+ 
 
 \section{Discussion}
 \label{sec_discussion}
