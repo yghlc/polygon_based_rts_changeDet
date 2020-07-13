@@ -623,27 +623,50 @@ For example, the 2018 and 2019 Planet images (Fig. \ref{fig_multi_rts_image_stud
 % In the manual delineation results, we have 266, 266, and 267 RTSs in 2017, 2018, and 2019 images, respectively. 
 % In the RSE 2020 paper, we identify 263 RTSs (2018 May images).
 
-In Beiluhe region, most RTS are expanding from 2017 to 2019 with average expanding area of 0.21 ha from 2017 to 2018 and 0.23 ha from 2018 to 2019 as shown in Fig. \ref{fig_rts_change_area_reDis}a and b.
-From 2017 to 2018, 219 RTSs are expanding, among them, 77 RTSs with expanding area greater than 0.2 ha; while from 2018 to 2019, 189 RTSs are expanding, and 66 of them with expanding area greater than 0.2 ha.
+In the Beiluhe region, most RTS are expanding from 2017 to 2019 with average expanding area of 0.21 ha from 2017 to 2018 and 0.23 ha from 2018 to 2019 as shown in Fig. \ref{fig_rts_change_area_reDis}a and b.
+From 2017 to 2018, 219 RTSs are expanding, among them, 77 ones with expanding area greater than 0.2 ha; while from 2018 to 2019, 189 RTSs are expanding, and 66 of them with expanding area greater than 0.2 ha.
 The maximum expanding areas are 1.47 ha and 2.53 ha for 2017 vs 2018 and 2018 vs 2019, respectively. 
 The ground truths outline 266 RTSs in Beiluhe region, therefore, 82\% of them are expanding from 2017 to 2018 and 71\% from 2018 to 2019. 
 As shown in Fig. S3, around half of RTSs only have one expanding branches, while remains (121 for 2017 vs 2018 and 90 for 2018 vs 2019)  has two or more expanding branches. 
 
-%not to define, just say how many has expanding area greater than ...?
 %How to define an RTS was expanding?
 %How many RTS have expanding? 
+%not to define, just say how many has expanding area greater than ...?
 
+%TODO: should I discuss the automatic mapping results? Maybe not here, but in discussion session. 
 
 \subsubsection{RTS retreat distance}
 \label{sec_rts_retreat_distance}
- 
- Retreat distance (the data from )
 
-Retreat distance from other measurement. 
- 
-Uncertainty? (standard variation)
+%retreat distance from 2017 to 2019. 
+The average retreat distance of RTSs from 2017 to 2018 and 2018 to 2019 is 19.5 m and 20.8 m (Fig.\ref{fig_rts_change_area_reDis}b and c), respectively. 
+The maximum retreat distance is 55.6 m and 77.2 m for 2017 vs 2018 and 2018 vs 2019, respectively, based on medial circles. 
+From 2017 to 2018, 63\% of RTSs retreat more than 15 m, while from 2018 to 2019, 55\% of them have retreat distance greater than 15 m. 
+% measure the retreat distance from manual delineation, mentioned here or in the (discussion) supplementary materials?
+In Fig. S5, the retreat distance based on manual drawn lines is 21.1 and 25.2 for 2017 vs 2018 and 2018 vs 2019, respectively, while the maximum retreat distance is 90.8 m and 212.8 m
 
+%Other measurement,  uncertainty, and standard variation
+The three automatic measurement of retreat distance is slightly different with ones derived from manually drawn lines, among them, the one based on the diameter of the maximum medial circle is closest the manual measurement. 
+As shown in Fig. S6, the mean difference are $-1.6$ m \& $-4.4$ m, 17.8 m \& 14.8 m, and 14.0 m \&10.6 m (2017 vs 2018 \& 2018 vs 2019) for the one based on diameter of the maximum medical circles, thee direction of the maximum elevation difference, and across the centroid of old polygons, respectively. 
+%Retreat distance estimated based on diameter of the maximum medical circles tends to be underestimated but a few one them 
+As mentioned in section \ref{sec_cal_retreat_dis}, the retreat distance calculated from medial circles tend to be underestimated, but the other two automatic measurements are overestimated. 
+As shown in the histogram (Fig. S6), for the retreat distance of some RTSs are greater than the one from manually draw lines. 
+The reason is that the manually draw lines many not exactly match the direction of RTS maximum retreat.  
+
+ % standard deviation
+\begin{figure} 
+	\centering
+	\includegraphics[width=14cm]{figs/standard_deviation_trim.jpg}
+	\caption{Histogram for standard deviation of three automatic retreat distance measurement. (a) is the standard deviation for 2017 vs 2018, and (b) for the one of 2018 vs 2019, respectively.}
+	\label{fig_re_dis_standard_var}
+\end{figure}
+
+The retreat distance of most RTSs measured by the three automatic method are consistent as represented by the standard variation (Fig. \ref{fig_re_dis_standard_var}).
+From 2017 to 2018, 97\% RTSs have standard variation smaller than 30, while for 2018 to 2019, 98\% smaller than 30, indicating a good agreement. 
+
+%TODO: compare with other retreat distance reported in other region?  in discussion session.  
  
+
  
 
 \section{Discussion}
@@ -657,7 +680,7 @@ A new emergent RTS was missed.
 
 If a few negative training polygons are available, including them for training can help improve the mapping results. 
 
-Limitations
+Limitations, 
 
 % compared with the results with negative training polygons
 Compared with the mapped polygons on images taken in May 2018 presented by \cite{huang2020using}, the results in this paper are worse.
