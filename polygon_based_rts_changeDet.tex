@@ -195,7 +195,7 @@ The objectives of this study are (1) to extend the automatic mapping method prop
 We train a single DeepLabv3+ model using multi-temporal images then use this model to predict RTS boundaries in different years.
 Then we propose a polygon-based change detection to remove incorrect mapping results and obtain change polygons covering expanding areas.  
 We calculate the medial axis of each change polygon, then based on the medial axis to obtain the retreat rates.  
-We also run the k-fold (k=3,5,10) cross-validation to evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe. 
+%We also run the k-fold (k=3,5,10) cross-validation to evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe. 
 To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development on remote sensing images and very first study reporting retreat rates of RTSs on the Tibetan Plateau. 
 
 %Contribution of this work: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). 
@@ -214,8 +214,8 @@ the type of ground ice is mainly massive ice \citep{guodong1983mechanism}.
 The active layer thickness and mean annual ground temperature ($\sim$15 m) ranges from 1.5 to 2.0 m and \SI{-2.0} to \SI{-0.5}{\celsius}, respectively \citep{zhou_geocryology_2000, wu2010changes, luo_thermokarst_2015,  wu2015changes}. 
 As reported by a few studies, more than 200 RTSs developed in this region and their number and affected areas increased dramatically in the past decade \citep{huang2020using,luo2019recent}.  
 For example, an RTS developed toward upslope from 2017 to 2019, and the development is captured by Planet CubeSat as shown in Fig. \ref{fig_multi_rts_image_studyarea} b to d. 
-We also choose a region (i.e., Test area) next to Beiluhe as shown in Fig. \ref{fig_multi_rts_image_studyarea}a for testing our automatic method. 
-The test area has 50 RTSs \citep{huang2020using} but does not have more detailed ground information. 
+%We also choose a region (i.e., Test area) next to Beiluhe as shown in Fig. \ref{fig_multi_rts_image_studyarea}a for testing our automatic method. 
+%The test area has 50 RTSs \citep{huang2020using} but does not have more detailed ground information. 
 
 % Area for testing, should mention it here? Mentioned as above. 
 %Test area: 50 RTS \citep{huang2020using}.
@@ -329,7 +329,7 @@ We trained a deep-learning model, i.e., DeepLabv3+ \citep{chen2018encoder-decode
 \cite{huang2020using} have proofed that a well-trained DeepLabv3+ can delineate RTSs and obtain their boundaries that are very close to manual delineation. 
 In this study, instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features in multi-temporal images, more importantly, a generic model can save a lot of computing resources, especially when expanding the time domain.
 We used the same hyper-parameter presented in \cite{huang2020using} to train this model. 
-To evaluate the robustness of the model, we utilized k-fold cross-validation (k=3, 5, and 10)  as commonly used in machine learning. 
+%To evaluate the robustness of the model, we utilized k-fold cross-validation (k=3, 5, and 10)  as commonly used in machine learning. 
  %TODO: How about the test Area? use which trained model?
 %k-fold cross-validation. 
 
@@ -339,7 +339,6 @@ The steps of predicting RTSs in one year include (1) dividing it to numerous sma
 (2) predicting RTS or non-RTS pixels, 
 (3) mosaicked the binary patches using GDAL and obtained a binary mosaic, 
 (4) polygonizing the binary mosaic, and 
-%TODO: 0.3 ha, should I use ha or m^2
 (5) removing polygons smaller than 0.3 ha. 
 The size and overlap of each patches for prediction is the same to the one for preparing training data (section \ref{sec_prepare_training}). 
 To improve efficiency, we adopted a parallel strategy to predict RTSs in different years.
@@ -534,7 +533,7 @@ For the case where an RTS has more than one expanding branches, we use chose the
 The mapped polygons accurately delineate most RTS boundaries on images taken in 2017, 2018, and 2019, with F1 scores of 0.673, 0.680, and 0.678, respectively.
 Among the mapped polygons, around two-third of them are true positives (black, blue, and red polygons in Fig. \ref{fig_mapping_results}), and remains are false positives (yellow polygons in Fig. \ref{fig_mapping_results}). 
 Table \ref{table_accuracy_f1} lists number of true positives, false positives, and false negatives, as well as precision, recall, and F1 scores in each year, with and without applying RTS-dynamic features.
-The distribution of mapped polygons for the entire Beiluhe region is shown in Fig. \ref{fig_mapping_results}a, amplifications of three locations are shows in Fig. \ref{fig_mapping_results}a, b, and c. 
+The distribution of mapped polygons for the entire Beiluhe region is shown in Fig. \ref{fig_mapping_results}a, amplifications of three locations are shown in Fig. \ref{fig_mapping_results}a, b, and c. 
 Compared with ground truths presented in Fig. S1 in the Supplementary Materials,  around 70 RTSs are missed in the mapped polygons such as the two RTSs marked by the yellow rectangle in Fig. \ref{table_accuracy_f1}b.
 As shown in Fig. \ref{table_accuracy_f1}c and d, the true positives are close to the ground truths, that is, the automatically delineated ones are similar to the ones from manual delineation. 
 
@@ -672,11 +671,11 @@ From 2017 to 2018, 97\% RTSs have standard variation smaller than 30, while for 
 \section{Discussion}
 \label{sec_discussion}
 
-good,
-
-the accuracies of retreat distances. 
+\subsection{Advantage and disadvantage of using the RTS dynamic feature}
+\label{sec_diss_rts_dynamic_features}
 
 A new emergent RTS was missed. 
+
 
 If a few negative training polygons are available, including them for training can help improve the mapping results. 
 
@@ -690,12 +689,19 @@ Less true positive, more false positive and false negatives.
 Mapping using multi-temporal images are more challenging. 
 
 
+\subsection{Accuracy of retreat distance}
+\label{sec_diss_retreat_distance}
+
+%the accuracies of retreat distances. 
+
+
+
 \section{Conclusions}
 \label{sec_conclusion}
 
- good,
- 
-% Contribution of this works: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). 
+
+ Contribution of this works: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping).
+  and (2) 
 
 \section{Data and codes}
 \label{sec_data_codes}
