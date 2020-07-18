@@ -472,8 +472,6 @@ Lastly, we set a threshold of 6 m for retreat distance (see section \ref{sec_cal
 \subsubsection{Calculating and validating retreat distance}
 \label{sec_cal_retreat_dis}
 
-%TODO: this part (retreat distance) needs to be rewrite 
-
 % To calculate the retreat distance
 We utilized medial circles, the inscribed circles contained in a change polygon and tangent to it in at least two points, to calculate the annual retreat distance of RTSs. 
 A series of medial circles can represent the shape of a polygon, and their centers indicate the medial axis of the polygon \citep{zhu2014computing}, such as the circles and red lines in Fig. \ref{fig_retreat_dis}a. 
@@ -533,7 +531,7 @@ For the case where an RTS has more than one expanding branches, we use chose the
 The mapped polygons accurately delineate most RTS boundaries on images taken in 2017, 2018, and 2019, with F1 scores of 0.673, 0.680, and 0.678, respectively.
 Among the mapped polygons, around two-third of them are true positives (black, blue, and red polygons in Fig. \ref{fig_mapping_results}), and remains are false positives (yellow polygons in Fig. \ref{fig_mapping_results}). 
 Table \ref{table_accuracy_f1} lists number of true positives, false positives, and false negatives, as well as precision, recall, and F1 scores in each year, with and without applying RTS-dynamic features.
-The distribution of mapped polygons for the entire Beiluhe region is shown in Fig. \ref{fig_mapping_results}a, amplifications of three locations are shown in Fig. \ref{fig_mapping_results}a, b, and c. 
+The distribution of mapped polygons for the entire Beiluhe region is shown in Fig. \ref{fig_mapping_results}a, amplifications of three locations are shown in Fig. \ref{fig_mapping_results}b, c, and d. 
 Compared with ground truths presented in Fig. S1 in the Supplementary Materials,  around 70 RTSs are missed in the mapped polygons such as the two RTSs marked by the yellow rectangle in Fig. \ref{table_accuracy_f1}b.
 As shown in Fig. \ref{table_accuracy_f1}c and d, the true positives are close to the ground truths, that is, the automatically delineated ones are similar to the ones from manual delineation. 
 
@@ -597,7 +595,7 @@ and (2) including the same negative training polygons used in \cite{huang2020usi
 \label{sec_compare_with_201805_results}
 
 Both F1 score and AP values of mapped polygons in this paper are a little worse than the accuracy of one-year results presented in \cite{huang2020using}. 
-Regarding the F1 scores (Table \ref{table_accuracy_f1}) after applying RTS dynamic features, their difference are around 0.17, while the difference of AP values are around 0.2.
+Regarding the F1 scores (Table \ref{table_accuracy_f1}) after applying RTS dynamic features, the difference between the one in \cite{huang2020using} and in this paper are around 0.17, while the difference of AP values are around 0.2.
 Even the results including negative training polygons, the F1 score and AP values are smaller than one-year results at around 0.08 and 0.1, respectively. 
 One possible reason is related to the variation of features over time. 
 For example, the 2018 and 2019 Planet images (Fig. \ref{fig_multi_rts_image_studyarea} c and d) are brighter than the 2017 image (Fig. \ref{fig_multi_rts_image_studyarea}b), which may confuse the Deeplabv3+ model during training. 
@@ -638,19 +636,21 @@ As shown in Fig. S3, around half of RTSs only have one expanding branches, while
 \label{sec_rts_retreat_distance}
 
 %retreat distance from 2017 to 2019. 
+%TODO: add standard variation for retreat distance. 
 The average retreat distance of RTSs from 2017 to 2018 and 2018 to 2019 is 19.5 m and 20.8 m (Fig.\ref{fig_rts_change_area_reDis}b and c), respectively. 
 The maximum retreat distance is 55.6 m and 77.2 m for 2017 vs 2018 and 2018 vs 2019, respectively, based on medial circles. 
 From 2017 to 2018, 63\% of RTSs retreat more than 15 m, while from 2018 to 2019, 55\% of them have retreat distance greater than 15 m. 
 % measure the retreat distance from manual delineation, mentioned here or in the (discussion) supplementary materials?
+%TODO: show planet images in different years for this one
 In Fig. S5, the retreat distance based on manual drawn lines is 21.1 and 25.2 for 2017 vs 2018 and 2018 vs 2019, respectively, while the maximum retreat distance is 90.8 m and 212.8 m
 
 %Other measurement,  uncertainty, and standard variation
 The three automatic measurement of retreat distance is slightly different with ones derived from manually drawn lines, among them, the one based on the diameter of the maximum medial circle is closest the manual measurement. 
-As shown in Fig. S6, the mean difference are $-1.6$ m \& $-4.4$ m, 17.8 m \& 14.8 m, and 14.0 m \&10.6 m (2017 vs 2018 \& 2018 vs 2019) for the one based on diameter of the maximum medical circles, thee direction of the maximum elevation difference, and across the centroid of old polygons, respectively. 
+As shown in Fig. S6, the mean difference are $-1.6$ m \& $-4.4$ m, 17.8 m \& 14.8 m, and 14.0 m \&10.6 m (2017 vs 2018 \& 2018 vs 2019) for the one based on diameter of the maximum medical circles, the direction of the maximum elevation difference, and across the centroid of old polygons, respectively. 
 %Retreat distance estimated based on diameter of the maximum medical circles tends to be underestimated but a few one them 
 As mentioned in section \ref{sec_cal_retreat_dis}, the retreat distance calculated from medial circles tend to be underestimated, but the other two automatic measurements are overestimated. 
 As shown in the histogram (Fig. S6), for the retreat distance of some RTSs are greater than the one from manually draw lines. 
-The reason is that the manually draw lines many not exactly match the direction of RTS maximum retreat.  
+The reason is that the manually drawn lines many not exactly match the direction of RTS maximum retreat.  
 
  % standard deviation
 \begin{figure} 
@@ -671,34 +671,53 @@ From 2017 to 2018, 97\% RTSs have standard variation smaller than 30, while for 
 \section{Discussion}
 \label{sec_discussion}
 
-\subsection{Advantage and disadvantage of using the RTS dynamic feature}
-\label{sec_diss_rts_dynamic_features}
+%\subsection{Advantage and disadvantage of using the RTS dynamic feature}
+%\label{sec_diss_rts_dynamic_features}
+\subsection{Delineating RTS boundaries on multi-temporal images}
+\label{sec_diss_mapping_rts_multi_images}
 
-A new emergent RTS was missed. 
+Accurate RTS boundaries on multi-temporal images is essential for quantifing their development.
+Deep-learning-based method can automatically delineate RTS boundaries on images with high accuracies and is critical for investigation of RTSs in large areas. 
+Based on RTS boundaries in different years, we can revel their development in unprecedented spatial and temporal domain. 
+As demonstrated in this paper, the results from deep-learning-based method can accurately delineate most RTS boundaries in different years. %, and potentially, can applied to larger areas. 
 
 
-If a few negative training polygons are available, including them for training can help improve the mapping results. 
+However, delineation of RTS boundaries on multi-temporal images is more challenging than identification of their location or on one-year images. 
+In this study, the targets are not only locations and extents of 266 RTSs in Beiluhe, but also their boundaries in different years, that is, $266\times3$ RTS boundaries from 2017 to 2019.
+As shown in section \ref{sec_compare_with_201805_results}, the F1 scores derived from multi-temporal images are little worse than one-year results, indicating the challenges of mapping RTSs in multi-temporal images. 
+The possible reasons include (1) the inconsistent features of the same RTS in different images may confuse the trained model 
+and (2) inaccurate mapped boundaries cannot meet the requirement of RTS dynamic features. 
+These reasons are related to the mapping strategy, that is, training a single model and removing false mapped polygons by applying RTS dynamic features.  
+Alternatively, we may adopt other strategies such as training multiple models, a model for each year,  which is still manageable when images only span a few years.
+Applying the RTS dynamic feature can significantly reduce the number of false positives (section \ref{sec_improve_using_multi_images}), but it also remove some correct mapped polygons with relatively lower accuracy. 
+Another solution is that lowering the criteria of RTS dynamic features or adding some negative training polygons for training if they are available.
+One limitation of applying the RTS dynamic features is that, a new emergent RTS (after 2018 or 2019) would be removed. 
 
-Limitations, 
 
-% compared with the results with negative training polygons
-Compared with the mapped polygons on images taken in May 2018 presented by \cite{huang2020using}, the results in this paper are worse.
-Less true positive, more false positive and false negatives. 
- the AP values and F1 scores are lower, indicating the challenging of mapping RTSs in different years. 
-
-Mapping using multi-temporal images are more challenging. 
-
+% how to improve, % talking about different strategies. 
+%Advantage: do not need negative training polygons, so save time when extend to larger areas.
 
 \subsection{Accuracy of retreat distance}
 \label{sec_diss_retreat_distance}
 
-%the accuracies of retreat distances. 
+the accuracies of retreat distances. 
 
+alway have some mapped polygon are inaccurate, leading to the uncertainties of retreat distance. 
+Even, for one-year results, some RTS boundaries are not accurate, leading to the uncertainties of retreat distance.
+
+Why we need three automatic measurement for the retreat distance?
+
+
+\subsection{Comparison with RTS retreat in the Arctic}
+
+No report of RTS retreat in the Tibetan Plateau, but the one in the Arctic.
 
 
 \section{Conclusions}
 \label{sec_conclusion}
 
+We did to things, quite indenpendent things, (1)automatica mapping on multi-temporal images. 
+(2)Find the changes automatically. 
 
  Contribution of this works: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping).
   and (2) 
