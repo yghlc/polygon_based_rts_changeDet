@@ -156,11 +156,11 @@ Furthermore, it can threaten the safety of infrastructure, release greenhouse ga
 
 
 % Introduction on the retrogressive thaw slumps
-A retrogressive thaw slump (RTS) is one of dynamic landforms resulting from the thawing of ice-rich permafrost \citep{czudek_thermokarst_1970, jorgenson_thermokarst_2013,farquharson2016spatial,jones2019rapid}. 
+A retrogressive thaw slump (RTS) is one of the dynamic landforms resulting from the thawing of ice-rich permafrost \citep{czudek_thermokarst_1970, jorgenson_thermokarst_2013,farquharson2016spatial,jones2019rapid}. 
 Usually, RTSs are triggered by lateral stream erosion or active layer detachments \citep{french2017periglacial} and can be active for decades \citep{burn1989geomorphology, lacelle2010climatic, swanson2018growth}. 
 For instance, a detachment slide occurs due to the melting of ground ice or intensive precipitation and removes soil above permafrost, then exposes it to rapid thawing and initiates an RTS. 
-The main component of an RTS are the headwall, slump floor, and slump lobe \citep{lantuit_fifty_2008}. 
-At the headwall, the exposed permafrost can continue thawing in each summer, which would further expands the thawed area towards upslope \citep{french2017periglacial}. 
+The main components of an RTS are the headwall, slump floor, and slump lobe \citep{lantuit_fifty_2008}. 
+At the headwall, the exposed permafrost can continue thawing in each summer, which would further expand the thawed area towards upslope \citep{french2017periglacial}. 
 Moreover, RTSs can significantly alter the local ecosystem such as mass wasting of soil as well as vegetation \citep{gooseff2009effects} and increases of mercury concentrations in the downstream aquatic environment \citep{pierre2018unprecedented}.
 
 
@@ -175,7 +175,7 @@ However, the occurrence and retreat rates of RTSs in most permafrost areas are s
 % why we need an automatically method. 
 An automatic method is essential for quantifying RTS development throughout permafrost areas. 
 Permafrost underlays approximately one-quarter of the land surface in the Northern Hemisphere \citep{zhang1999statistics} and most areas are remote and inaccessible. 
-Therefore, it is impossible to conduct field measurement for RTS development. 
+Therefore, it is extremely challenging, if ever possible, to conduct field measurements for RTS development. 
 The advance of remote sensing satellites, especially, the CubeSat constellation provides multi-temporal and high-resolution images covering the global land surface. 
 Manual delineation on these images can be used to quantify RTSs development but is impractical due to large areas and the huge volume of images as well as its characteristics of time-consuming and labor-intensive. 
 Therefore, automatic methods are necessary for addressing the unknown questions related to RTS development throughout permafrost areas. 
@@ -196,7 +196,7 @@ We train a single DeepLabv3+ model using multi-temporal images then use this mod
 Then we propose a polygon-based change detection to remove incorrect mapping results and obtain change polygons covering expanding areas.  
 We calculate the medial axis of each change polygon, then based on the medial axis to obtain the retreat rates.  
 %We also run the k-fold (k=3,5,10) cross-validation to evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe. 
-To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development on remote sensing images and very first study reporting retreat rates of RTSs on the Tibetan Plateau. 
+To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development on remote sensing images and the first one reporting retreat rates of RTSs on the Tibetan Plateau. 
 
 %Contribution of this work: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). 
 %(2) What’s the IOU value of mapping polygons are required for automatic change detection? For polygon-based change detection, we also can calculate F1 score, but it rely on the accuracies of mapping results. \\\\
@@ -209,11 +209,11 @@ To the best of our knowledge, this would be the first study that provides an aut
 % Study area
 Our study area is the Beiluhe region ($92.50^\circ$E to $93.51^\circ$E, $34.69^\circ$N to $35.18^\circ$N) on the Tibetan Plateau as shown in Fig. \ref{fig_multi_rts_image_studyarea}a.
 The elevation is between 4418 and 5320 m; mean annual air temperature is \SI{-3.8}{\celsius}; annual precipitation is around 300 mm  \citep{luo_thermokarst_2015}.
-It is underlain by ice-rich permafrost with thickness ranges from 20 to 80 m: 70\% and 20\% of this region has ice content greater than 30\% and 50\%, respectively \citep{zhou_geocryology_2000, luo_thermokarst_2015}; 
+It is underlain by ice-rich permafrost with thickness ranging from 20 to 80 m: 70\% and 20\% of this region has ice content greater than 30\% and 50\%, respectively \citep{zhou_geocryology_2000, luo_thermokarst_2015}; 
 the type of ground ice is mainly massive ice \citep{guodong1983mechanism}. 
-The active layer thickness and mean annual ground temperature ($\sim$15 m) ranges from 1.5 to 2.0 m and \SI{-2.0} to \SI{-0.5}{\celsius}, respectively \citep{zhou_geocryology_2000, wu2010changes, luo_thermokarst_2015,  wu2015changes}. 
+The active layer thickness and mean annual ground temperature ($\sim$15 m) range from 1.5 to 2.0 m and \SI{-2.0} to \SI{-0.5}{\celsius}, respectively \citep{zhou_geocryology_2000, wu2010changes, luo_thermokarst_2015,  wu2015changes}. 
 As reported by a few studies, more than 200 RTSs developed in this region and their number and affected areas increased dramatically in the past decade \citep{huang2020using,luo2019recent}.  
-For example, an RTS developed toward upslope from 2017 to 2019, and the development is captured by Planet CubeSat as shown in Fig. \ref{fig_multi_rts_image_studyarea} b to d. 
+For example, an RTS developed toward upslope from 2017 to 2019, and the development is captured by Planet CubeSat as shown in Fig. \ref{fig_multi_rts_image_studyarea}b to d. 
 %We also choose a region (i.e., Test area) next to Beiluhe as shown in Fig. \ref{fig_multi_rts_image_studyarea}a for testing our automatic method. 
 %The test area has 50 RTSs \citep{huang2020using} but does not have more detailed ground information. 
 
@@ -226,7 +226,7 @@ For example, an RTS developed toward upslope from 2017 to 2019, and the developm
 \begin{figure} 
 	\centering
 	\includegraphics[width=14cm]{figs/rts_multi_images_study_area_v2_trim.jpg}
-	\caption{The study area and development of a retrogressive thaw slump (RTS). The red and black rectangle in (a) shows the extent of our study area and test area on the Tibetan Plateau. (b) to (d) are Planet images (2017, 2018, and 2019) of an RTS whose central location is 92.912$^\circ$ E, 34.848$^\circ$ N. The white arrows point the position of the headwall. In (b), the yellow arrow indicates the upslope direction.}
+	\caption{The study area and development of a retrogressive thaw slump (RTS). The red and black rectangle in (a) shows the extent of our study area and test area on the Tibetan Plateau. (b) to (d) are Planet images taken in 2017, 2018, and 2019 of an RTS whose central location is 92.912$^\circ$ E, 34.848$^\circ$ N. The white arrows point the position of the headwall. } % In (b), the yellow arrow indicates the upslope direction.
 	\label{fig_multi_rts_image_studyarea}
 \end{figure}
 
@@ -237,9 +237,9 @@ The data include images from Planet CubeSat and RTS boundaries in July 2017, 201
 We only use images after 2017 because images from Planet CubeSat constellation (Planetscope) are available after that time in our study area.  
 In July, vegetation reaches its maximum coverage, and active RTSs are on the rapid stage of thawing processes. 
 Therefore, identifying RTSs would be relatively easy during this period.
-These images have four bands (blue, green, red, and near-infrared) with the spatial resolution of 3 m. 
+These images have four bands (blue, green, red, and near-infrared) with a spatial resolution of 3 m. 
 Each image covers an approximate area of 10 km by 30 km.
-Table \ref{table_image_list} lists the count and acquisition date of these images from 2017 to 2019. 
+Table \ref{table_image_list} lists the count and acquisition dates of these images from 2017 to 2019. 
 Because of the variation of cloud cover and image coverage, the image count in different years are different.
 The RTS boundaries are derived from manual delineation on Planet images using the same method proposed by \cite{huang2020using}, parts of which will be used for training our automatic method. 
 We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
@@ -256,7 +256,7 @@ We consider all the RTS boundaries as ground truths in the validation step, and 
 \begin{tabular}{c  c  m{2.5cm}   c m{3.0cm} }
 \toprule
  \multirow{2}{*}{ \textbf{Year/Month}}  & \multicolumn{2}{c}{ \textbf{Beiluhe}} &  \multicolumn{2}{c}{ \textbf{Test Area}}\\
- & Count & Acquisition date & Count & Acquisition date \\
+ & Count & Acquisition dates & Count & Acquisition dates \\
 \midrule
  2017 July & 71 & 17, 19, and 20 & 36 & 19 and 20 \\
  2018 July & 52 & 20, 24, and 25 & 33 & 15 and 16 \\
@@ -311,9 +311,9 @@ The details will be presented as the following.
 % Preparing training data
 The training data were derived from training polygons and Planet images in 2017, 2018, and 2019. 
 We considered all the ground truths as positive training polygons but did not include any negative training polygons. 
-Negative training polygons are necessary for distinguish land cover that are similar to RTSs but need ground information or some initial tests to generate them. 
+Negative training polygons are necessary for distinguishing land cover that are similar to RTSs but need ground information or some initial tests to generate them. 
 However, generating negative training polygons will be impractical for mapping RTSs in a large area. 
-Without negative training polygons, the mapping results may contain a lot of false positives, but we can utilize the RTS dynamic information in multi-temporal images to remove them (see section \ref{sec_improving_using_rts_dynamic}).
+Without negative training polygons, the mapping results may contain many false positives, but we can utilize the RTS dynamic information in multi-temporal images to remove them (see section \ref{sec_improving_using_rts_dynamic}).
 For the training polygons and Planet images in each year, we extracted sub-images with a buffer area of 300 m. 
 Then we subdivided all sub-images into patches by setting a patch size as 480 pixels with an overlap of 160 pixels. 
 Details of the extracting and subdividing operation are presented by \cite{huang2018automatic}.
@@ -326,21 +326,21 @@ Lastly, we merged all the patches from different years to a single training data
 
 % training
 We trained a deep-learning model, i.e., DeepLabv3+ \citep{chen2018encoder-decoder}, by using the training data derived in section \ref{sec_prepare_training}. 
-\cite{huang2020using} have proofed that a well-trained DeepLabv3+ can delineate RTSs and obtain their boundaries that are very close to manual delineation. 
+\cite{huang2020using} have proved that a well-trained DeepLabv3+ can delineate RTSs and obtain their boundaries that are very close to manual delineation. 
 In this study, instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features in multi-temporal images, more importantly, a generic model can save a lot of computing resources, especially when expanding the time domain.
-We used the same hyper-parameter presented in \cite{huang2020using} to train this model. 
+We used the same hyper-parameters presented in \cite{huang2020using} to train this model. 
 %To evaluate the robustness of the model, we utilized k-fold cross-validation (k=3, 5, and 10)  as commonly used in machine learning. 
  %TODO: How about the test Area? use which trained model?
 %k-fold cross-validation. 
 
 % prediction
-We used the trained model to predict RTSs on in 2017, 2018, and 2019 mosaic images. 
+We used the trained model to predict RTSs in the 2017, 2018, and 2019 mosaic images. 
 The steps of predicting RTSs in one year include (1) dividing it to numerous small patches, 
 (2) predicting RTS or non-RTS pixels, 
 (3) mosaicked the binary patches using GDAL and obtained a binary mosaic, 
 (4) polygonizing the binary mosaic, and 
 (5) removing polygons smaller than 0.3 ha. 
-The size and overlap of each patches for prediction is the same to the one for preparing training data (section \ref{sec_prepare_training}). 
+The size and overlap of each patch for prediction is the same as the one for preparing training data (section \ref{sec_prepare_training}). 
 To improve efficiency, we adopted a parallel strategy to predict RTSs in different years.
 
 
@@ -351,7 +351,7 @@ Many mapped polygons were erroneously identified as RTS polygons can be removed 
 As shown in Fig. \ref{fig_rts_expanding}, an active RTS can expand toward upslope annually, even for a non-active RTS, its extent cannot shrink. 
 Therefore, we can use this dynamic feature to remove non-RTS mapped polygons. 
 Firstly, we obtained a union (Fig. \ref{fig_rts_expanding}) of mapped polygons at the same location.
-The steps of obtaining the union include (1) choosing a mapped polygon as initial union, (2) scanning through all mapped polygons until find a mapped polygon that is still available (not merged to other unions) and overlaps the union, (3) merging the found mapped polygon to union and updating the union, and (4) repeating steps (2) and (3) until cannot find a new mapped polygon can be merged to the union. 
+The steps of obtaining the union include (1) choosing a mapped polygon as initial union, (2) scanning through all mapped polygons until finding a mapped polygon that is still available (not merged to other unions) and overlaps the union, (3) merging the found polygon to union and updating the union, and (4) repeating steps (2) and (3) until cannot find any polygon can be merged to the union. 
 Secondly, we calculated the intersection over union (IOU) for mapped polygons in each year (termed as ``time-IOU") as follows, 
 \begin{equation}
 IOU(A,B)_{year}=area(A \cap B)/area(A \cup B)
@@ -360,8 +360,8 @@ IOU(A,B)_{year}=area(A \cap B)/area(A \cup B)
 where \emph{A} is a mapped polygon in the specific year and \emph{B} is the union. 
 Due to the dynamic of RTSs, the time-IOU of an active RTS will monotonically increase over time. 
 If the RTS is already stabilized, its time-IOU will remain the same over time. 
-In consideration of the delineation error (e.g., the RTS boundaries in different years at non-headwall parts are not exactly overlap each other as shown in Figs. \ref{fig_rts_expanding} and \ref{fig_rts_change_det}), a threshold of $-0.1$ was set to determine the time-IOU of an RTS is monotonically increasing, that is, if all the differences ($IOU_{next\_year}-IOU_{year}$) are greater than $-0.1$, we consider the time-IOU is monotonically increasing. 
-Thirdly, in the Beiluhe region, almost all the RTSs were initiated in or before 2016 \citep{luo2019recent}.
+In consideration of the delineation error (e.g., the RTS boundaries in different years at non-headwall parts do not exactly overlap each other as shown in Figs. \ref{fig_rts_expanding} and \ref{fig_rts_change_det}), a threshold of $-0.1$ was set to determine the time-IOU of an RTS is monotonically increasing, that is, if all the differences ($IOU_{next\_year}-IOU_{year}$) are greater than $-0.1$, we consider the time-IOU is monotonically increasing. 
+Thirdly, in the Beiluhe region, almost all the RTSs initiated in or before 2016 \citep{luo2019recent}.
 Therefore, we can assume that at a specific location where an RTS emerges, it presents three mapped polygons and each in 2017, 2018, and 2019. 
 Lastly, we removed mapped polygons in a location that do not satisfy the three-polygon assumption or the time-IOU is not monotonically increasing.
  
@@ -369,7 +369,7 @@ Lastly, we removed mapped polygons in a location that do not satisfy the three-p
 \begin{figure} 
 	\centering
 	\includegraphics[width=14cm]{figs/rts_expanding_example_trim.jpg}
-	\caption{RTS polygons (a) representing their boundaries from 2017 to 2019 and the union (b) of these polygons. The background is 2019 Planet images, and the RTS is the same to the one shown in Fig. \ref{fig_multi_rts_image_studyarea}}
+	\caption{RTS polygons (a) representing their boundaries from 2017 to 2019 and the union (b) of these polygons. The background is 2019 Planet images, and the RTS is the same as the one shown in Fig. \ref{fig_multi_rts_image_studyarea}}
 	\label{fig_rts_expanding}
 \end{figure}
 
@@ -380,7 +380,7 @@ Lastly, we removed mapped polygons in a location that do not satisfy the three-p
 To validate mapped polygons, we calculate F1 scores \citep{huang2020using} for mapped polygons in each year separately. 
 For each year, we calculate IOU values between mapped polygons and the corresponding ground truths. 
 We set a threshold of 0.5 to decide a mapped polygon is a false positive (FP) or true positive (TP).
-After obtaining the count of true positives, false positives, and false negatives (FN), we can calculate the precision and recall, then calculate the F1 score using the following euqation. 
+After obtaining the count of true positives, false positives, and false negatives (FN), we can calculate the precision and recall, then calculate the F1 score using the following equation. 
 \begin{equation}
 F1=2 \times Precision \times Recall / (Precision + Recall)
 \label{equ_f1score}
@@ -392,12 +392,12 @@ To assess the performance of the delineating method in this paper, we calculated
 AP values are based on precision-recall curves which is an effective metric for evaluating the algorithm performance \citep{huang2020using}.
 A higher average of AP values indicates the better performance of the method. 
 
-\subsection{Detecting changes of RTS boundaries}
+\subsection{Detecting temporal changes of RTS boundaries}
 \label{sec_detect_rts_changes}
 
 This study will provide a method to automatically detect changes of RTS boundaries and calculate their annual retreat distance.
 The RTS boundaries are in vector format and can be derived from manual delineation or automatic mapping. 
-The main steps include polygon-based change detection, removing false changes, and calculating retreat distance as follows, 
+The main steps include polygon-based change detection, removing false changes, and calculating retreat distance as detailed below. 
 
 \subsubsection{Polygon-based change detection}
 \label{sec_polygon_change_det}
