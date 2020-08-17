@@ -178,9 +178,9 @@ An automatic method is essential for quantifying RTS development throughout perm
 Permafrost underlays approximately one-quarter of the land surface in the Northern Hemisphere \citep{zhang1999statistics} and most areas are remote and inaccessible. 
 Therefore, it is extremely challenging, if ever possible, to conduct field measurements for RTS development. 
 The advance of remote sensing satellites, especially, the CubeSat constellation provides multi-temporal and high-resolution images covering the global land surface. 
-One outstanding CubeSat constellation is deployed by Planet Labs (www.planet.com) and are collecting daily images of the global land surface at the spatial resolution of 3–5 m.
+An outstanding CubeSat constellation is deployed by Planet Labs (www.planet.com) and are collecting daily images of the global land surface at the spatial resolution of 3–5 m.
 Manual delineation on these images can be used to quantify RTSs development but is impractical due to its characteristics of time-consuming and labor-intensive when applying to large areas with the huge volume of images. 
-Therefore, automatic methods are necessary for addressing the unknown questions related to RTS development such as retreat rates and occurrence throughout permafrost areas. 
+Therefore, automatic methods are necessary for addressing the unknown questions related to RTS development such as their retreat rates and occurrence throughout permafrost areas. 
 
 
 % Motivation
@@ -199,7 +199,7 @@ The objectives of this study include (1) to apply a deep-learning-based mapping 
 %based on RTS boundaries in different years
 and obtain their annual retreat distances.
 Firstly, we train a DeepLabv3+ model using multi-temporal images then use this model to predict RTS boundaries in different years.
-Secondly, we propose a method to conduct change detection of these boundaries (polygons)   and obtain change polygons covering expanding areas.  
+Secondly, we propose a method to conduct change detection of these boundaries (polygons)  and obtain change polygons covering expanding areas.  
 We calculate the maximum medial circle of each change polygon, then based on it to obtain the retreat distances.  
 %We also run the k-fold (k=3,5,10) cross-validation to evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe. 
 To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development on remote sensing images and the first one reporting retreat rates of RTSs on the Tibetan Plateau. 
@@ -213,7 +213,7 @@ To the best of our knowledge, this would be the first study that provides an aut
 \label{sec_studyarea_data}
 
 % Study area
-Our study area is the Beiluhe region ($92.50^\circ$E to $93.51^\circ$E, $34.69^\circ$N to $35.18^\circ$N) on the Tibetan Plateau as shown in Fig. \ref{fig_multi_rts_image_studyarea}a, its size is around 5200 $km^2$.
+Our study area is the Beiluhe region ($92.50^\circ$E to $93.51^\circ$E, $34.69^\circ$N to $35.18^\circ$N) on the Tibetan Plateau as shown in Fig. \ref{fig_multi_rts_image_studyarea}a, and its size is around 5200 $km^2$.
 The elevation is between 4418 and 5320 m; mean annual air temperature is \SI{-3.8}{\celsius}; annual precipitation is around 300 mm  \citep{luo_thermokarst_2015}.
 It is underlain by ice-rich permafrost with thickness ranging from 20 to 80 m: 70\% and 20\% of this region has ice content greater than 30\% and 50\%, respectively \citep{zhou_geocryology_2000, luo_thermokarst_2015}; 
 the type of ground ice is mainly massive ice resulting from repeated segregation \citep{guodong1983mechanism}. 
@@ -223,7 +223,7 @@ For example, an RTS developed toward upslope from 2017 to 2019, and the developm
 %We also choose a region (i.e., Test area) next to Beiluhe as shown in Fig. \ref{fig_multi_rts_image_studyarea}a for testing our automatic method. 
 %The test area has 50 RTSs \citep{huang2020using} but does not have more detailed ground information. 
 
-% Area for testing, should mention it here? Mentioned as above. 
+% Area for testing, should mention it here? NO, in current version, we remove the test Area.
 %Test area: 50 RTS \citep{huang2020using}.
 
 
@@ -232,41 +232,54 @@ For example, an RTS developed toward upslope from 2017 to 2019, and the developm
 \begin{figure} 
 	\centering
 	\includegraphics[width=14cm]{figs/rts_multi_images_study_area_v3.jpg}
-	\caption{The study area and development of a retrogressive thaw slump (RTS). The red and black rectangle in (a) shows the extent of our study area and test area on the Tibetan Plateau. (b) to (d) are Planet images taken in 2017, 2018, and 2019 of an RTS whose central location is 92.912$^\circ$ E, 34.848$^\circ$ N. The white arrows point the position of the headwall. } % In (b), the yellow arrow indicates the upslope direction.
+	\caption{The study area and development of a retrogressive thaw slump (RTS). The red 
+	%and black 
+	rectangle in (a) shows the extent of our study area
+	% and test area 
+	on the Tibetan Plateau. (b) to (d) are Planet images taken in 2017, 2018, and 2019 of an RTS whose central location is 92.912$^\circ$ E, 34.848$^\circ$ N. The white arrows point the position of the headwall.} % In (b), the yellow arrow indicates the upslope direction.
 	\label{fig_multi_rts_image_studyarea}
 \end{figure}
 
 
 %Data
-The data include images from Planet CubeSat and RTS boundaries in July 2017, 2018, and 2019.
+The mainly data are images taken in July 2017, 2018, and 2019 by Planet PlanetScope satellites.
 %address why only choose the images starting from 2017? 
-We only use images after 2017 because images from Planet CubeSat constellation (Planetscope) are available after that time in our study area.  
+We use images after 2017 because images from Planet PlanetScope CubeSat are only available after that time in our study area.  
 In July, vegetation reaches its maximum coverage, and active RTSs are on the rapid stage of thawing processes. 
 Therefore, identifying RTSs would be relatively easy during this period.
-These images have four bands (blue, green, red, and near-infrared) with a spatial resolution of 3 m. 
-Each image covers an approximate area of 10 km by 30 km.
+These images have four bands (blue, green, red, and near-infrared) with a spatial resolution of 3 m, and each of them covers an approximate area of 10 km by 30 km.
 Table \ref{table_image_list} lists the numbers and acquisition dates of these images from 2017 to 2019. 
 Because of the variation of cloud cover and image coverage, the image counts in different years are different.
-The RTS boundaries are derived from manual delineation on Planet images using the same method proposed by \cite{huang2020using}, parts of which will be used for training our automatic method. 
-We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
+They were downloaded on Planet website (\url{www.planet.com}) or through a python package (\url{pypi.org/project/planet}) for Planet's public API under its Education and Research Program \citep{team2018planet}. 
+The product level of images is ``Analytic\_SR'', indicating that they had been orthorectified with a positional accuracy of 10 m, the pixel values represent surface reflectance by using 16 bit. 
+
+%The RTS boundaries are derived from manual delineation on Planet images using the same method proposed by \cite{huang2020using}, parts of which will be used for training our automatic method. 
+%We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
 %The steps of downloading as well as pre-processing of Planet images and collecting ground truths are presented by \cite{huang2020using}.
 
 
 \begin{table}[ht]
 \footnotesize
-\caption{Count and acquisition date of images from the Planetscope satellites.}
+\caption{Number and acquisition dates of images from the Planetscope satellites.}
 \label{table_image_list}
 \centering
 %% \tablesize{} %% You can specify the fontsize here, e.g. \tablesize{\footnotesize}. If commented out \small will be used.
 %\begin{tabular}{cc m{2.2cm}  m{2.2cm}  m{2.2cm} ccc}
-\begin{tabular}{c  c  m{2.5cm}   c m{3.0cm} }
+%\begin{tabular}{c  c  m{2.5cm}   c m{3.0cm} }	% for 5 columns
+\begin{tabular}{c  c    c  }	% for 5 columns
 \toprule
- \multirow{2}{*}{ \textbf{Year/Month}}  & \multicolumn{2}{c}{ \textbf{Beiluhe}} &  \multicolumn{2}{c}{ \textbf{Test Area}}\\
- & Count & Acquisition dates & Count & Acquisition dates \\
+% \multirow{2}{*}{ \textbf{Year/Month}}  & \multicolumn{2}{c}{ \textbf{Beiluhe}} &  \multicolumn{2}{c}{ \textbf{Test Area}}\\
+% & Count & Acquisition dates & Count & Acquisition dates \\
+%\midrule
+% 2017 July & 71 & 17, 19, and 20 & 36 & 19 and 20 \\
+% 2018 July & 52 & 20, 24, and 25 & 33 & 15 and 16 \\
+% 2019 July & 46 & 25, 27, and 30 & 53 &  8, 24, 25, 27, and 30\\
+
+Year & Number & Acquisition dates  \\
 \midrule
- 2017 July & 71 & 17, 19, and 20 & 36 & 19 and 20 \\
- 2018 July & 52 & 20, 24, and 25 & 33 & 15 and 16 \\
- 2019 July & 46 & 25, 27, and 30 & 53 &  8, 24, 25, 27, and 30\\
+2017  & 71 & July 17, 19, and 20  \\
+2018  & 52 & July 20, 24, and 25  \\
+2019  & 46 & July 25, 27, and 30 \\
 
 \bottomrule
 \end{tabular}
@@ -278,34 +291,40 @@ We consider all the RTS boundaries as ground truths in the validation step, and 
 \section{Methods}
 \label{sec_meth}
 
-
-\begin{figure} 
+% the flowchart. 
+\begin{figure}
 	\centering
 	\includegraphics[width=9cm]{figs/polygon_based_change_detection_flowchart.jpg}
 	\caption{Flowchart of automatic quantification of RTS development on multi-temporal images.}
 	\label{fig_flowchart}
 \end{figure}
 
-% The major steps includes pre-processing of multi-temporal Planet images, training, prediction,  polygon-based change detection, and post-processing. 
-%training on multi-temporal images, prediction on multi-temporal images, then polygon-based change detection: (1) removing false positives based on multi-temporal mapping results, (2) polygons based change detection based and got the expanding areas. 
-
-
+ As shown in Fig. \ref{fig_flowchart}, the major components of the automatic method for quantifying RTS evolution include pre-processing of Planet images, automatic delineation of RTS, and automatic quantification of their development. 
+Manual delineation of RTSs is necessary when data are not available to train DeepLabv3+ (a supervised learning algorithm) because multi-temporal RTS boundaries are one of the key components of training data.
+The automatic quantification accepts multi-temporal RTS boundaries, derived from automatic or manual delineation, and would produce annual retreat distances and areas of each RTS. 
 
 
 \subsection{Pre-processing of multi-temporal images}
 \label{sec_preprocessing}
 
-We collected and pre-processed Planet CubeSat images before applying deep-learning-based mapping methods. 
-We downloaded Planet images on Planet website (\url{www.planet.com}) via its Education and Research Program \citep{team2017planet}. 
-For the images of each year, we followed the same steps presented by \cite{huang2020using} to pre-process them and obtained a mosaic covering the study area. 
-%The steps of downloading, band extracting, stretching, and sharpening of these images in different years are presented by \cite{huang2020using}. 
+We pre-processed Planet CubeSat images to fit the requirement of DeepLabv3+ as well as manual delineation and reduce the offset between multi-temporal images. 
+For the images of each year, we followed the same steps such as band extracting, stretching, and sharpening presented by \cite{huang2020using} to pre-process them and obtained a mosaic image covering the study area. 
 %Co-registration
 To increase the relative positional accuracy among multi-temporal images, we apply co-registration to the three mosaic images from 2017 to 2019. 
-Firstly, we chose the mosaic image in \cite{huang2020using} as the reference image because it has been well pre-processed. Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to find tie-points between other mosaic images and the reference image \citep{huang2016a}. 
+Firstly, we chose the mosaic image in \cite{huang2020using} as the reference image because it has been well pre-processed. 
+Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to find tie-points between other mosaic images and the reference image \citep{huang2016a}. 
 Lastly, we warped these images by using the Geospatial Data Abstraction Library (GDAL) with a first-order polynomial model.
 %TODO: add co-registration accuracy in the supplementary files, also mentioned original 10 m accuracy 
 
-% test histogram normalization in pre-processing steps (as noted, the histogram normalization did not improve the quanlity of Planet images, so we may just skip further steps)
+% test histogram normalization in pre-processing steps (as noted, the histogram normalization did not improve the quality of Planet images, so we may just skip further steps)
+
+\subsection{Manually delineating RTSs on multi-temporal images}
+\label{sec_manu_delineating}
+
+The RTS boundaries are derived from manual delineation on Planet images using the same method proposed by \cite{huang2020using}, parts of which will be used for training our automatic method. 
+We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
+
+
 
 
 \subsection{Delineating RTSs on multi-temporal images}
