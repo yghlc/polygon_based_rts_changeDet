@@ -307,7 +307,7 @@ The automatic quantification accepts multi-temporal RTS boundaries, derived from
 \subsection{Pre-processing of multi-temporal images}
 \label{sec_preprocessing}
 
-We pre-processed Planet CubeSat images to fit the requirement of DeepLabv3+ as well as manual delineation and reduce the offset between multi-temporal images. 
+We pre-processed Planet CubeSat images to fit the requirement of DeepLabv3+ as well as manual delineation and to reduce the offset between multi-temporal images. 
 For the images of each year, we followed the same steps such as band extracting, stretching, and sharpening presented by \cite{huang2020using} to pre-process them and obtained a mosaic image covering the study area. 
 %Co-registration
 To increase the relative positional accuracy among multi-temporal images, we apply co-registration to the three mosaic images from 2017 to 2019. 
@@ -321,9 +321,17 @@ Lastly, we warped these images by using the Geospatial Data Abstraction Library 
 \subsection{Manually delineating RTSs on multi-temporal images}
 \label{sec_manu_delineating}
 
-The RTS boundaries are derived from manual delineation on Planet images using the same method proposed by \cite{huang2020using}, parts of which will be used for training our automatic method. 
-We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
-
+We manually delineated RTS boundaries on multi-temporal images throughout the study area in QGIS (version 2.18.14, \url{qgis.org}). 
+Based on the square grids and mapping results presented by \cite{huang2020using}, we delineated RTS boundaries on Planet images taken in 2017, 2018, and 2019 as accurate as possible. 
+The error (uncertainty) of manual delineation on Planet images is around one pixels, that is, 3 m. 
+After the delineation, we obtain 266, 266, and 267 RTS boundaries on images from 2017 to 2019. 
+One RTS initiated in 2019 and captured by the 2019 image, but we removed it in the step of change detection (section \ref{sec_polygon_change_det}) because it needs at least two boundaries at the same location. 
+Parts of these RTS boundaries will be used for training our automatic delineation method, and all of them for validation. 
+The locations of 70\% RTSs were cross-checked in the field in 2014 and 2018 as well as on other satellite images including WorldView-1, SPOT-5, and Gaofen-1 \citep{luo2019recent}. 
+%
+% parts of which will be used for training our automatic method. 
+%We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
+%The field work only validate the occurrence of RTS, not their boundaries. 
 
 
 
