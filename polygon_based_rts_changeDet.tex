@@ -136,7 +136,7 @@ This study demonstrates that the deep-learning-based mapping method can potentia
 
 %% MSC codes here, in the form: \MSC code \sep code
 %% or \MSC[2008] code \sep code (2000 is the default)
-CubeSat  \sep Deep Learning \sep Permafrost \sep Retrogressive Thaw Slumps \sep   Change detection.
+CubeSat  \sep Deep Learning \sep Permafrost \sep Retrogressive Thaw Slumps \sep   Change Detection.
 
 \end{keyword}
 
@@ -178,7 +178,7 @@ An automatic method is essential for quantifying RTS development throughout perm
 Permafrost underlays approximately one-quarter of the land surface in the Northern Hemisphere \citep{zhang1999statistics} and most areas are remote and inaccessible. 
 Therefore, it is extremely challenging, if ever possible, to conduct field measurements for RTS development. 
 The advance of remote sensing satellites, especially, the CubeSat constellation provides multi-temporal and high-resolution images covering the global land surface. 
-An outstanding CubeSat constellation is deployed by Planet Labs (www.planet.com) and are collecting daily images of the global land surface at the spatial resolution of 3–5 m.
+An outstanding CubeSat constellation is deployed by Planet Labs (www.planet.com) and are collecting daily images of the global land surface at the spatial resolution of 3--5 m.
 Manual delineation on these images can be used to quantify RTSs development but is impractical due to its characteristics of time-consuming and labor-intensive when applying to large areas with the huge volume of images. 
 Therefore, automatic methods are necessary for addressing the unknown questions related to RTS development such as their retreat rates and occurrence throughout permafrost areas. 
 
@@ -198,11 +198,11 @@ By applying polygon-based change detection techniques to these multi-temporal RT
 The objectives of this study include (1) to apply a deep-learning-based mapping method to multi-temporal images and assess its performance; (2) to develop a method can automatically quantify RTS development 
 %based on RTS boundaries in different years
 and obtain their annual retreat distances.
-Firstly, we train a DeepLabv3+ model using multi-temporal images then use this model to predict RTS boundaries in different years.
+Firstly, we train a DeepLabv3+ (more in section \ref{sec_auto_delineating}) model using multi-temporal images then use this model to predict RTS boundaries in different years.
 Secondly, we propose a method to conduct change detection of these boundaries (polygons)  and obtain change polygons covering expanding areas.  
 We calculate the maximum medial circle of each change polygon, then based on it to obtain the retreat distances.  
 %We also run the k-fold (k=3,5,10) cross-validation to evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe. 
-To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development on remote sensing images and the first one reporting retreat rates of RTSs on the Tibetan Plateau. 
+To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development on remote sensing images and the first one reporting annual retreat distances of RTSs on the Tibetan Plateau. 
 
 %Contribution of this work: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). 
 %(2) What’s the IOU value of mapping polygons are required for automatic change detection? For polygon-based change detection, we also can calculate F1 score, but it rely on the accuracies of mapping results. \\\\
@@ -248,10 +248,10 @@ We use images after 2017 because images from Planet PlanetScope CubeSat are only
 In July, vegetation reaches its maximum coverage, and active RTSs are on the rapid stage of thawing processes. 
 Therefore, identifying RTSs would be relatively easy during this period.
 These images have four bands (blue, green, red, and near-infrared) with a spatial resolution of 3 m, and each of them covers an approximate area of 10 km by 30 km.
-Table \ref{table_image_list} lists the numbers and acquisition dates of these images from 2017 to 2019. 
+Table \ref{table_image_list} lists the numbers and acquisition dates of these images. 
 Because of the variation of cloud cover and image coverage, the image counts in different years are different.
 They were downloaded on Planet website (\url{www.planet.com}) or through a python package (\url{pypi.org/project/planet}) for Planet's public API under its Education and Research Program \citep{team2018planet}. 
-The product level of images is ``Analytic\_SR'', indicating that they had been orthorectified with a positional accuracy of 10 m, the pixel values represent surface reflectance by using 16 bit. 
+The product level of images is ``Analytic\_SR'', indicating that they had been orthorectified with a positional accuracy of 10 m, the pixel values represent surface reflectance by using a bit depth of 16 bit. 
 
 %The RTS boundaries are derived from manual delineation on Planet images using the same method proposed by \cite{huang2020using}, parts of which will be used for training our automatic method. 
 %We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
@@ -323,7 +323,7 @@ Lastly, we warped these images by using the Geospatial Data Abstraction Library 
 
 We manually delineated RTS boundaries on multi-temporal images throughout the study area in QGIS (version 2.18.14, \url{qgis.org}). 
 Based on the square grids and mapping results presented by \cite{huang2020using}, we delineated RTS boundaries on Planet images taken in 2017, 2018, and 2019 as accurate as possible. 
-The error (uncertainty) of manual delineation on Planet images is around one pixels, that is, 3 m. 
+The error (uncertainty) of manual delineation on Planet images is around one pixel, that is, 3 m. 
 After the delineation, we obtain 266, 266, and 267 RTS boundaries on images from 2017 to 2019. 
 One RTS initiated in 2019 and captured by the 2019 image, but we removed it in the step of change detection (section \ref{sec_polygon_change_det}) because it needs at least two boundaries at the same location. 
 Parts of these RTS boundaries will be used for training our automatic delineation method, and all of them for validation. 
@@ -335,8 +335,8 @@ The locations of 70\% RTSs were cross-checked in the field in 2014 and 2018 as w
 
 
 
-\subsection{Delineating RTSs on multi-temporal images}
-\label{sec_delineating}
+\subsection{Automatic delineation of RTSs on multi-temporal images}
+\label{sec_auto_delineating}
 
 We used a deep-learning-based algorithm \citep{huang2020using} to automatically delineate RTSs on multi-temporal images.
 Compared with the method in \cite{huang2020using},  the innovation of this work includes (1) training without using negative training polygons and (2) improving RTS mapping results by utilizing RTS dynamic information in multi-temporal images. 
