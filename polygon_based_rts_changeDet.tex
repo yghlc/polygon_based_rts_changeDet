@@ -47,6 +47,11 @@
 
 \usepackage{color,soul} % highlight 
 
+%% change caption of figure name
+%\renewcommand{\figurename}{Fig.}
+% or 
+%\usepackage[figurename=Fig.]{caption}
+
 % for track changes in revision version, comment this one if want the final version
 %\usepackage{changes}
 %\usepackage[final]{changes}
@@ -295,24 +300,24 @@ Year & Number & Acquisition dates  \\
 \begin{figure}
 	\centering
 	\includegraphics[width=9cm]{figs/polygon_based_change_detection_flowchart.jpg}
-	\caption{Flowchart of automatic quantification of RTS development on multi-temporal images.}
+	\caption{Flowchart of automatic quantification of RTS development on multi-temporal images. The automated process includes three sections: (1) pre-processing of multi-temporal Planet images, (2) automatic delineation, and (3) automatic quantification of RTS development.}
 	\label{fig_flowchart}
 \end{figure}
 
  As shown in Fig. \ref{fig_flowchart}, the major components of the automatic method for quantifying RTS evolution include pre-processing of Planet images, automatic delineation of RTS, and automatic quantification of their development. 
 Manual delineation of RTSs is necessary when data are not available to train DeepLabv3+ (a supervised learning algorithm) because multi-temporal RTS boundaries are one of the key components of training data.
-The automatic quantification accepts multi-temporal RTS boundaries, derived from automatic or manual delineation, and would produce annual retreat distances and areas of each RTS. 
+The automatic quantification only accepts multi-temporal RTS boundaries, either derived from automatic or manual delineation, and would produce annual retreat distances and areas of each RTS. 
 
 
 \subsection{Pre-processing of multi-temporal images}
 \label{sec_preprocessing}
 
 We pre-processed Planet CubeSat images to fit the requirement of DeepLabv3+ as well as manual delineation and to reduce the offset between multi-temporal images. 
-For the images of each year, we followed the same steps such as band extracting, stretching, and sharpening presented by \cite{huang2020using} to pre-process them and obtained a mosaic image covering the study area. 
+For the images of each year, we pre-process them with steps including band extracting, stretching, sharpening, and mosaicking then obtained a mosaic image covering the study area. 
 %Co-registration
-To increase the relative positional accuracy among multi-temporal images, we apply co-registration to the three mosaic images from 2017 to 2019. 
+To increase the relative positional accuracy (reduce the offset between multi-temporal images) among multi-temporal images, we apply co-registration to the three mosaic images from 2017 to 2019. 
 Firstly, we chose the mosaic image in \cite{huang2020using} as the reference image because it has been well pre-processed. 
-Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to find tie-points between other mosaic images and the reference image \citep{huang2016a}. 
+Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to automatically find tie-points between other mosaic images and the reference image \citep{huang2016a}. 
 Lastly, we warped these images by using the Geospatial Data Abstraction Library (GDAL) with a first-order polynomial model.
 %TODO: add co-registration accuracy in the supplementary files, also mentioned original 10 m accuracy 
 
@@ -325,8 +330,8 @@ We manually delineated RTS boundaries on multi-temporal images throughout the st
 Based on the square grids and mapping results presented by \cite{huang2020using}, we delineated RTS boundaries on Planet images taken in 2017, 2018, and 2019 as accurate as possible. 
 The error (uncertainty) of manual delineation on Planet images is around one pixel, that is, 3 m. 
 After the delineation, we obtain 266, 266, and 267 RTS boundaries on images from 2017 to 2019. 
-One RTS initiated in 2019 and captured by the 2019 image, but we removed it in the step of change detection (section \ref{sec_polygon_change_det}) because it needs at least two boundaries at the same location. 
-Parts of these RTS boundaries will be used for training our automatic delineation method, and all of them for validation. 
+One RTS initiated in 2019 and captured by the 2019 image, but we removed it in the step of change detection (section \ref{sec_polygon_change_det}) because the method needs at least two boundaries at the same location. 
+Parts of these RTS boundaries will be used for training our automatic delineation method, and all of them would be considered as ground truths for validation. 
 The locations of 70\% RTSs were cross-checked in the field in 2014 and 2018 as well as on other satellite images including WorldView-1, SPOT-5, and Gaofen-1 \citep{luo2019recent}. 
 %
 % parts of which will be used for training our automatic method. 
@@ -338,9 +343,13 @@ The locations of 70\% RTSs were cross-checked in the field in 2014 and 2018 as w
 \subsection{Automatic delineation of RTSs on multi-temporal images}
 \label{sec_auto_delineating}
 
-We used a deep-learning-based algorithm \citep{huang2020using} to automatically delineate RTSs on multi-temporal images.
-Compared with the method in \cite{huang2020using},  the innovation of this work includes (1) training without using negative training polygons and (2) improving RTS mapping results by utilizing RTS dynamic information in multi-temporal images. 
-The details will be presented as the following.
+To automatically obtain RTSs boundaries in different years, we applied DeepLabv3+ to multi-temporal Planet images. 
+DeepLabv3+, one of the best algorithm for assigning each pixel a class label, is built on deep convolutional neural networks \citep{chen2018encoder-decoder} and outperforms (first place) many other algorithms in the PASCAL VOC image segmentation tasks \citep{everingham2015The}.
+Moreover, \cite{huang2020using} have proved that a well-trained DeepLabv3+ model can delineate RTSs and obtain their boundaries that are very close to manual delineation.
+The steps includes preparing training data, training a DeepLabv3+ model, delineating RTS boundaries, and validation as detailed below. 
+%We used a deep-learning-based algorithm \citep{huang2020using} to automatically delineate RTSs on multi-temporal images.
+%Compared with the method in \cite{huang2020using},  the innovation of this work includes (1) training without using negative training polygons and (2) improving RTS mapping results by utilizing RTS dynamic information in multi-temporal images. 
+%The details will be presented as the following.
 
 % not include negative training polygons, has bad results, but can be removed by the multi-temporal information. 
 
@@ -351,43 +360,57 @@ The details will be presented as the following.
 %\label{sec_training_model}
 
 % Preparing training data
-The training data were derived from training polygons and Planet images in 2017, 2018, and 2019. 
+The training data were derived from training polygons and Planet images taken in 2017, 2018, and 2019. 
 We considered all the ground truths as positive training polygons but did not include any negative training polygons. 
 Negative training polygons are necessary for distinguishing land cover that are similar to RTSs but need ground information or some initial tests to generate them. 
-However, generating negative training polygons will be impractical for mapping RTSs in a large area. 
+%However, generating negative training polygons will be impractical for mapping RTSs in a large area. 
+%TODO: need o check this sentence, may not right
+Moreover, negative training polygoons may cover areas with emerging RTSs or expanding parts of RTSs captured by images taken in the later time.
+Therefore, we excluded negative training polygons for the training of DeepLabv3+ when applying to multi-temporal images.
 Without negative training polygons, the mapping results may contain many false positives, but we can utilize the RTS dynamic information in multi-temporal images to remove them (see section \ref{sec_improving_using_rts_dynamic}).
 For the training polygons and Planet images in each year, we extracted sub-images with a buffer area of 300 m. 
 Then we subdivided all sub-images into patches by setting a patch size as 480 pixels with an overlap of 160 pixels. 
 Details of the extracting and subdividing operation are presented by \cite{huang2018automatic}.
 To improve the volume of training data and generalization of the trained model, we applied data augmentation (flipping, blurring, cropping, and scaling) to the patches. 
-Lastly, we merged all the patches from different years to a single training dataset. 
+Lastly, we considered all the patches from different years as a single training dataset. 
 
 
-\subsubsection{Training a model and predicting RTSs in different years}
-\label{sec_train_prediction}
+%\subsubsection{Training a model and delineating RTSs on multi-temporal images}
+%\label{sec_train_prediction}
+
+\subsubsection{Training a model, delineating, and post-processing}
+\label{sec_train_deli_post_pro}
 
 % training
-We trained a deep-learning model, i.e., DeepLabv3+ \citep{chen2018encoder-decoder}, by using the training data derived in section \ref{sec_prepare_training}. 
-\cite{huang2020using} have proved that a well-trained DeepLabv3+ can delineate RTSs and obtain their boundaries that are very close to manual delineation. 
-In this study, instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features in multi-temporal images, more importantly, a generic model can save a lot of computing resources, especially when expanding the time domain.
-We used the same hyper-parameters presented in \cite{huang2020using} when training this model. 
+We trained a DeepLabv3+ model by using the training data derived in section \ref{sec_prepare_training}. 
+Instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features on multi-temporal images. 
+Moreover, the strategy of a generic model is more convenient and efficient than the one of multiple models when expanding the time domain. % can save a lot of computing resources, especially
+The network architecture and pre-trained model we used were Xception65 \citep{chollet2017xception} and based on the ImageNet datasets \citep{russakovsky2015imagenet}, respectively. 
+The hyper-parameters such as the learning rate (0.007), batch size (8), and iteration number (30000) were the same as the ones presented by \cite{huang2020using}.
+
+%In this study, instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features in multi-temporal images, more importantly, a generic model can save a lot of computing resources, especially when expanding the time domain.
+%We used the same hyper-parameters presented in \cite{huang2020using} when training this model. 
 %To evaluate the robustness of the model, we utilized k-fold cross-validation (k=3, 5, and 10)  as commonly used in machine learning. 
  %TODO: How about the test Area? use which trained model?
 %k-fold cross-validation. 
 
-% prediction
-We used the trained model to predict RTSs in the 2017, 2018, and 2019 mosaic images. 
-The steps of predicting RTSs in one year include (1) dividing it to numerous small patches, 
-(2) predicting RTS or non-RTS pixels, 
-(3) mosaicked the binary patches using GDAL and obtained a binary mosaic, 
-(4) polygonizing the binary mosaic, and 
-(5) removing polygons smaller than 0.3 ha. 
-The size and overlap of each patch for prediction is the same as the one for preparing training data (section \ref{sec_prepare_training}). 
-To improve computational efficiency, we adopted a parallel strategy to predict RTSs in different years.
+% prediction (delineation)
+We used the trained model to delineate (predict) RTSs on the 2017, 2018, and 2019 mosaic images. 
+The steps of delineating RTSs on each mosaic image include
+(1) dividing it to numerous small patches (each with a size of 480 $\times$ 480 pixels and an overlap of 160 pixels with its adjacent ones),
+(2) predicting RTS or non-RTS pixels on each patch, then obtaining a binary patch,
+(3) mosaicked the binary patches using GDAL and obtained a binary mosaic, and % post-processing
+(4) polygonizing the binary mosaic.  % post-processing
+%The size and overlap of each patch for prediction is the same as the one for preparing training data (section \ref{sec_prepare_training}). 
+To improve computational efficiency, we adopted a parallel strategy, that is, assigning different mosaic images to different GPUs for running the delineation process simultaneously. 
+After the polygonizing, we obtained polygons (termed as mapped polygons afterward) which represent locations and boundaries of RTSs predict by the trained model. 
+% % this is a step of post-processing
+Lastly, considering the image resolution, we removed mapped polygons with an area smaller than 0.3 ha.
 
-
-\subsubsection{Improving RTS mapping results using the RTS dynamic feature}
+\subsubsection{Removing erroneous mapped polygons using the RTS dynamic feature}
+%\paragraph{Improving RTS mapping results using the RTS dynamic feature}
 \label{sec_improving_using_rts_dynamic}
+
 
 Many mapped polygons were erroneously identified as RTS polygons can be removed by utilizing the RTS dynamic feature. 
 As shown in Fig. \ref{fig_rts_expanding}, an active RTS can expand toward upslope annually, even for a non-active RTS, its extent cannot shrink. 
@@ -419,7 +442,7 @@ Lastly, we removed mapped polygons in a location that do not satisfy the three-p
 \subsubsection{Validating mapped polygons}
 \label{sec_validate_mapped_polygons}
 
-To validate mapped polygons, we calculate F1 scores \citep{huang2020using} for mapped polygons in each year separately. 
+To validate mapped polygons, we calculate F1 scores for mapped polygons in each year separately. 
 For each year, we calculate IOU values between mapped polygons and the corresponding ground truths. 
 We set a threshold of 0.5 to decide a mapped polygon is a false positive (FP) or true positive (TP).
 After obtaining the count of true positives, false positives, and false negatives (FN), we can calculate the precision and recall, then calculate the F1 score using the following equation. 
@@ -429,16 +452,18 @@ F1=2 \times Precision \times Recall / (Precision + Recall)
 \end{equation}
 More details of the F1 score and its implication can be found in \cite{huang2020using}.
 We repeated the calculation of F1 scores for different years and obtained the corresponding values. 
-
+%TODO: did I calculate the average of three AP?
 To assess the performance of the delineating method in this paper, we calculated the average precision (AP) values for mapping results in different years, then averaged them. 
 AP values are based on precision-recall curves which is an effective metric for evaluating the algorithm performance \citep{huang2020using}.
 A higher average of AP values indicates the better performance of the method. 
 
-\subsection{Detecting temporal changes of RTS boundaries}
-\label{sec_detect_rts_changes}
+%\subsection{Detecting temporal changes of RTS boundaries}
+%\label{sec_detect_rts_changes}
+\subsection{Automatic quantification of RTS development}
+\label{sec_auto_rts_develop}
 
-This study will provide a method to automatically detect changes of RTS boundaries and calculate their annual retreat distance.
-The RTS boundaries are in vector format and can be derived from manual delineation or automatic mapping. 
+To automatically quantify RTS development with input of RTS boundaries, we proposed a method to detect changes of RTS boundaries and calculate their annual retreat distances.
+The RTS boundaries are in vector format and can be derived from manual or automatic delineation. 
 The main steps include polygon-based change detection, removing false changes, and calculating retreat distance as detailed below. 
 
 \subsubsection{Change detection of RTS boundaries}
