@@ -604,7 +604,7 @@ For the case where an RTS has more than one expanding branches, we chose the max
 \subsubsection{Mapped polygons and their accuracies in 2017, 2018, and 2019}
 \label{sec_mapped_polygons}
 
-The mapped polygons accurately delineate most RTS boundaries in images taken in 2017, 2018, and 2019, with F1 scores of 0.673, 0.680, and 0.678, respectively.
+The mapped polygons accurately delineate most RTS boundaries on images taken in 2017, 2018, and 2019, with F1 scores of 0.673, 0.680, and 0.678, respectively.
 Among the mapped polygons, around two-thirds of them are true positives (black, blue, and red polygons in Fig. \ref{fig_mapping_results}), and the rest are false positives (yellow polygons in Fig. \ref{fig_mapping_results}). 
 Table \ref{table_accuracy_f1} lists the numbers of true positives, false positives, and false negatives, as well as precision, recall, and F1 scores in each year, with and without considering RTS-dynamic features.
 The distribution of mapped polygons for the entire Beiluhe region is shown in Fig. \ref{fig_mapping_results}a, amplifications of three locations are shown in Fig. \ref{fig_mapping_results}b, c, and d. 
@@ -651,18 +651,18 @@ As shown in Fig. \ref{fig_mapping_results}c and d, the true positives are close 
 %Mapping results using multi-temporal remote sensing images, without negative training polygons. 
 %Improvement by applying time IOU and occurrence
 
-The F1 scores and AP values of the mapped polygons from 2017 to 2019 improve significantly after applying the time-IOU and three-polygon criteria. 
+The F1 scores and AP values of the mapped polygons from 2017 to 2019 improve significantly after applying the time-IOU and three-polygon assumption. 
 As shown in Table \ref{table_accuracy_f1} and Fig. \ref{fig_p_r_curve_exp7}, the F1 scores improve by around 0.5, from $\sim$0.2 to $\sim$0.7, and the AP values improve from less than 0.1 to around 0.32. 
 By utilizing the dynamic features of RTSs in the multi-temporal images, the number of false positives reduces dramatically, from around 2000 to 100 (Table \ref{table_accuracy_f1}).
 %Therefore, the F1 scores and AP values improve significantly.
-However, the number of true positives reduces to around 40, resulting in the increased number of false negatives. 
-%TODO: need to explain this one better. 
-The reason is that some of the mapped polygons do not well match RTS boundaries, leading to violation with the assumption of RTS dynamic features. 
+However, the number of true positives reduces by around 40, resulting in the increased number of false negatives. 
+%TODO: need to explain this one better by  giving an example. 
+The reason is that some of the mapped polygons do not well match RTS boundaries and cannot represent the RTS development over time, leading to violation with the assumption of RTS dynamic features. 
  
 %compared with the ones including negative training polygons 
 The assumption of RTS dynamic features cannot contribute to the improvement of mapping accuracies if the initial mapped results contain a small population of false positives. 
 As shown in Table S1, the F1 scores only improve slightly after applying the RTS dynamic features, however, the AP values (Fig. S2) reduce by 0.01 or 0.04 in different years.   
-The reasons include: (1) the number of false positives reduce by around 70, but TP also reduces by around 40, resulting in an almost unchanged F1 score 
+The reasons include: (1) the number of false positives reduce by around 70, but number of true positives also reduces by around 40, resulting in an almost unchanged F1 score 
 and (2) including the negative training polygons %used in \cite{huang2020using}
  has depressed the population of false positives. 
 
@@ -676,7 +676,7 @@ Both F1 score and AP values of mapped polygons in this paper are slightly worse 
 Regarding the F1 scores (Table \ref{table_accuracy_f1}) after applying RTS dynamic features, the difference between the one in \cite{huang2020using} and in this paper is around 0.17, while the difference of the AP values is around 0.2.
 Even for the results including negative training polygons, the F1 score and AP values are smaller than the one-year results by around 0.08 and 0.1, respectively. 
 One possible reason is related to the variation of features over time. 
-For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea} c and d) are brighter than the 2017 image (Fig. \ref{fig_multi_rts_image_studyarea}b), which may confuse the Deeplabv3+ model during training. 
+For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea} c and d) are brighter than the 2017 image (Fig. \ref{fig_multi_rts_image_studyarea}b), leading to the challenges of training the DeepLabv3+ and lowing its performance. %which may confuse the DeepLabv3+ model during training. 
 
 %Compared the precision recall curves, the AP value is smaller, because we don't have the high values of recall and precision. 
 
