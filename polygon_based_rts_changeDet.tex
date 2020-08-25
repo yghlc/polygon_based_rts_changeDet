@@ -715,7 +715,7 @@ As shown in Fig. S3, around half of the RTSs only had one expanding branches, wh
 
 %retreat distance from 2017 to 2019. 
 %TODO: add standard variation for retreat distance. 
-The average retreat distance of RTSs from 2017 to 2018 and 2018 to 2019 was 19.5 m and 20.8 m (Fig.\ref{fig_rts_change_area_reDis}b and c), respectively. 
+The average retreat distance of RTSs from 2017 to 2018 and 2018 to 2019 was 19.5 m and 20.8 m (Fig. \ref{fig_rts_change_area_reDis}c and d), respectively. 
 The maximum retreat distance was 55.6 m and 77.2 m for 2017 vs 2018 and 2018 vs 2019, respectively, based on medial circles. 
 From 2017 to 2018, 63\% of RTSs retreated more than 15 m, while from 2018 to 2019, 55\% of them had retreat distance greater than 15 m. 
 % measure the retreat distance from manual delineation, mentioned here or in the (discussion) supplementary materials?
@@ -727,7 +727,7 @@ The three automatic measurements of retreat distance are slightly different with
 As shown in Fig. S6, the mean differences are $-1.6$ m \& $-4.4$ m, 17.8 m \& 14.8 m, and 14.0 m \&10.6 m (2017 vs 2018 \& 2018 vs 2019) for the one based on the diameter of the maximum medical circles, the direction of the maximum elevation difference, and across the centroid of old polygons, respectively. 
 %Retreat distance estimated based on diameter of the maximum medical circles tends to be underestimated but a few one them 
 As mentioned in section \ref{sec_cal_retreat_dis}, the retreat distance calculated from medial circles tend to be underestimated, but the other two automatic measurements are overestimated. 
-As shown in the histogram (Fig. S6), for the retreat distance of some RTSs are greater than the one from manually draw lines. 
+There are also some special cases that the retreat distance of some RTSs based on medial circles are greater than the one from manually draw lines as shown in the histogram (Fig. S6).
 The reason is that the manually drawn lines may not exactly match the direction of the maximum retreat.  
 
  % standard deviation
@@ -738,6 +738,7 @@ The reason is that the manually drawn lines may not exactly match the direction 
 	\label{fig_re_dis_standard_var}
 \end{figure}
 
+%TODO: why you think 30 can be used to defined a good agreement? need to think more, such as their difference? within the delineation errors?
 The retreat distance of most RTSs measured by the three automatic methods are consistent as represented by the standard variation (Fig. \ref{fig_re_dis_standard_var}).
 From 2017 to 2018, 97\% RTSs have standard variation smaller than 30, while for 2018 to 2019, 98\% smaller than 30, indicating a good agreement. 
 
@@ -760,10 +761,10 @@ Based on RTS boundaries in different years, we can reveal their development in u
 As demonstrated in this paper, the results from the deep-learning-based method can accurately delineate most RTS boundaries in different years. %, and potentially, can applied to larger areas. 
 
 
-However, delineation of RTS boundaries on multi-temporal images is more challenging than identification of their location or on single-year images. 
+However, delineation of RTS boundaries on multi-temporal images is more challenging than identification of their location or on one-year images. 
 In this study, the targets are not only locations and extents of 266 RTSs in Beiluhe, but also their boundaries in different years, that is, $266\times3$ RTS boundaries from 2017 to 2019.
 As shown in section \ref{sec_compare_with_201805_results}, the F1 scores derived from multi-temporal images are slightly worse than one-year results, indicating the challenges of mapping RTSs in multi-temporal images. 
-The possible reasons include (1) the inconsistent features of the same RTS in different images may confuse the trained model 
+The possible reasons include (1) the inconsistent features of the same RTS in different images may lower the performance of the trained model 
 and (2) inaccurate mapped boundaries cannot meet the requirement of RTS dynamic features. 
 These reasons are related to the mapping strategy, that is, training a single model and removing false mapped polygons by applying RTS dynamic features.  
 Alternatively, we may adopt other strategies such as training multiple models, one model for each year,  which is still manageable when images only span a few years.
@@ -792,7 +793,7 @@ Therefore, in addition to the automatic measurement of medical circles, we also 
 For a specific RTS, further investigation may need to conduct if the discrepancy (represented by standard variation) is large. 
 These irregular or elongated shape of expanding areas may cause by spatial distribution of ground ice and micro-terrain.
 The accuracy of RTS boundaries (input polygons) can affect the accuracy of retreat distance, especially when these boundaries are derived from automatic mapping methods. 
-Currently, automatic mapping (multi-temporal or single-year) always has a few mapped polygons are inaccurate, leading to the uncertainties of retreat distance. 
+Currently, automatic mapping (multi-temporal or one-year) always has a few mapped polygons are inaccurate, leading to the uncertainties of retreat distance. 
 Therefore, in the future, we may consider using pixel-based change detection to obtain the expanding area directly from multi-temporal images. 
 
 
@@ -814,13 +815,18 @@ We did two things, (1) automatic mapping on multi-temporal images.
 \section{Data and codes}
 \label{sec_data_codes}
 
-Planet images can be downloaded via Planet Website( \url{https://www.planet.com/}). 
+Planet images can be downloaded via Planet Website (\url{https://www.planet.com}). 
+%TODO: need to remove acceptance after publish. 
 Codes are available on GitHub (\url{https://github.com/yghlc/ChangeDet_DL}) after the acceptance of this paper.
 
 \section{Acknowledgments}
 \label{sec_acknowledgments}
 
-Thanks to ...
+%TODO: thanks editors reviewers after review
+
+Thanks to Planet's Education and Research Program, through which we downloaded CubeSat images for this study. 
+%Thanks to Drs. Jing Luo, Zhanju Lin, and Fujun Niu at Northwest Institute of Eco-Environment and Resources, Chinese Academy of Sciences for their support and arrangement of the Beiluhe field work in 2018. 
+This work is funded by the Hong Kong Research Grants Council (CUHK14303119).
 
 
 %% The Appendices part is started with the command \appendix;
