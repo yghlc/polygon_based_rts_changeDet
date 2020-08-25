@@ -119,17 +119,20 @@
 \begin{abstract}
 
 Retrogressive thaw slumps (RTSs) are among the most dynamic landforms resulting from the thawing of ice-rich permafrost. 
-However, their distribution and evolution are poorly quantified due to the challenges in accurately mapping them from remote sensing images. 
-%Building on the previous works on mapping RTSs using deep learning, we apply the same method to multi-temporal images, aiming to quantify RTS development in different years. 
-%Firstly, we selected 36 active RTSs in Beiluhe on the Tibetan Plateau and manually delineated their boundaries on Planet CubeSat images taken in July 2017, 2018, and 2019. 
-%Secondly, we derived training data from these boundaries and Planet images, then trained the DeepLabv3+ model. 
-%Thirdly, we predicted RTSs in 2017, 2018, and 2019 Planet images using the well-trained model. Lastly, we conducted polygon-based change detection (2017 vs. 2018 and 2018 vs. 2019) on the mapped RTSs in different years, then obtained change polygons corresponding to the expanding areas toward upslope. 
-%The results show that from 2017 to 2018, there are 35 change polygons, and their areas range from 108 $m^2$ to 2273 $m^2$ with a mean of 1284 $m^2$; 
-%from 2018 to 2019, 31 change polygons are obtained, and their minimum, maximum, and average areas are 142 $m^2$, 9360 $m^2$, and 1913 $m^2$, respectively. 
-%Visual inspection shows that most change polygons can accurately outline the expanding areas, yet a few of them are false positives, and a few expanding areas are missed. 
-One advantage of using multi-temporal images to map RTSs then quantify their development is that this strategy can significantly reduce incorrect mapping results because a specific incorrect one would unlikely occur at the same location across multi-temporal images. 
-However, outlining the expanding areas requires very high accuracy of delineating RTSs in different images. 
-This study demonstrates that the deep-learning-based mapping method can potentially apply to large areas for mapping RTSs and quantifying their development if high-resolution remote sensing images are available.  
+However, their distribution and evolution are poorly quantified because most of them scatter in remote and inaccessible permafrost areas. % due to the challenges in accurately mapping them from remote sensing images. 
+In this study, we propose a method based on deep learning, change detection, and medial circles, aiming to automatically quantify the RTS development on multi-temporal images in the Beiluhe region from 2017 to 2019. 
+The images are taken by Planet CubeSat constellation with high spatial and temporal resolution.
+The experiments show that automatic delineation based on deep learning can produce similar results to manual delineation, which is sufficient for quantifying the change of RTS boundaries in different years. 
+Our method reveals that among 266 RTSs in the Beiluhe region, 82\% and 71\% of them expanded from 2017 to 2018 and 2018 to 2019, respectively.
+For the expansion from 2017 to 2018, the average and maximum expanding areas are 0.21 ha and 1.47 ha, while the average and maximum retreat distances are 21.1 m and 91 m, respectively;
+from 2018 to 2019, the expansion attributes are 0.23 ha, 2.53 ha, 25.2 m, and 212 m, respectively. 
+The results show that the method can quantify RTS development automatically on multi-temporal images and can be potential applied to larger areas. 
+Moreover, this study gives the very first quantitative report on RTS development on the Tibetan Plateau, which may advance the understanding of permafrost degradation.
+
+
+%One advantage of using multi-temporal images to map RTSs then quantify their development is that this strategy can significantly reduce incorrect mapping results because a specific incorrect one would unlikely occur at the same location across multi-temporal images. 
+%However, outlining the expanding areas requires very high accuracy of delineating RTSs in different images. 
+%This study demonstrates that the deep-learning-based mapping method can potentially apply to large areas for mapping RTSs and quantifying their development if high-resolution remote sensing images are available.  
 
 
 \end{abstract}
@@ -815,7 +818,7 @@ The whole process is automatic and can be used an essential tool for quantify RT
 
 Most of the RTSs in the Beiluhe region were expanding from 2017 to 2019 with significant expanding areas and retreat distances. 
 Among the 266 RTSs, 82\% of them expanded from 2017 to 2018 and 71\% from 2018 to 2019, with an average expanding area 0.21 ha and 0.23 ha, respectively.
-The average retreat distances of RTSs was 19.5 m (2017 vs 2018) and 20.8 m (2018 vs 2019).
+The average retreat distances of RTSs was 21.1 m (2017 vs 2018) and 25.2 m (2018 vs 2019).
 This is the first report of RTSs retreat distance and expanding areas on the Tibetan Plateau and provides valuable information for understanding permafrost degradation in this region. 
 
 
