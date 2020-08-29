@@ -322,7 +322,9 @@ To increase the relative positional accuracy (reduce the offset between multi-te
 Firstly, we chose the mosaic image in \cite{huang2020using} as the reference image because it has been well pre-processed. 
 Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to automatically find tie-points between other mosaic images and the reference image \citep{huang2016a}. 
 Lastly, we warped these images by using the Geospatial Data Abstraction Library (GDAL) with a first-order polynomial model.
-%TODO: add co-registration accuracy in the supplementary files, also mentioned original 10 m accuracy 
+% add co-registration accuracy in the supplementary files, also mentioned original 10 m accuracy 
+As shown in Table S1 in the Supplementary Materials, the relative positional accuracies between images after co-registration is around 0.2 pixels, that is, 0.6 m. 
+
 
 % test histogram normalization in pre-processing steps (as noted, the histogram normalization did not improve the quality of Planet images, so we may just skip further steps)
 
@@ -664,7 +666,7 @@ The reason is that some of the mapped polygons do not well match RTS boundaries 
  
 %compared with the ones including negative training polygons 
 The assumption of RTS dynamic features cannot contribute to the improvement of mapping accuracies if the initial mapped results contain a small population of false positives. 
-As shown in Table S1, the F1 scores only improve slightly after applying the RTS dynamic features, however, the AP values (Fig. S2) reduce by 0.01 or 0.04 in different years.   
+As shown in Table S2, the F1 scores only improve slightly after applying the RTS dynamic features, however, the AP values (Fig. S2) reduce by 0.01 or 0.04 in different years.   
 The reasons include: (1) the number of false positives reduce by around 70, but number of true positives also reduces by around 40, resulting in an almost unchanged F1 score 
 and (2) including the negative training polygons %used in \cite{huang2020using}
  has depressed the population of false positives. 
