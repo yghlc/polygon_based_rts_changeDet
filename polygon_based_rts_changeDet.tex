@@ -175,20 +175,20 @@ At the headwall, the exposed permafrost can continue thawing in each summer, whi
 
 % literature on the occurrence and development of RTSs.
 The occurrence and dynamics of RTSs have been reported in many local permafrost areas, but their development in most areas is still unknown. 
-The RTS occurrence has been reported in northern and central Alaska (e.g., \citealp{swanson2018growth,balser2014timing}), northern Canada (e.g., \citealp{burn1990canadian, cassidy2017impacts, armstrong2018thaw,lewkowicz2019extremes}) , Siberia (e.g., \citealp{leibman2003dynamics, zwieback2018sub}) and the Tibetan Plateau (e.g., \citealp{niu2005engineering, niu2016thaw}). 
+The RTS occurrence has been reported in northern and central Alaska (e.g., \citealp{swanson2018growth,balser2014timing}), northern Canada (e.g., \citealp{burn1990canadian, cassidy2017impacts, armstrong2018thaw,lewkowicz2019extremes}), Siberia (e.g., \citealp{leibman2003dynamics, zwieback2018sub}) and the Tibetan Plateau (e.g., \citealp{niu2005engineering, niu2016thaw}). 
 As reported in some local or regional regions, their number and affected areas also increased dramatically in recent decades \citep{luo2019recent, lewkowicz2019extremes}.
-Typical, their retreat rates are 6--8 m yr$^{-1}$ \citep{jorgenson_thermokarst_2013}, but vary in different regions such as 16 m yr$^{-1}$ reported in Yukon Territory \citep{burn1989geomorphology} and 38 m yr$^{-1}$  in Alaska \citep{swanson2018growth}.
+Typical, their retreat rates are 6--8 m yr$^{-1}$ \citep{jorgenson_thermokarst_2013}, but vary in different regions such as 16 m yr$^{-1}$ reported in Yukon Territory \citep{burn1989geomorphology} and 38 m yr$^{-1}$  in the Noatak River basin of northern  Alaska \citep{swanson2018growth}.
 However, the occurrence and retreat rates of RTSs in most permafrost areas are still unknown, especially on the Tibetan Plateau. 
 %Possible reasons include (1) RTSs scatter in remote and inaccessible regions, which makes field measurements challenging and (2) their small size as well as similarity to the surroundings presents difficulties for the automatic algorithms utilizing remote sensing images.  
 
 % why we need an automatically method. 
 An automatic method is essential for quantifying RTS development throughout permafrost areas. 
-Permafrost underlays approximately one-quarter of the land surface in the Northern Hemisphere \citep{zhang1999statistics} and most areas are remote and inaccessible. 
-Therefore, it is extremely challenging, if ever possible, to conduct field measurements for RTS development. 
+Permafrost underlays approximately one-quarter of the land surface in the Northern Hemisphere \citep{zhang1999statistics} and most areas are remote and inaccessible. %extremely challenging to access in the field. 
+Therefore, it is extremely challenging, if ever possible, to measure RTS development in the field. % measurements for RTS development.
 The advance of remote sensing satellites, especially, the CubeSat constellation provides multi-temporal and high-resolution images covering the global land surface. 
-An outstanding CubeSat constellation is deployed by Planet Labs (www.planet.com) and is collecting daily images of the global land surface at the spatial resolution of 3--5 m.
-Manual delineation on these images can be used to quantify RTSs development but is impractical due to its characteristics of time-consuming and labor-intensive when applying to large areas with a huge volume of images. 
-Therefore, automatic methods are necessary for addressing the unknown questions related to RTS development such as their retreat rates and occurrence throughout permafrost areas. 
+A notable CubeSat constellation is deployed by Planet Labs (www.planet.com) and is collecting daily images of the global land surface at the spatial resolution of 3--5 m.
+Manual delineation on these images can be used to quantify RTSs development but is impractical due to its characteristics of time-consuming and labor-intensive when applying to large areas. % with a huge volume of images. 
+Therefore, automatic methods are necessary for addressing the unknown questions related to RTS development such as their occurrence and retreat rates throughout permafrost areas. 
 
 
 % Motivation
@@ -197,7 +197,8 @@ Combining deep learning algorithms and multi-temporal Planet CubeSat images can 
 %We can apply the same mapping method to multi-temporal images then delineate the RTSs in multi-temporal images. 
 Previous studies show that deep learning has dramatically improved image processing technology \citep{leCun2015Deep} and can delineate RTS boundaries on Planet images taken in 2018 with high accuracies \citep{huang2020using}. 
 Therefore, we can apply deep learning algorithms to multi-temporal images then delineate RTS boundaries in different years.
-By applying polygon-based change detection techniques to these multi-temporal RTS boundaries, we can quantify the development of these RTSs and obtain their retreat distances. 
+By applying %polygon-based 
+change detection techniques to these multi-temporal RTS boundaries, we can quantify the development of these RTSs and obtain their retreat distances. 
 
 %Evolution of retrogressive thaw slumps is poor quantified in most permafrost areas. 
 %NO study on mapping RTS development automatically. 
@@ -206,11 +207,11 @@ By applying polygon-based change detection techniques to these multi-temporal RT
 The objectives of this study include (1) to apply a deep-learning-based mapping method to multi-temporal images and assess its performance; (2) to develop a method can automatically quantify RTS development 
 %based on RTS boundaries in different years
 and obtain their annual retreat distances.
-Firstly, we train a DeepLabv3+ (more in section \ref{sec_auto_delineating}) model using multi-temporal images then use this model to predict RTS boundaries in different years.
-Secondly, we propose a method to conduct change detection of these boundaries (polygons)  and obtain change polygons covering expanding areas.  
+Firstly, we train the DeepLabv3+ (more in section \ref{sec_auto_delineating}) model using multi-temporal images then use this model to predict RTS boundaries in different years.
+Secondly, we propose a method to conduct change detection of these boundaries (polygon-based change detection)  and obtain change polygons covering expanding areas.  
 We calculate the maximum medial circle of each change polygon, then based on it to obtain the retreat distances.  
 %We also run the k-fold (k=3,5,10) cross-validation to evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe. 
-To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development on remote sensing images and the first one reporting annual retreat distances of RTSs on the Tibetan Plateau. 
+To the best of our knowledge, this would be the first study that provides an automatic method for quantifying RTS development from remote sensing images and the first one reporting annual retreat distances of RTSs on the Tibetan Plateau. 
 
 %Contribution of this work: (1) provide an automatic method for calculating the retreat distance (no matter the RTS boundaries are from manual delineation or automatic mapping). 
 %(2) What’s the IOU value of mapping polygons are required for automatic change detection? For polygon-based change detection, we also can calculate F1 score, but it rely on the accuracies of mapping results. \\\\
@@ -244,22 +245,22 @@ For example, an RTS developed toward upslope from 2017 to 2019, and the developm
 	%and black 
 	rectangle in (a) shows the extent of our study area
 	% and test area 
-	on the Tibetan Plateau. (b) to (d) are Planet images taken in 2017, 2018, and 2019 of an RTS whose central location is 92.912$^\circ$ E, 34.848$^\circ$ N. The white arrows point the position of the headwall.} % In (b), the yellow arrow indicates the upslope direction.
+	on the Tibetan Plateau. (b) to (d) are Planet images taken in 2017, 2018, and 2019 of an RTS whose central location is 92.912$^\circ$ E, 34.848$^\circ$ N. The white arrows point the headwall which retreated upslope (as shown in the video in the Supplementary Materials).} % In (b), the yellow arrow indicates the upslope direction.
 	\label{fig_multi_rts_image_studyarea}
 \end{figure}
 
 
 %Data
-The core data are images taken in July 2017, 2018, and 2019 by Planet PlanetScope satellites.
+The core data are images taken in July 2017, 2018, and 2019 by the PlanetScope satellites.
 %address why only choose the images starting from 2017? 
-We use images after 2017 because images from Planet PlanetScope CubeSat are only available after that time in our study area.  
+We use images after 2017 because images from the PlanetScope CubeSat are only available after that time in our study area.  
 In July, vegetation reaches its maximum coverage, and active RTSs are on the rapid stage of thawing processes. 
 Therefore, identifying RTSs would be relatively easy during this period.
 These images have four bands (blue, green, red, and near-infrared) with a spatial resolution of 3 m, and each of them covers an approximate area of 10 km by 30 km.
 Table \ref{table_image_list} lists the numbers and acquisition dates of these images. 
 Because of the variation of cloud cover and image coverage, the image counts in different years are different.
 They were downloaded on Planet website (\url{www.planet.com}) or through a python package (\url{pypi.org/project/planet}) for Planet's public API under its Education and Research Program \citep{team2018planet}. 
-The product level of images is ``Analytic\_SR'', indicating that they had been orthorectified with a positional accuracy of 10 m, the pixel values represent surface reflectance by using a bit depth of 16 bit. 
+The product level of images is ``Analytic\_SR'', which means that they had been orthorectified with a positional accuracy of 10 m, the pixel values represent surface reflectance by using a bit depth of 16 bit. 
 
 %The RTS boundaries are derived from manual delineation on Planet images using the same method proposed by \cite{huang2020using}, parts of which will be used for training our automatic method. 
 %We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
@@ -283,11 +284,11 @@ The product level of images is ``Analytic\_SR'', indicating that they had been o
 % 2018 July & 52 & 20, 24, and 25 & 33 & 15 and 16 \\
 % 2019 July & 46 & 25, 27, and 30 & 53 &  8, 24, 25, 27, and 30\\
 
-Year & Number & Acquisition dates  \\
+Year & Acquisition dates & Number  \\
 \midrule
-2017  & 71 & July 17, 19, and 20  \\
-2018  & 52 & July 20, 24, and 25  \\
-2019  & 46 & July 25, 27, and 30 \\
+2017  & July 17, 19, and 20  & 71 \\
+2018  & July 20, 24, and 25  & 52 \\
+2019   & July 25, 27, and 30 & 46 \\
 
 \bottomrule
 \end{tabular}
@@ -307,8 +308,8 @@ Year & Number & Acquisition dates  \\
 	\label{fig_flowchart}
 \end{figure}
 
- As shown in Fig. \ref{fig_flowchart}, the major components of the automatic method for quantifying RTS evolution include pre-processing of Planet images, automatic delineation of RTS, and automatic quantification of their development. 
-Manual delineation of RTSs is necessary when data are not available to train DeepLabv3+ (a supervised learning algorithm) because multi-temporal RTS boundaries are one of the key components of training data.
+ As shown in Fig. \ref{fig_flowchart}, the major procedures of the automatic method for quantifying RTS evolution include pre-processing of Planet images, automatic delineation of RTS, and automatic quantification of their development. 
+Manual delineation of RTSs is necessary when data are not available to train DeepLabv3+, a supervised learning algorithm, because multi-temporal RTS boundaries are one of the key components of training data.
 The automatic quantification only accepts multi-temporal RTS boundaries, either derived from automatic or manual delineation, and would produce annual retreat distances and areas of each RTS. 
 
 
@@ -316,7 +317,7 @@ The automatic quantification only accepts multi-temporal RTS boundaries, either 
 \label{sec_preprocessing}
 
 We pre-processed Planet CubeSat images to fit the requirement of DeepLabv3+ as well as manual delineation and to reduce the offset between multi-temporal images. 
-For the images of each year, we pre-process them with steps including band extracting, stretching, sharpening, and mosaicking then obtained a mosaic image covering the study area. 
+For the images of each year, we pre-processed them by band extracting, stretching, sharpening, and mosaicking then obtained a mosaic image covering the study area. 
 %Co-registration
 To increase the relative positional accuracy (reduce the offset between multi-temporal images) among multi-temporal images, we apply co-registration to the three mosaic images from 2017 to 2019. 
 Firstly, we chose the mosaic image in \cite{huang2020using} as the reference image because it has been well pre-processed. 
@@ -383,7 +384,8 @@ Lastly, we considered all the patches from different years as a single training 
 %\subsubsection{Training a model and delineating RTSs on multi-temporal images}
 %\label{sec_train_prediction}
 
-\subsubsection{Training a model, delineating, and post-processing}
+%\subsubsection{Training a model, delineating, and post-processing}
+\subsubsection{Training, delineating, and post-processing}
 \label{sec_train_deli_post_pro}
 
 % training
@@ -602,11 +604,11 @@ For the case where an RTS has more than one expanding branches, we chose the max
 %\subsection{Mapping results in multi-temporal images}
 %\label{sec_mapping_performance}
 
-\subsection{Automatic delineating results on multi-temporal images}
+\subsection{Automatically delineating results on multi-temporal images}
 \label{sec_result_auto_deliea}
 
 
-\subsubsection{Mapped polygons and their accuracies in 2017, 2018, and 2019}
+\subsubsection{Mapped polygons and their accuracies} %in 2017, 2018, and 2019
 \label{sec_mapped_polygons}
 
 The mapped polygons accurately delineate most RTS boundaries on images taken in 2017, 2018, and 2019, with F1 scores of 0.673, 0.680, and 0.678, respectively.
