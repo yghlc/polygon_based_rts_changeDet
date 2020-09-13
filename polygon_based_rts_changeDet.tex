@@ -320,7 +320,7 @@ We pre-processed Planet CubeSat images to fit the requirement of DeepLabv3+ as w
 For the images of each year, we pre-processed them by band extracting, stretching, sharpening, and mosaicking then obtained a mosaic image covering the study area. 
 %Co-registration
 To increase the relative positional accuracy (reduce the offset between multi-temporal images) among multi-temporal images, we apply co-registration to the three mosaic images from 2017 to 2019. 
-Firstly, we chose the mosaic image in \cite{huang2020using} as the reference image because it has been well pre-processed. 
+Firstly, we chose the well pre-processed image \citep{huang2020using} as the reference image. 
 Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to automatically find tie-points between other mosaic images and the reference image \citep{huang2016a}. 
 Lastly, we warped these images by using the Geospatial Data Abstraction Library (GDAL) with a first-order polynomial model.
 % add co-registration accuracy in the supplementary files, also mentioned original 10 m accuracy 
@@ -664,7 +664,7 @@ By utilizing the dynamic features of RTSs in the multi-temporal images, the numb
 %Therefore, the F1 scores and AP values improve significantly.
 However, the number of true positives reduces by around 40, resulting in the increased number of false negatives. 
 %TODO: need to explain this one better by  giving an example. 
-The reason is that some of the mapped polygons do not well match RTS boundaries and cannot represent the RTS development over time, leading to violation with the assumption of RTS dynamic features. 
+The reason is that some of the mapped polygons mismatch RTS boundaries and cannot represent the RTS development over time, leading to violation with the assumption of RTS dynamic features. 
  
 %compared with the ones including negative training polygons 
 The assumption of RTS dynamic features cannot contribute to the improvement of mapping accuracies if the initial mapped results contain a small population of false positives. 
@@ -676,7 +676,7 @@ and (2) including the negative training polygons %used in \cite{huang2020using}
 
 %TODO: results from k-fold cross-validation (mention it, then put into supplementary files)
 
-\subsubsection{Comparison with one-year results}
+\subsubsection{Comparison with single-year results}
 \label{sec_compare_with_201805_results}
 
 Both the F1 score and AP values of mapped polygons in this paper are slightly worse than the accuracy of one-year results presented in \cite{huang2020using}. 
@@ -695,7 +695,7 @@ For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea} 
 \begin{figure} 
 	\centering
 	\includegraphics[width=14cm]{figs/rts_change_area_dis_manu_trim.jpg}
-	\caption{Histogram of RTS expansion area and retreat distance from 2017 to 2019. (a) and (b) are expanding areas of 2018 vs 2017 and 2019 vs 2018, respectively. One RTS with an expanding area of 2.53 ha is not included in (b) because it exceeds the axis range. (c) and (d) are retreat distances from 2017 to 2018 and 2018 to 2019, respectively.}
+	\caption{Histogram of RTS expansion areas and retreat distances. (a) and (b) are expanding areas of 2018 vs 2017 and 2019 vs 2018, respectively. One RTS with an expanding area of 2.53 ha is not included in (b) because it exceeds the axis range. (c) and (d) are retreat distances from 2017 to 2018 and 2018 to 2019, respectively.}
 	\label{fig_rts_change_area_reDis}
 \end{figure}
 
