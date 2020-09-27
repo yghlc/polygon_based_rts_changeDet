@@ -207,7 +207,7 @@ change detection techniques to these multi-temporal RTS boundaries, we can quant
 The objectives of this study include (1) to apply a deep-learning-based mapping method to multi-temporal images and assess its performance; (2) to develop a method can automatically quantify RTS development 
 %based on RTS boundaries in different years
 and obtain their annual retreat distances.
-Firstly, we train the DeepLabv3+ (more in section \ref{sec_auto_delineating}) model using multi-temporal images then use this model to predict RTS boundaries in different years.
+Firstly, we train a DeepLabv3+ (more in section \ref{sec_auto_delineating}) model using multi-temporal images then use this model to predict RTS boundaries in different years.
 Secondly, we propose a method to conduct change detection of these boundaries (polygon-based change detection)  and obtain change polygons covering expanding areas.  
 We calculate the maximum medial circle of each change polygon, then based on it to obtain the retreat distances.  
 %We also run the k-fold (k=3,5,10) cross-validation to evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe. 
@@ -321,7 +321,8 @@ For the images of each year, we pre-processed them by band extracting, stretchin
 %Co-registration
 To increase the relative positional accuracy (reduce the offset between multi-temporal images) among multi-temporal images, we apply co-registration to the three mosaic images from 2017 to 2019. 
 Firstly, we chose the well pre-processed image \citep{huang2020using} as the reference image. 
-Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to automatically find tie-points between other mosaic images and the reference image \citep{huang2016a}. 
+Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to automatically find tie-points between %other
+ mosaic images and the reference image \citep{huang2016a}. 
 Lastly, we warped these images by using the Geospatial Data Abstraction Library (GDAL) with a first-order polynomial model.
 % add co-registration accuracy in the supplementary files, also mentioned original 10 m accuracy 
 As shown in Table S1 in the Supplementary Materials, the relative positional accuracies between images after co-registration is around 0.2 pixels, that is, 0.6 m. 
@@ -335,10 +336,10 @@ As shown in Table S1 in the Supplementary Materials, the relative positional acc
 We manually delineated RTS boundaries on multi-temporal images throughout the study area in QGIS (version 2.18.14, \url{qgis.org}). 
 Based on the square grids and mapping results presented by \cite{huang2020using}, we delineated RTS boundaries on Planet images taken in 2017, 2018, and 2019 as accurately as possible. 
 The error (uncertainty) of manual delineation on Planet images is around one pixel, that is, 3 m. 
-After the delineation, we obtain 266, 266, and 267 RTS boundaries on images from 2017 to 2019. 
-One RTS initiated in 2019 and captured by the 2019 image, but we removed it in the step of change detection (section \ref{sec_polygon_change_det}) because the method needs at least two boundaries at the same location. 
-Parts of these RTS boundaries will be used for training our automatic delineation method, and all of them would be considered as ground truths for validation. 
-The locations of 70\% RTSs were cross-checked in the field in 2014 and 2018 as well as on other satellite images including WorldView-1, SPOT-5, and Gaofen-1 \citep{luo2019recent}. 
+After the delineation, we obtain 338, 342, and 344 RTS boundaries on images from 2017 to 2019. 
+Two RTSs initiated in 2019 and captured by the 2019 image, but we removed them in the step of change detection (section \ref{sec_polygon_change_det}) because the method needs at least two boundaries at the same location. 
+Parts of these RTS boundaries will be used for training our automatic delineation method, and all of them would be considered as ground truths for validation.% in the step of automatic delineation. 
+The locations of 55\% RTSs were cross-checked in the field in 2014 and 2018 and most of them on other satellite images including WorldView-1, SPOT-5, and Gaofen-1 \citep{luo2019recent}. 
 %
 % parts of which will be used for training our automatic method. 
 %We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
@@ -352,28 +353,34 @@ The locations of 70\% RTSs were cross-checked in the field in 2014 and 2018 as w
 To automatically obtain RTSs boundaries in different years, we applied DeepLabv3+ to multi-temporal Planet images. 
 DeepLabv3+, one of the best algorithm for assigning each pixel a class label, is built on deep convolutional neural networks \citep{chen2018encoder-decoder} and outperforms (first place) many other algorithms in the PASCAL VOC image segmentation tasks \citep{everingham2015The}.
 Moreover, \cite{huang2020using} have proved that a well-trained DeepLabv3+ model can delineate RTSs and obtain their boundaries that are very close to manual delineation.
-The steps includes preparing training data, training a DeepLabv3+ model, delineating RTS boundaries, and validation as detailed below. 
+The steps of automatic delineation include preparing training data, training a DeepLabv3+ model, delineating RTS boundaries, and validation as detailed below. 
 %We used a deep-learning-based algorithm \citep{huang2020using} to automatically delineate RTSs on multi-temporal images.
 %Compared with the method in \cite{huang2020using},  the innovation of this work includes (1) training without using negative training polygons and (2) improving RTS mapping results by utilizing RTS dynamic information in multi-temporal images. 
 %The details will be presented as the following.
 
 % not include negative training polygons, has bad results, but can be removed by the multi-temporal information. 
 
-\subsubsection{Preparing training data} 
+\subsubsection{Preparing training data}
 \label{sec_prepare_training}
 
 %\subsubsection{Training a single model} 
 %\label{sec_training_model}
 
 % Preparing training data
-The training data were derived from training polygons and Planet images taken in 2017, 2018, and 2019. 
-We considered all the ground truths as positive training polygons but did not include any negative training polygons. 
-Negative training polygons are necessary for distinguishing land covers that are similar to RTSs but need ground information or some initial tests to generate them. 
+
+We derived training data that can be input into Deeplabv3+ directly from training polygons and selected Planet images.
+Training polygons are consist of parts of ground truths (i.e., positive training polygons) and polygons covering non-RTS regions (termed as negative training polygons) in different years.
+These negative training polygons are necessary for distinguishing land covers that are similar to RTSs but need ground information or some initial tests to generate them. 
+Based on our initial test, we drew 78 negative training polygons and duplicated them to different years if necessary.  
+To assess the capability and generalization of Deeplabv3+ when applied to multi-temporal images, we used three strategies to choose training polygons: (1) ground truths of 2017 and 2018 as well as 78 negative training polygons, (2) all the ground truths and negative training polygons, and (3) all ground truths (without negative training polygons). 
+%We considered all the ground truths as positive training polygons but did not include any negative training polygons. 
 %However, generating negative training polygons will be impractical for mapping RTSs in a large area. 
 %need to check this sentence, may not right. have checked, it is right, it happened in Beiluhe 
-Moreover, negative training polygons may cover areas with emerging RTSs or expanding parts of RTSs captured by images taken in the later time.
+We conducted experiment using the third strategy because (1) it takes efforts to generate negative training polygons and (2) negative training polygons may cover areas with emerging RTSs or expanding parts of RTSs captured by images taken in the later time. 
 Therefore, we excluded negative training polygons for the training of DeepLabv3+ when applying to multi-temporal images.
 Without negative training polygons, the mapping results may contain many false positives, but we can utilize the RTS dynamic information in multi-temporal images to remove them (see section \ref{sec_improving_using_rts_dynamic}).
+
+
 For the training polygons and Planet images in each year, we extracted sub-images with a buffer area of 300 m. 
 Then we subdivided all sub-images into patches by setting a patch size as 480 pixels with an overlap of 160 pixels. 
 Details of the extracting and subdividing operation are presented by \cite{huang2018automatic}.
@@ -412,7 +419,7 @@ The steps of delineating RTSs on each mosaic image include
 To improve computational efficiency, we adopted a parallel strategy, that is, assigning different mosaic images to different GPUs for running the delineation process simultaneously. 
 After the polygonizing, we obtained polygons (termed as mapped polygons afterward) which represent locations and boundaries of RTSs predict by the trained model. 
 % % this is a step of post-processing
-Lastly, considering the image resolution, we removed mapped polygons with an area smaller than 0.3 ha.
+Lastly, considering the image resolution, we removed mapped polygons with an area smaller than 0.09 ha (100 pixels). % 0.3 ha.
 
 \subsubsection{Removing erroneously mapped polygons using the RTS dynamic feature}
 %\paragraph{Improving RTS mapping results using the RTS dynamic feature}
@@ -486,7 +493,7 @@ The main steps include polygon-based change detection, removing false changes, a
 \end{figure}
 
 To obtain the annual RTS changes, we conducted change detection for RTS boundaries between this year and the previous year, that is, comparing 2018 with 2017 and 2019 with 2018. 
- As indicated in Equation \ref{equ_polygon_diff}, for a specific location has RTS polygons in different years, a polygon in year \emph{t} minus the one in year \emph{t-1} can result in expanding regions. 
+ As indicated in Equation \ref{equ_polygon_diff}, for a specific location has RTS polygons in different years, a polygon in this year minus the one in the previous year can result in expanding regions. 
 We used the ``difference'' function in Shapely (\url{https://pypi.org/project/Shapely}) to implement the subtraction in Equation \ref{equ_polygon_diff}. 
 The expanding regions were represented as a geometry with type of Polygon or multiPolygon in Shapely.
 \begin{equation}
@@ -494,7 +501,7 @@ E_{t}= P_{t} - P_{t-1}
 \label{equ_polygon_diff}
 \end{equation}
 % \emph{t} represents year: have said t in the equation equ_time_iou
-where \emph{P} is an RTS boundary and \emph{E} is the expanding regions. 
+where \emph{P} is an RTS boundary, \emph{E} is the expanding regions, and \emph{t} is the time. 
 In the perspective of change detection, $P_{t}$ is a new polygon and $P_{t-1}$ is the corresponding old polygon at the same location. 
 While $P_{t} - P_{t+1}$ can result in shirking regions, but it does not correspond to the dynamic feature of an RTS in this study area; instead, it is a result of delineation errors. 
 Fig. \ref{fig_rts_change_det} shows an example of the subtraction operation between the RTS boundaries in 2018 and 2017. 
@@ -560,7 +567,7 @@ However, due to the irregular and complex  shapes of change polygons, medial cir
 To assess the underestimation and provide supplement information of retreat distance, we %automatically 
 drew lines crossing the center of the maximum medial circle to intersect the change polygons and calculate the distance based on these intersected line segments, as illustrated in Fig .\ref{fig_retreat_dis}c. 
 The direction of these lines can be determined by (1) the direction of the maximum elevation difference and (2) from the centroid of the corresponding old polygon (i.e., $P_{t-1}$ in equation \ref{equ_polygon_diff}) to the center of the circle. 
-The retreat distance based on the line segments tend to be overestimated but can provide additional information of automatic calculation such as confidence because their accuracies are highly sensitive to elevation accuracy and shape of the RTS boundary in the previous year (e.g., the old polygon in Fig. \ref{fig_retreat_dis}). 
+The retreat distance based on the line segments tend to be overestimated but can provide additional information of automatic calculation such as confidence because their accuracies are highly sensitive to elevation accuracy and shape of the RTS boundary in the previous year (e.g., the old polygon in Fig. \ref{fig_retreat_dis}c). 
 %The variation of these three distances can indicate the consistency of the three measurements mentioned above . %A small value of difference indicate high confidence, and vice versa. 
 We calculated the standard deviation (SD) of the three distances for each RTS and used it as an indicator for confidence or consistency of automatic calculation of retreat distance. 
 Usually, higher variations are due to irregular shapes of change polygons. 
@@ -648,7 +655,7 @@ As shown in Fig. \ref{fig_mapping_results}c and d, the true positives are close 
 \label{sec_improve_using_multi_images}
 
 %%%%%%% Mapping results from exp7 %%%%%%%%%%%%%
-\begin{figure} 
+\begin{figure}
 	\centering
 	\includegraphics[width=14cm]{figs/exp7_p_r_curves_trim.jpg}
 	\caption{Precision-recall curves and average precision of mapped polygons in 2017, 2018, and 2019. (a) and (b) are precision-recall curves and AP values without and with applying the assumption of RTS dynamic features, respectively.}
