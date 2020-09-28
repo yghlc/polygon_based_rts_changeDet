@@ -120,7 +120,7 @@
 
 Retrogressive thaw slumps (RTSs) are among the most dynamic landforms resulting from the thawing of ice-rich permafrost. 
 However, their distribution and evolution are poorly quantified because most of them scatter in remote and inaccessible permafrost areas. % due to the challenges in accurately mapping them from remote sensing images. 
-In this study, we propose a method based on deep learning, change detection, and medial circles, aiming to automatically quantify the RTS development on multi-temporal images in the Beiluhe region from 2017 to 2019. 
+In this study, we propose a method based on deep learning, change detection, and medial axis transform, aiming to automatically quantify the RTS development on multi-temporal images in the Beiluhe region from 2017 to 2019. 
 The images are taken by Planet CubeSat constellation with high spatial and temporal resolution.
 The experiments show that automatic delineation based on deep learning can produce similar results to manual delineation, which is sufficient for quantifying the change of RTS boundaries in different years. 
 Our method reveals that among 266 RTSs in the Beiluhe region, 82\% and 71\% of them expanded from 2017 to 2018 and 2018 to 2019, respectively.
@@ -436,13 +436,13 @@ Secondly, we calculated the intersection over union (IOU) for mapped polygons in
 IOU(A,B)_{t}=area(A \cap B)/area(A \cup B)
 \label{equ_time_iou}
 \end{equation}
-where \emph{A} is a mapped polygon in the specific year, \emph{B} is the union, and \emph{t} is the year. 
+where \emph{A} is a mapped polygon in the specific year, \emph{B} is the union, and \emph{t} is the time. 
 Due to the dynamic of RTSs, the time-IOU of an active RTS will monotonically increase over time. 
 If the RTS is already stabilized, its time-IOU will remain the same over time. 
 In consideration of the delineation error (e.g., the RTS boundaries in different years at non-headwall parts do not exactly overlap each other as shown in Figs. \ref{fig_rts_expanding} and \ref{fig_rts_change_det}), a threshold of $-0.1$ was set to determine the time-IOU of an RTS is monotonically increasing, that is, if all the differences ($IOU_{next\_year}-IOU_{year}$) are greater than $-0.1$, we consider the time-IOU is monotonically increasing. 
-Thirdly, because almost all the RTSs in the Beiluhe region initiated in or before 2016,
-we can assume that at a specific location where an RTS emerges, it presents three mapped polygons and each in 2017, 2018, and 2019, that is, the three-polygon assumption. 
-Lastly, we removed mapped polygons in a location that does not satisfy the three-polygon assumption or the time-IOU is not monotonically increasing.
+Thirdly, because most of the RTSs in the Beiluhe region initiated in or before 2016,
+we can assume that at a specific location where an RTS emerges, it  presents at least two consecutive mapped polygons from 2017 to 2019, that is, the two-polygon assumption. 
+Lastly, we removed mapped polygons in a location that does not satisfy the two-polygon assumption or the time-IOU is not monotonically increasing.
  
 %[ht]
 \begin{figure} 
@@ -467,9 +467,10 @@ F1=2 \times Precision \times Recall / (Precision + Recall)
 More details of the F1 score and its implication can be found in \cite{huang2020using}.
 We repeated the calculation of F1 scores for different years and obtained the corresponding values. 
 %TODO: did I calculate the average of three AP? It seems no.
-To assess the performance of the delineating method in this paper, we calculated the average precision (AP) values for mapping results in different years, then averaged them. 
+To assess the performance of the delineating method in this paper, we calculated the average precision (AP) values for mapping results in different years. %, then averaged them. 
 AP values are based on precision-recall curves which is an effective metric for evaluating the algorithm performance \citep{huang2020using}.
-A higher average of AP values indicates the better performance of the method. 
+%A higher average of AP values indicates the better performance of the method. 
+A higher AP value indicates the better performance of the method. 
 
 %\subsection{Detecting temporal changes of RTS boundaries}
 %\label{sec_detect_rts_changes}
@@ -541,7 +542,7 @@ The reasons for setting these two area thresholds are that (1) we assumed that m
 Secondly, a change polygon derived from erroneously mapped polygons will be removed.
 %TODO: these belong to previous section?
 We considered a mapped polygon as erroneous if it meets one of the following criteria: (1) containing holes, (2) ) not intersecting any mapped polygons in other years, and (3) intersecting two or more mapped polygons in other years.
-Usually, these erroneous polygons are derived from automatic mapping methods. 
+Usually, these erroneous polygons are derived from automatic mapping methods, and most of them would be removed after applying the RTS dynamic feature (section \ref{sec_improving_using_rts_dynamic}). 
 %minimum_relative_elevation = 0
 Thirdly, we removed change polygons if their elevation difference (Equation \ref{equ_elevation_diff}) is smaller than zero. 
 \begin{equation}
@@ -564,13 +565,13 @@ A series of medial circles can represent the shape of a polygon, and their cente
 % as illustrated in Fig \ref{fig_retreat_dis},
 Among these medial circles, the diameter of the maximum one is a good approximation (Fig. \ref{fig_retreat_dis}b) for the retreat distance.
 However, due to the irregular and complex  shapes of change polygons, medial circles may underestimate the maximum retreat distance and cannot handle multiple retreat branches as well as ones with an extremely elongated shape. 
-To assess the underestimation and provide supplement information of retreat distance, we %automatically 
-drew lines crossing the center of the maximum medial circle to intersect the change polygons and calculate the distance based on these intersected line segments, as illustrated in Fig .\ref{fig_retreat_dis}c. 
+To assess the underestimation and provide supplement information of retreat distance, we automatically 
+drew lines crossing the center of the maximum medial circle to intersect the change polygons and calculate the distance based on these intersected line segments, as illustrated in Fig. \ref{fig_retreat_dis}c. 
 The direction of these lines can be determined by (1) the direction of the maximum elevation difference and (2) from the centroid of the corresponding old polygon (i.e., $P_{t-1}$ in equation \ref{equ_polygon_diff}) to the center of the circle. 
 The retreat distance based on the line segments tend to be overestimated but can provide additional information of automatic calculation such as confidence because their accuracies are highly sensitive to elevation accuracy and shape of the RTS boundary in the previous year (e.g., the old polygon in Fig. \ref{fig_retreat_dis}c). 
 %The variation of these three distances can indicate the consistency of the three measurements mentioned above . %A small value of difference indicate high confidence, and vice versa. 
 We calculated the standard deviation (SD) of the three distances for each RTS and used it as an indicator for confidence or consistency of automatic calculation of retreat distance. 
-Usually, higher variations are due to irregular shapes of change polygons. 
+Usually, higher variations are the results of irregular shapes of change polygons.
 For the case when an RTS contains several change polygons, we chose the maximum value as the RTS retreat distance.
 %We calculate the variation based on the following equation: 
 %\begin{equation}
@@ -665,7 +666,7 @@ As shown in Fig. \ref{fig_mapping_results}c and d, the true positives are close 
 %Mapping results using multi-temporal remote sensing images, without negative training polygons. 
 %Improvement by applying time IOU and occurrence
 
-The F1 scores and AP values of the mapped polygons from 2017 to 2019 improve significantly after applying the time-IOU and three-polygon assumption. 
+The F1 scores and AP values of the mapped polygons from 2017 to 2019 improve significantly after applying the time-IOU and two-polygon assumption. 
 As shown in Table \ref{table_accuracy_f1} and Fig. \ref{fig_p_r_curve_exp7}, the F1 scores improve by around 0.5, from $\sim$0.2 to $\sim$0.7, and the AP values improve from less than 0.1 to around 0.32. 
 By utilizing the dynamic features of RTSs in the multi-temporal images, the number of false positives reduces dramatically, from around 2000 to 100 (Table \ref{table_accuracy_f1}).
 %Therefore, the F1 scores and AP values improve significantly.
