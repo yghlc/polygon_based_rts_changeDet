@@ -711,8 +711,8 @@ This is because excluding negative training polygons tends to produce more false
 \label{sec_compare_with_201805_results}
 
 Both the F1 score and AP values of mapped polygons in this paper are slightly worse than the accuracy of one-year results presented in \cite{huang2020using}. 
-Regarding the F1 scores (Table \ref{table_accuracy_f1}) after applying RTS dynamic features, the difference between the one in \cite{huang2020using} and in this paper is around 0.17, while the difference of the AP values is around 0.2.
-Even for the results including negative training polygons, the F1 score and AP values are smaller than the one-year results by around 0.08 and 0.1, respectively. 
+Regarding the F1 scores (Table \ref{table_accuracy_f1}) after applying RTS dynamic features, the difference between the one in \cite{huang2020using} and in this paper is around 0.05, while the difference of the AP values is around 0.1.
+For the results excluding negative training polygons or only used 2017 and 2018 images for training, the F1 score and AP values are further smaller than the one-year results by around $\sim$0.15 and $\sim$0.2, respectively. 
 One possible reason is related to the variation of features over time. 
 For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea} c and d) are brighter than the 2017 image (Fig. \ref{fig_multi_rts_image_studyarea}b), leading to the challenges of training the DeepLabv3+ and lowing its performance. %which may confuse the DeepLabv3+ model during training. 
 
