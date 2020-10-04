@@ -123,9 +123,9 @@ However, their distribution and evolution are poorly quantified because most of 
 In this study, we propose a method based on deep learning, change detection, and medial axis transform, aiming to automatically quantify the RTS development on multi-temporal images in the Beiluhe region from 2017 to 2019. 
 The images are taken by Planet CubeSat constellation with high spatial and temporal resolution.
 The experiments show that automatic delineation based on deep learning can produce similar results to manual delineation, which is sufficient for quantifying the change of RTS boundaries in different years. 
-Our method reveals that among 266 RTSs in the Beiluhe region, 82\% and 71\% of them expanded from 2017 to 2018 and 2018 to 2019, respectively.
-For the expansion from 2017 to 2018, the average and maximum expanding areas are 0.21 ha and 1.47 ha, while the average and maximum retreat distances are 21.1 m and 91 m, respectively;
-from 2018 to 2019, the expansion attributes are 0.23 ha, 2.53 ha, 25.2 m, and 212 m, respectively. 
+Our method reveals that among 342 RTSs in the Beiluhe region, 83\% and 76\% of them expanded from 2017 to 2018 and 2018 to 2019, respectively.
+For the expansion from 2017 to 2018, the average and maximum expanding areas are 0.20 ha and 1.47 ha, while the average and maximum retreat distances are 21.3 m and 91 m, respectively;
+from 2018 to 2019, the expansion attributes are 0.22 ha, 2.53 ha, 25.0 m, and 212 m, respectively. 
 The results show that the method can quantify RTS development automatically on multi-temporal images and can be potentially applied to larger areas. 
 Moreover, this study gives the very first quantitative report on RTS development on the Tibetan Plateau, which may advance the understanding of permafrost degradation.
 
@@ -407,7 +407,8 @@ The hyper-parameters such as the learning rate (0.007), batch size (8), and iter
 %In this study, instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features in multi-temporal images, more importantly, a generic model can save a lot of computing resources, especially when expanding the time domain.
 %We used the same hyper-parameters presented in \cite{huang2020using} when training this model. 
 %To evaluate the robustness of the model, we utilized k-fold cross-validation (k=3, 5, and 10)  as commonly used in machine learning. 
- %TODO: How about the test Area? use which trained model?
+
+ %How about the test Area? use which trained model?  not include the test area. 
 %k-fold cross-validation. 
 
 % prediction (delineation)
@@ -468,7 +469,7 @@ F1=2 \times Precision \times Recall / (Precision + Recall)
 \end{equation}
 More details of the F1 score and its implication can be found in \cite{huang2020using}.
 We repeated the calculation of F1 scores for different years and obtained the corresponding values. 
-%TODO: did I calculate the average of three AP? It seems no.
+% did I calculate the average of three AP? It seems no.
 To assess the performance of the delineating method in this paper, we calculated the average precision (AP) values for mapping results in different years. %, then averaged them. 
 AP values are based on precision-recall curves which is an effective metric for evaluating the algorithm performance \citep{huang2020using}.
 %A higher average of AP values indicates the better performance of the method. 
@@ -516,7 +517,7 @@ E_{non\text{-}narrow}= E.\text{buffer}(-r).\text{buffer}(r*f) \cap E
 \end{equation}
 %\emph{E} is a polygon or multiPolygon,
 where \emph{r} is the value of buffer operation,  \emph{f} is a factor between 1 to 2 for avoiding uncertainties of buffer operation. 
-%TODO: check or update the r and f value in the codes
+% check or update the r and f value in the codes, I did
 In this study, we set \emph{r} as 3 and \emph{f} as 1.6 after initial experiments and used the ``buffer'' function in Shapely.
 To make it practical for calculating polygon attributes (e.g., area and parameter) and removing false changes (section \ref{sec_removing_false_change}), we converted all the expanding regions to many separate polygons (termed as change polygons).
 
@@ -531,7 +532,7 @@ To make it practical for calculating polygon attributes (e.g., area and paramete
 %TODO: in this section, some threshold for removing operation need to confirm in codes or more experiments. 
 %Polygon change detection. \\\\
 This study utilized pre-set criteria to remove change polygons that are possibly incorrect. 
-%TODO: check using ha or m^2
+%  check using ha or m^2 
 Firstly, we removed a change polygon if its size is smaller than 36 $m^2$ or greater than 50000 $m^2$. 
 %minimum_change_area = 36
 %maximum_change_area = 50000
@@ -542,7 +543,7 @@ The reasons for setting these two area thresholds are that (1) we assumed that m
 %b_remove_zero_intersection = Yes
 %b_remove_two_or_more_intersection = Yes
 Secondly, a change polygon derived from erroneously mapped polygons will be removed.
-%TODO: these belong to previous section?
+% these belong to previous section. No, we have revised it. 
 We considered a mapped polygon as erroneous if it meets one of the following criteria: (1) containing holes, (2) ) not intersecting any mapped polygons in other years, and (3) intersecting two or more mapped polygons in other years.
 Usually, these erroneous polygons are derived from automatic mapping methods, and most of them would be removed after applying the RTS dynamic feature (section \ref{sec_improving_using_rts_dynamic}). 
 %minimum_relative_elevation = 0
@@ -705,7 +706,7 @@ This is because excluding negative training polygons tends to produce more false
 % has depressed the population of false positives. 
 
 
-%TODO: results from k-fold cross-validation (mention it, then put into supplementary files)
+%results from k-fold cross-validation (mention it, then put into supplementary files), no k-fold results. 
 
 \subsubsection{Comparison with one-year results}
 \label{sec_compare_with_201805_results}
@@ -714,7 +715,7 @@ Both the F1 score and AP values of mapped polygons in this paper are slightly wo
 Regarding the F1 scores (Table \ref{table_accuracy_f1}) after applying RTS dynamic features, the difference between the one in \cite{huang2020using} and in this paper is around 0.05, while the difference of the AP values is around 0.1.
 For the results excluding negative training polygons or only used 2017 and 2018 images for training, the F1 score and AP values are further smaller than the one-year results by around $\sim$0.15 and $\sim$0.2, respectively. 
 One possible reason is related to the variation of features over time. 
-For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea} c and d) are brighter than the 2017 image (Fig. \ref{fig_multi_rts_image_studyarea}b), leading to the challenges of training the DeepLabv3+ and lowing its performance. %which may confuse the DeepLabv3+ model during training. 
+For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea}c and d) are brighter than the 2017 image (Fig. \ref{fig_multi_rts_image_studyarea}b), leading to the challenges of training the DeepLabv3+ and lowing its performance. %which may confuse the DeepLabv3+ model during training. 
 
 %need to talk about the different between over 300 polygons and ~260 polygons. I did, in the manual delineation section.  
 
@@ -727,7 +728,7 @@ For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea} 
 % the figure here, shows change area and retreat distance, are derived from manual delineation.
 \begin{figure} 
 	\centering
-	\includegraphics[width=14cm]{figs/rts_change_area_dis_manu_trim.jpg}
+	\includegraphics[width=14cm]{figs/rts_change_area_dis_manu_v2_trim.jpg}
 	\caption{Histogram of RTS expansion areas and retreat distances. (a) and (b) are expanding areas of 2018 vs 2017 and 2019 vs 2018, respectively. One RTS with an expanding area of 2.53 ha is not included in (b) because it exceeds the axis range. (c) and (d) are retreat distances from 2017 to 2018 and 2018 to 2019, respectively.}
 	\label{fig_rts_change_area_reDis}
 \end{figure}
@@ -738,11 +739,11 @@ For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea} 
 % In the manual delineation results, we have 266, 266, and 267 RTSs in 2017, 2018, and 2019 images, respectively. 
 % In the RSE 2020 paper, we identify 263 RTSs (2018 May images).
 
-In the Beiluhe region, most RTS expanded from 2017 to 2019 with an average expanding area of 0.21 ha from 2017 to 2018 and 0.23 ha from 2018 to 2019 as shown in Fig. \ref{fig_rts_change_area_reDis}a and b.
-From 2017 to 2018, 219 RTSs expanded, among them, 77 ones with expanding area greater than 0.2 ha; while from 2018 to 2019, 189 RTSs expanded, and 66 of them expanded by greater than 0.2 ha.
+In the Beiluhe region, most RTS expanded from 2017 to 2019 with an average expanding area of 0.20 ha from 2017 to 2018 and 0.22 ha from 2018 to 2019 as shown in Fig. \ref{fig_rts_change_area_reDis}a and b.
+From 2017 to 2018, 284 RTSs expanded, among them, 96 ones with expanding area greater than 0.2 ha; while from 2018 to 2019, 259 RTSs expanded, and 84 of them expanded by greater than 0.2 ha.
 The maximum expanding areas are 1.47 ha and 2.53 ha for 2017 vs 2018 and 2018 vs 2019, respectively. 
-The ground truths outline 266 RTSs in Beiluhe, therefore, 82\% of them expanded from 2017 to 2018 and 71\% from 2018 to 2019. 
-As shown in Fig. S3, around half of the RTSs only had one expanding branches, while each of the remaining ones (121 for 2017 vs 2018 and 90 for 2018 vs 2019)  had two or more expanding branches. 
+The ground truths outline 342 RTSs in Beiluhe, therefore, 83\% of them expanded from 2017 to 2018 and 76\% from 2018 to 2019. 
+As shown in Fig. S4, around half of the RTSs only had one expanding branches, while each of the remaining ones (152 for 2017 vs 2018 and 117 for 2018 vs 2019)  had two or more expanding branches. 
 
 %How to define an RTS was expanding?
 %How many RTS have expanding? 
@@ -754,38 +755,49 @@ As shown in Fig. S3, around half of the RTSs only had one expanding branches, wh
 \label{sec_rts_retreat_distance}
 
 %retreat distance from 2017 to 2019. 
-%TODO: add standard variation for retreat distance. 
-The average retreat distance of RTSs from 2017 to 2018 and 2018 to 2019 was 19.5 m and 20.8 m (Fig. \ref{fig_rts_change_area_reDis}c and d), respectively. 
-The maximum retreat distance was 55.6 m and 77.2 m for 2017 vs 2018 and 2018 vs 2019, respectively, based on medial circles. 
-From 2017 to 2018, 63\% of RTSs retreated more than 15 m, while from 2018 to 2019, 55\% of them had retreat distance greater than 15 m. 
+%add standard variation for retreat distance.  done
+The average retreat distance of RTSs from 2017 to 2018 and 2018 to 2019 was 20.1 m and 20.9 m (Fig. \ref{fig_rts_change_area_reDis}c and d), respectively. 
+The maximum retreat distance was 61.9 m and 77.2 m for 2017 vs 2018 and 2018 vs 2019, respectively, based on medial circles. 
+From 2017 to 2018, 65\% of RTSs retreated more than 15 m, while from 2018 to 2019, 58\% of them had retreat distance greater than 15 m. 
 % measure the retreat distance from manual delineation, mentioned here or in the (discussion) supplementary materials?
 %TODO: show planet images in different years for this one
-In Fig. S5, the retreat distance based on manually drawn lines is 21.1 m and 25.2 m for 2017 vs 2018 and 2018 vs 2019, respectively, while the maximum retreat distances were 90.8 m and 212.8 m
+In Fig. S5, the mean retreat distances based on manually drawn lines is 21.3 m and 25.0 m for 2017 vs 2018 and 2018 vs 2019, respectively, while the maximum retreat distances were 90.8 m and 212.8 m
 
 %Other measurement,  uncertainty, and standard variation
 The three automatic measurements of retreat distance are slightly different from the ones derived from manually drawn lines. Among them, the one based on the diameter of the maximum medial circle is closest to the manual measurement. 
-As shown in Fig. S6, the mean differences are $-1.6$ m \& $-4.4$ m, 17.8 m \& 14.8 m, and 14.0 m \&10.6 m (2017 vs 2018 \& 2018 vs 2019) for the one based on the diameter of the maximum medical circles, the direction of the maximum elevation difference, and across the centroid of old polygons, respectively. 
+As shown in Fig. S6, the mean differences are $-1.3$ m \& $-4.1$ m, 17.9 m \& 14.4 m, and 13.4 m \&9.7 m (2017 vs 2018 \& 2018 vs 2019) for the one based on the diameter of the maximum medical circles, the direction of the maximum elevation difference, and across the centroid of old polygons, respectively. 
 %Retreat distance estimated based on diameter of the maximum medical circles tends to be underestimated but a few one them 
-As mentioned in section \ref{sec_cal_retreat_dis}, the retreat distance calculated from medial circles tend to be underestimated, but the other two automatic measurements are overestimated. 
+As mentioned in section \ref{sec_cal_retreat_dis}, the retreat distance calculated from medial circles tend to be underestimated due to the nature of inscribed circles, but the other two automatic measurements are overestimated. 
 There are also some special cases that the retreat distance of some RTSs based on medial circles are greater than the one from manually draw lines as shown in the histogram (Fig. S6).
 The reason is that the manually drawn lines may not exactly match the direction of the maximum retreat.  
 
  % standard deviation
 \begin{figure} 
 	\centering
-	\includegraphics[width=14cm]{figs/standard_deviation_trim.jpg}
+	\includegraphics[width=14cm]{figs/standard_deviation_v2_trim.jpg}
 	\caption{Histograms of the standard deviations of three automatic retreat distance measurements. (a) shows the standard deviations for 2017 vs 2018, and (b) for the ones of 2018 vs 2019, respectively.}
 	\label{fig_re_dis_standard_var}
 \end{figure}
 
 %TODO: why you think 30 can be used to defined a good agreement? need to think more, such as their difference? within the delineation errors?
 The retreat distance of most RTSs measured by the three automatic methods are consistent as represented by the standard variation (Fig. \ref{fig_re_dis_standard_var}).
-From 2017 to 2018, 97\% RTSs have standard variation smaller than 30, while for 2018 to 2019, 98\% smaller than 30, indicating a good agreement. 
-
-%TODO: compare with other retreat distance reported in other region?  in discussion session.  
+From 2017 to 2018, 60\% RTSs have standard variations smaller than 10 m, while for 2018 to 2019, 59\% smaller than 10, demonstrating a good agreement for the three measurements.
+However, standard variations of around 40\% of them are quite large ($>$10 m), indicating the complex and irregular shapes of change polygons. 
  
 
-%TODO: compare the retreat rates derived from automatic results and manual delineation, and put into the discussion. 
+
+% compare with other retreat distance reported in other region?  in discussion session.   no need. 
+ 
+
+%TODO: compare the retreat rates derived from automatic results and manual delineation. 
+
+\subsubsection{RTS expansion based on automatic delineation}
+\label{sec_rts_change_auto_mapping}
+
+As shown in Fig. S7, the average values of expanding areas and retreat distances of RTS boundaries derived based on automatic delineation are similar to the one from manual delineation (section \ref{sec_rts_change_area} and \ref{sec_rts_retreat_distance}).
+In Fig. S7, the average expanding areas are 0.25 ha (2018 vs 2017) and 0.24 ha (2019 vs 2018), and the mean retreat distances are 21.5 m (2018 vs 2017)  and 21.6 m (2019 vs 2018). 
+However, the total number of expanding RTSs is smaller at 236 (2018 vs 2017) and 233 (2019 vs 2018), respectively, due to the false negatives in the automatic delineation results.
+
  
 
 \section{Discussion}
@@ -803,14 +815,14 @@ As demonstrated in this paper, the results from the deep-learning-based method c
 
 
 However, delineation of RTS boundaries on multi-temporal images is more challenging than identification of their location or on one-year images. 
-In this study, the targets are not only locations and extents of 266 RTSs in Beiluhe, but also their boundaries in different years, that is, $266\times3$ RTS boundaries from 2017 to 2019.
+In this study, the targets are not only locations and extents of 342 RTSs in Beiluhe, but also their boundaries in different years, that is, $342\times3$ RTS boundaries from 2017 to 2019.
 As shown in section \ref{sec_compare_with_201805_results}, the F1 scores derived from multi-temporal images are slightly worse than one-year results, indicating the challenges of mapping RTSs in multi-temporal images. 
 The possible reasons include (1) the inconsistent features of the same RTS in different images may lower the performance of the trained model 
 and (2) inaccurately mapped boundaries cannot meet the requirement of RTS dynamic features. 
 These reasons are related to the mapping strategy, that is, training a single model and removing false mapped polygons by applying RTS dynamic features.  
 Alternatively, we may adopt other strategies such as training multiple models, one model for each year,  which is still manageable when images only span a few years.
-Applying the RTS dynamic feature can significantly reduce the number of false positives (section \ref{sec_improve_using_multi_images}), but it also removes some correctly mapped polygons with relatively lower accuracy. 
-Another solution is that lowering the criteria of RTS dynamic features or adding some negative training polygons for training if they are available.
+Applying the RTS dynamic feature can significantly reduce the number of false positives (section \ref{sec_improve_using_multi_images}), but it also removes some correctly mapped polygons with relatively lower delineation accuracy. 
+%Lowering the criteria of RTS dynamic features can help identify more mapped polygons but also reserved more RTS   %or adding some negative training polygons for training if they are available.
 One limitation of applying the RTS dynamic features is that a new emergent RTS (in or after 2019) would be removed. 
 
 
@@ -847,15 +859,15 @@ Therefore, in the future, we may consider using pixel-based change detection to 
 \section{Conclusions}
 \label{sec_conclusion}
 
-We proposed a method based on DeepLabv3+, change detection, and medial circles to automatically quantify the development of retrogressive thaw slumps in the Beiluhe region. 
+We proposed a method based on DeepLabv3+, change detection, and medial axis transform to automatically quantify the development of retrogressive thaw slumps in the Beiluhe region. 
 Experiments show that the results from the automatic delineation of RTS boundaries on multi-temporal images are close to the one from manual delineation for most RTSs, indicating the good performance of DeepLabv3+  that not only for identifying their locations but also for accurately delineating their boundaries. 
 However, the results also indicate the challenge of automatic delineation when applying DeepLabv3+ to multi-temporal images when compared with one-year results. 
 With the input of multi-temporal RTS boundaries, either from automatic or manual delineation, our method can obtain their expanding regions, then further produce their change areas and retreat distances based on medial circles. 
 The whole process is automatic and can be used an essential tool for quantifying RTS development in large areas. 
 
 Most of the RTSs in the Beiluhe region were expanding from 2017 to 2019 with significant expanding areas and retreat distances. 
-Among the 266 RTSs, 82\% of them expanded from 2017 to 2018 and 71\% from 2018 to 2019, with an average expanding area of 0.21 ha and 0.23 ha, respectively.
-The average retreat distances of RTSs were 21.1 m (2017 vs 2018) and 25.2 m (2018 vs 2019).
+Among the 342 RTSs, 83\% of them expanded from 2017 to 2018 and 76\% from 2018 to 2019, with an average expanding area of 0.20 ha and 0.22 ha, respectively.
+The average retreat distances of RTSs were 21.3 m (2017 vs 2018) and 25.0 m (2018 vs 2019).
 This is the first report of RTSs retreat distance and expanding areas on the Tibetan Plateau and provides valuable information for understanding permafrost degradation in this region. 
 
 
