@@ -529,7 +529,7 @@ To make it practical for calculating polygon attributes (e.g., area and paramete
 \subsubsection{Removing false change polygons}
 \label{sec_removing_false_change}
 
-%TODO: in this section, some threshold for removing operation need to confirm in codes or more experiments. 
+%in this section, some threshold for removing operation need to confirm in codes or more experiments. 
 %Polygon change detection. \\\\
 This study utilized pre-set criteria to remove change polygons that are possibly incorrect. 
 %  check using ha or m^2 
@@ -749,7 +749,7 @@ As shown in Fig. S4, around half of the RTSs only had one expanding branches, wh
 %How many RTS have expanding? 
 %not to define, just say how many has expanding area greater than ...?
 
-%TODO: should I discuss the automatic mapping results? Maybe not here, but in discussion session. 
+
 
 \subsubsection{RTS retreat distance}
 \label{sec_rts_retreat_distance}
@@ -760,7 +760,7 @@ The average retreat distance of RTSs from 2017 to 2018 and 2018 to 2019 was 20.1
 The maximum retreat distance was 61.9 m and 77.2 m for 2017 vs 2018 and 2018 vs 2019, respectively, based on medial circles. 
 From 2017 to 2018, 65\% of RTSs retreated more than 15 m, while from 2018 to 2019, 58\% of them had retreat distance greater than 15 m. 
 % measure the retreat distance from manual delineation, mentioned here or in the (discussion) supplementary materials?
-%TODO: show planet images in different years for this one
+%show planet images in different years for this one
 In Fig. S5, the mean retreat distances based on manually drawn lines is 21.3 m and 25.0 m for 2017 vs 2018 and 2018 vs 2019, respectively, while the maximum retreat distances were 90.8 m and 212.8 m (Fig. \ref{fig_rts_example1}).
 
 
@@ -789,7 +789,8 @@ The reason is that the manually drawn lines may not exactly match the direction 
 	\label{fig_re_dis_standard_var}
 \end{figure}
 
-%TODO: why you think 30 can be used to defined a good agreement? need to think more, such as their difference? within the delineation errors?
+% why you think 30 can be used to defined a good agreement? need to think more, such as their difference? within the delineation errors?
+% has change 30 to 10 m
 The retreat distance of most RTSs measured by the three automatic methods are consistent as represented by the standard variation (Fig. \ref{fig_re_dis_standard_var}).
 From 2017 to 2018, 60\% RTSs have standard variations smaller than 10 m, while for 2018 to 2019, 59\% smaller than 10, demonstrating a good agreement for the three measurements.
 However, standard variations of around 40\% of them are quite large ($>$10 m), indicating the complex and irregular shapes of change polygons. 
@@ -799,7 +800,8 @@ However, standard variations of around 40\% of them are quite large ($>$10 m), i
 % compare with other retreat distance reported in other region?  in discussion session.   no need. 
  
 
-%TODO: compare the retreat rates derived from automatic results and manual delineation. 
+% compare the retreat rates derived from automatic results and manual delineation. 
+% have shown a brief comparison.
 
 \subsubsection{RTS expansion based on automatic delineation}
 \label{sec_rts_change_auto_mapping}
@@ -815,13 +817,15 @@ However, the total number of expanding RTSs is smaller at 236 (2018 vs 2017) and
 
 %\subsection{Advantage and disadvantage of using the RTS dynamic feature}
 %\label{sec_diss_rts_dynamic_features}
-\subsection{Delineating RTS boundaries on multi-temporal images}
+%\subsection{Delineating RTS boundaries on multi-temporal images}
+\subsection{Advantages and limitations of automatic delineation}
 \label{sec_diss_mapping_rts_multi_images}
 
-Accurate RTS boundaries from multi-temporal images are essential for quantifying their development.
-The deep-learning-based method can automatically delineate RTS boundaries on images with high accuracies and is critical for investigating RTSs in large areas. 
-Based on RTS boundaries in different years, we can reveal their development in unprecedented spatial and temporal details. 
-As demonstrated in this paper, the results from the deep-learning-based method can accurately delineate most RTS boundaries in different years. %, and potentially, can applied to larger areas. 
+The deep-learning-based method can automatically delineate RTS boundaries on multi-temporal images with high accuracies and can potentially be applied to large areas to investigate RTS development. 
+As demonstrated in this paper, the results from the automatic method can accurately delineate most RTS boundaries in different years.
+%Accurate RTS boundaries from multi-temporal images are essential for quantifying their development.
+Based on these multi-temporal boundaries, we can reveal their development in unprecedented spatial and temporal details. 
+Although automatic delineation misses some RTSs and produces many inaccurate boundaries, based on its results we still can obtain similar values of RTS development (section \ref{sec_rts_change_auto_mapping}) . 
 
 
 However, delineation of RTS boundaries on multi-temporal images is more challenging than identification of their location or on one-year images. 
@@ -836,10 +840,9 @@ Applying the RTS dynamic feature can significantly reduce the number of false po
 One limitation of applying the RTS dynamic features is that a new emergent RTS (in or after 2019) would be removed. 
 
 
-%TODO: how to improve, % talking about different strategies. 
 %Advantage: do not need negative training polygons, so save time when extend to larger areas.
 
-\subsection{Automatic calculation of RTS retreat distance}
+\subsection{Advantages and limitations of automatic calculation of retreat distance}
 \label{sec_diss_retreat_distance}
 
 Automatic calculation of RTS retreat distance is necessary for investigating RTS development in large areas.
