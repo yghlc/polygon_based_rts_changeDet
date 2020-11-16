@@ -227,7 +227,8 @@ The elevation is between 4418 and 5320 m; the mean annual air temperature is \SI
 It is underlain by ice-rich permafrost with thickness ranging from 20 to 80 m: 70\% and 20\% of this region has ice content greater than 30\% and 50\%, respectively \citep{zhou_geocryology_2000, luo_thermokarst_2015}; 
 the type of ground ice is mainly massive ice resulting from repeated segregation \citep{guodong1983mechanism}. 
 The active layer thickness and mean annual ground temperature ($\sim$15 m) range from 1.5 to 2.0 m and \SI{-2.0} to \SI{-0.5}{\celsius}, respectively \citep{zhou_geocryology_2000, wu2010changes, luo_thermokarst_2015,  wu2015changes}. 
-As reported by a few studies, more than 200 RTSs initiated in or before 2016 in this region,  and their number and affected areas increased dramatically in the past decade \citep{luo2019recent}.  
+As reported by \cite{luo2019recent}, more than 200 RTSs initiated in or before 2016 in this region,  and their number and affected areas increased dramatically in the past decade. 
+Most of the RTSs are clustered in the northwestern part of this area and located on gentle slopes \citep{huang2020using}.
 For example, an RTS developed toward upslope from 2017 to 2019, and the development is captured by Planet CubeSat as shown in Fig. \ref{fig_multi_rts_image_studyarea}b to d. 
 %We also choose a region (i.e., Test area) next to Beiluhe as shown in Fig. \ref{fig_multi_rts_image_studyarea}a for testing our automatic method. 
 %The test area has 50 RTSs \citep{huang2020using} but does not have more detailed ground information. 
@@ -544,7 +545,7 @@ The reasons for setting these two thresholds are that (1) we assumed that minimu
 %b_remove_two_or_more_intersection = Yes
 Secondly, a change polygon derived from erroneously mapped polygons was removed.
 % these belong to previous section. No, we have revised it. 
-We considered a mapped polygon as erroneous if it meets one of the following criteria: (1) containing holes, (2) not intersecting any mapped polygons in other years, or (3) intersecting two or more mapped polygons in other years.
+We considered a mapped polygon as erroneous if it meets one of the following criteria: (1) containing holes, (2) not intersecting any mapped polygons in other years, or (3) intersecting two or more mapped polygons in another year.
 Usually, these erroneous polygons are resulted from automatic mapping methods, and most of them would be removed after applying the RTS dynamic feature (section \ref{sec_improving_using_rts_dynamic}). 
 %minimum_relative_elevation = 0
 Thirdly, we removed change polygons if their elevation difference (Equation \ref{equ_elevation_diff}) is smaller than zero (i.e., not in the upslope zone). 
@@ -569,15 +570,32 @@ We utilized medial circles, which are the inscribed circles contained in a chang
 A series of medial circles can represent the shape of any polygon, and their centers indicate the medial axis of the polygon \citep{zhu2014computing}, such as the circles and red lines in Fig. \ref{fig_retreat_dis}a. 
 % as illustrated in Fig \ref{fig_retreat_dis},
 Among these medial circles, the diameter of the maximum one is a good approximation for the retreat distance (Fig. \ref{fig_retreat_dis}b).
-However, due to the irregular and complex  shapes of the change polygons, medial circles may underestimate the maximum retreat distance and cannot handle multiple retreat branches as well as ones with an extremely elongated shape. 
+Therefore, for each RTS, we calculate its retreat distance at time $t$ as equation \ref{equ_retreat_dis}.
+\begin{equation}
+R_t = max\{D_{C_t^1},D_{C_t^2},...,D_{C_t^n}\}
+\label{equ_retreat_dis}
+\end{equation}
+where $R_t$ is the retreat distance at time $t$, $D$ is the diameter of the maximum medial circle of a change polygon ($C_t^n$), and $n$ is its number.
+
+
+However, due to the irregular and complex shapes of the change polygons, medial circles may underestimate the maximum retreat distance and cannot handle multiple retreat branches as well as ones with an extremely elongated shape. 
 To assess the underestimation and provide supplement information of retreat distance, for each change polygon, we automatically 
 drew two lines crossing the center of its maximum medial circle and calculate the distance based on these intersected line segments, as illustrated in Fig. \ref{fig_retreat_dis}c. 
 The directions of the two lines are determined by (1) the direction of the maximum elevation difference and (2) from the centroid of the corresponding old polygon (i.e., $P_{t-1}$ in equation \ref{equ_polygon_diff}) to the center of the circle. 
 The retreat distance based on the line segments tend to be overestimated but can provide additional information of automatic calculation such as confidence because their accuracies are highly sensitive to elevation accuracy and shape of the RTS boundary in the previous year (e.g., the old polygon in Fig. \ref{fig_retreat_dis}c). 
+\begin{equation}
+M_t^{max} = max\{M_{C_t^1},M_{C_t^2},...,M_{C_t^n}\}
+\label{equ_dis_slope}
+\end{equation}
+\begin{equation}
+N_t^{max} = max\{N_{C_t^1},N_{C_t^2},...,N_{C_t^n}\}
+\label{equ_dis_centroid}
+\end{equation}
+where $M$ and $N$ is the retreat distance calculated based on the direction of maximum elevation difference and across the centroid of the old polygon, respectively.
 %The variation of these three distances can indicate the consistency of the three measurements mentioned above . %A small value of difference indicate high confidence, and vice versa. 
-We calculated the standard deviation of the three distances for each RTS and used it as an indicator for confidence or consistency of automatic calculation. 
+We calculated the standard deviation of the three distances ($R_t$, $M_t^{max}$, and $N_t^{max}$) for each RTS and used it as an indicator for confidence or consistency of automatic calculation. 
 Usually, higher variations are the results of irregular shapes of change polygons.
-For the case when an RTS contains several change polygons, we chose the maximum value as the RTS retreat distance.
+%For the case when an RTS contains several change polygons, we chose the maximum value as the RTS retreat distance.
 %We calculate the variation based on the following equation: 
 %\begin{equation}
 %PlaceholderFOR=dis_{confidence}
@@ -603,7 +621,7 @@ For the case when an RTS contains several change polygons, we chose the maximum 
 % manually calculate the retreat distance by drawing a line indicating toward slope direction. 
 % an RTS may have two or more branches, group RTS change polygons belongs to the same polygons. 
 To validate the retreat distance, we manually drew a line indicating expanding direction of each RTS, and based on this line to its calculate retreat distance as ground truth ($L$), as shown in Fig. \ref{fig_retreat_dis}d. 
-In cases where an RTS has more than one expanding branches, we chose the maximum one as its retreat distance. 
+
 
 
 
@@ -783,7 +801,7 @@ In Fig. S5, the mean retreat distances based on the manually drawn lines are 21.
 
 %Other measurement,  uncertainty, and standard variation
 The three automatic measurements of retreat distances are slightly different from the ones derived from manually drawn lines. Among them, the one based on the diameter of the maximum medial circle is closest to the manual measurement. 
-As shown in Fig. S6, the mean differences are $-1.3$ m \& $-4.1$ m, 17.9 m \& 14.4 m (2017 vs 2018 \& 2018 vs 2019), and 13.4 m \&9.7 m for the one based on the diameter of the maximum medical circles, the direction of the maximum elevation difference, and across the centroid of old polygons, respectively. 
+As shown in Fig. S6, the mean differences are $-1.3$ m \& $-4.1$ m, 17.9 m \& 14.4 m (2017 vs 2018 \& 2018 vs 2019), and 13.4 m \& 9.7 m for the one based on the diameter of the maximum medical circles, the direction of the maximum elevation difference, and across the centroid of old polygons, respectively. 
 %Retreat distance estimated based on diameter of the maximum medical circles tends to be underestimated but a few one them 
 As mentioned in section \ref{sec_cal_retreat_dis}, the retreat distance calculated from medial circles tend to be underestimated due to the nature of inscribed circles, but the other two automatic measurements are overestimated. 
 There are also some special cases that the retreat distance of some RTSs based on medial circles are greater than the one from manually draw lines as shown in the histogram (Fig. S6).
