@@ -144,7 +144,7 @@ Moreover, this study gives the very first quantitative report on RTS development
 
 %% MSC codes here, in the form: \MSC code \sep code
 %% or \MSC[2008] code \sep code (2000 is the default)
-Change Detection \sep CubeSat  \sep Deep Learning \sep Permafrost \sep Retrogressive Thaw Slumps.
+Change Detection  \sep Deep Learning \sep Medial Axis Transform \sep Permafrost \sep Retrogressive Thaw Slumps.
 
 \end{keyword}
 
@@ -305,7 +305,7 @@ Year & Acquisition dates & Number  \\
 \begin{figure}
 	\centering
 	\includegraphics[width=9cm]{figs/polygon_based_change_detection_flowchart.jpg}
-	\caption{Flowchart of automatic quantification of RTS development on multi-temporal images. The automated process includes three sections: (1) pre-processing of multi-temporal Planet images, (2) automatic delineation, and (3) automatic quantification of RTS development.}
+	\caption{Flowchart of automatic quantification of RTS development on multi-temporal images. The automated process includes three major steps: (1) pre-processing of multi-temporal Planet images, (2) automatic delineation, and (3) automatic quantification of RTS development.}
 	\label{fig_flowchart}
 \end{figure}
 
@@ -857,7 +857,7 @@ Although automatic delineation misses some RTSs and produces many inaccurate bou
 However, to delineate RTS boundaries on multi-temporal images is more challenging than to identify their location or on one-year images. 
 In this study, the targets are not only locations and extents of 342 RTSs in Beiluhe, but also their boundaries in different years, that is, $342\times3$ RTS boundaries from 2017 to 2019.
 As shown in section \ref{sec_compare_with_201805_results}, the F1 scores derived from multi-temporal images are slightly worse than one-year results, indicating the challenges of mapping RTSs in multi-temporal images. 
-The possible reasons include (1) the inconsistent features of the same RTS in different images may lower the performance of the trained model 
+The possible reasons include (1) the inconsistent features of the same RTS in different images may reduce the performance of the trained model 
 and (2) inaccurately mapped boundaries cannot meet the requirement of RTS dynamic features. 
 These reasons are related to the mapping strategy, that is, training a single model and removing false mapped polygons by applying RTS dynamic features.  
 Alternatively, we may adopt other strategies such as training multiple models, one model for each year,  which is still manageable when images only span a few years.
