@@ -208,8 +208,8 @@ The objectives of this study include (1) to apply a deep-learning-based mapping 
 %based on RTS boundaries in different years
 and obtain their annual retreat distances.
 Firstly, we train a DeepLabv3+ (more in section \ref{sec_auto_delineating}) model using multi-temporal images then use this model to predict RTS boundaries in different years.
-Secondly, we propose a method to conduct change detection of these boundaries (polygon-based change detection)  and obtain change polygons covering expanding areas.  
-We calculate the maximum medial circle of each change polygon, then based on it to obtain the retreat distances.  
+Secondly, we propose a method to detect changes of these boundaries (polygon-based change detection)  and obtain change polygons covering expanding areas.
+Lastly, we calculate the maximum medial circles of these polygons and obtain the retreat distances based on the circles.  
 %We also run the k-fold (k=3,5,10) cross-validation to evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe. 
 To the best of our knowledge, this is the first study that provides an automatic method for quantifying RTS development from remote sensing images and the first one reporting annual retreat distances of RTSs on the Tibetan Plateau. 
 
@@ -224,7 +224,7 @@ To the best of our knowledge, this is the first study that provides an automatic
 % Study area
 Our study area is the Beiluhe region ($92.50^\circ$E to $93.51^\circ$E, $34.69^\circ$N to $35.18^\circ$N, an area of around 5200 $km^2$) on the Tibetan Plateau as shown in Fig. \ref{fig_multi_rts_image_studyarea}a.
 The elevation is between 4418 and 5320 m; the mean annual air temperature is \SI{-3.8}{\celsius}; the annual precipitation is around 300 mm  \citep{luo_thermokarst_2015}.
-It is underlain by ice-rich permafrost with thickness ranging from 20 to 80 m: 70\% and 20\% of this region has ice content greater than 30\% and 50\%, respectively \citep{zhou_geocryology_2000, luo_thermokarst_2015}; 
+It is underlain by ice-rich permafrost with thickness ranging from 20 to 80 m: 70\% and 20\% of this region has volumetric ice content greater than 30\% and 50\%, respectively \citep{zhou_geocryology_2000, luo_thermokarst_2015}; 
 the type of ground ice is mainly massive ice resulting from repeated segregation \citep{guodong1983mechanism}. 
 The active layer thickness and mean annual ground temperature ($\sim$15 m) range from 1.5 to 2.0 m and \SI{-2.0} to \SI{-0.5}{\celsius}, respectively \citep{zhou_geocryology_2000, wu2010changes, luo_thermokarst_2015,  wu2015changes}. 
 As reported by \cite{luo2019recent}, more than 200 RTSs initiated in or before 2016 in this region,  and their number and affected areas increased dramatically in the past decade. 
@@ -252,9 +252,7 @@ For example, an RTS developed toward upslope from 2017 to 2019, and the developm
 
 
 %Data
-The core data are images taken in July 2017, 2018, and 2019 by the PlanetScope satellites.
-%address why only choose the images starting from 2017? 
-We use images after 2017 because images from the PlanetScope CubeSat are only available after that time in our study area.  
+The core data are images taken in July 2017, 2018, and 2019 by the PlanetScope satellites because images from the PlanetScope CubeSat are only available after 2017 in our study area.  
 In July, vegetation reaches its maximum coverage, and active RTSs are in a rapid stage of thawing processes. 
 Therefore, identifying RTSs would be relatively easy during this period.
 These images have four bands (blue, green, red, and near-infrared) with a spatial resolution of 3 m, and each of them covers an approximate area of 10 km by 30 km.
@@ -768,7 +766,7 @@ For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea}c
 In the Beiluhe region, most RTS expanded from 2017 to 2019 with an average expanding area of 0.20 ha from 2017 to 2018 and 0.22 ha from 2018 to 2019 as shown in Fig. \ref{fig_rts_change_area_reDis}a and b.
 From 2017 to 2018, 284 RTSs expanded, among them, 96 ones with expanding area greater than 0.2 ha; while from 2018 to 2019, 259 RTSs expanded, and 84 of them expanded by greater than 0.2 ha.
 The maximum expanding areas are 1.47 ha and 2.53 ha for 2017 vs 2018 and 2018 vs 2019, respectively. 
-The ground truths outline 342 RTSs in Beiluhe, therefore, 83\% of them expanded from 2017 to 2018 and 76\% from 2018 to 2019. 
+Regarding the percentage, 83\% of them expanded from 2017 to 2018 and 76\% from 2018 to 2019. 
 As shown in Fig. S4, around half of the RTSs only had one expanding branches, while each of the remaining ones (152 for 2017 vs 2018 and 117 for 2018 vs 2019)  had two or more expanding branches. 
 
 %How to define an RTS was expanding?
@@ -881,7 +879,7 @@ providing the ability and flexibility to utilize both archived and newly produce
 
 The retreat distance of most RTSs are equal or close to manual measurement on images, and only a few of them show large discrepancies due to irregular or elongated shapes of expanding areas. 
 %Why we need three automatic measurement for the retreat distance?
-Therefore, in addition to the automatic measurement of medical circles, we also conduct two other automatic measurements (based on DEM difference and centroid of the corresponding old polygon) as supplementary measurements. 
+Therefore, in addition to the measurement of medical circles, we also conduct two other methods (based on DEM difference and centroid of the corresponding old polygon) as supplementary measurements. 
 For a specific RTS, further investigations are needed if the discrepancy (represented by standard deviation) is large. 
 These irregular or elongated shapes of expanding areas may cause by the spatial distribution of ground ice and micro-terrain.
 The accuracy of RTS boundaries (input polygons) can affect the accuracy of retreat distance, especially when these boundaries are derived from automatic mapping methods. 
