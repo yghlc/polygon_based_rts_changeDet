@@ -119,15 +119,15 @@
 \begin{abstract}
 
 Retrogressive thaw slumps (RTSs) are among the most dynamic landforms resulting from the thawing of ice-rich permafrost. 
-However, their distribution and evolution are poorly quantified because most of them scatter in remote and inaccessible permafrost areas. % due to the challenges in accurately mapping them from remote sensing images. 
-In this study, we propose a method that integrates deep learning, change detection, and medial axis transform, aiming to automatically quantify the RTS development on multi-temporal images in the Beiluhe region from 2017 to 2019. 
+However, RTS distribution and evolution are poorly quantified because most of them scatter in remote and inaccessible areas. % due to the challenges in accurately mapping them from remote sensing images. 
+In this study, we propose a method that integrates deep learning, change detection, and medial axis transform, aiming to automatically quantify the RTS development on multi-temporal images in the Beiluhe region on the Tibetan Plateau from 2017 to 2019. 
 The images are taken by the Planet CubeSat constellation with high spatial and temporal resolution.
 The experiments show that automatic delineation based on deep learning can produce similar results to manual delineation, which is sufficient for quantifying the changes of RTS boundaries in different years. 
 Our method reveals that among 342 RTSs in the Beiluhe region, 83\% and 76\% of them expanded from 2017 to 2018 and 2018 to 2019, respectively.
 For the expansion from 2017 to 2018, the average and maximum expanding areas are 0.20 ha and 1.47 ha, while the average and maximum retreat distances are 21.3 m and 91 m, respectively;
 the ones from 2018 to 2019 are 0.22 ha, 2.53 ha, 25.0 m, and 212 m, respectively. 
 The results show that the method can quantify RTS development automatically on multi-temporal images and can be potentially applied to larger areas. 
-Moreover, this study gives the very first quantitative report on RTS development on the Tibetan Plateau, which may advance the understanding of permafrost degradation.
+Moreover, this study provides the very first quantitative report on RTS development on the Tibetan Plateau, which helps to advance the understanding of permafrost degradation.
 
 
 %One advantage of using multi-temporal images to map RTSs then quantify their development is that this strategy can significantly reduce incorrect mapping results because a specific incorrect one would unlikely occur at the same location across multi-temporal images. 
@@ -164,7 +164,7 @@ Furthermore, it can threaten the safety of infrastructure, release greenhouse ga
 
 
 % Introduction on the retrogressive thaw slumps
-A retrogressive thaw slump (RTS) is one of the dynamic landforms resulting from the thawing of ice-rich permafrost \citep{czudek_thermokarst_1970, jorgenson_thermokarst_2013,farquharson2016spatial,jones2019rapid}. 
+Retrogressive thaw slumps (RTSs) are one of the dynamic landforms resulting from the thawing of ice-rich permafrost \citep{czudek_thermokarst_1970, jorgenson_thermokarst_2013,farquharson2016spatial,jones2019rapid}. 
 Usually, RTSs are triggered by lateral stream erosion or active layer detachments \citep{french2017periglacial} and can be active for decades \citep{burn1989geomorphology, lacelle2010climatic, swanson2018growth}. 
 For instance, a detachment slide occurs due to the melting of ground ice or intensive precipitation and removes soil above permafrost, then exposes it to rapid thawing and initiates an RTS. 
 The main components of an RTS are the headwall, slump floor, and slump lobe \citep{lantuit_fifty_2008}. 
@@ -182,12 +182,12 @@ However, the occurrence and retreat rates of RTSs in most permafrost areas are s
 %Possible reasons include (1) RTSs scatter in remote and inaccessible regions, which makes field measurements challenging and (2) their small size as well as similarity to the surroundings presents difficulties for the automatic algorithms utilizing remote sensing images.  
 
 % why we need an automatically method. 
-An automatic method is essential for quantifying RTS development throughout permafrost areas. 
+An automatic method is essential for quantifying RTS development throughout vast permafrost areas. 
 Permafrost underlays approximately one-quarter of the land surface in the Northern Hemisphere \citep{zhang1999statistics} and most areas are remote and inaccessible. %extremely challenging to access in the field. 
 Therefore, it is extremely challenging, if ever possible, to measure RTS development in the field for large areas. % measurements for RTS development.
 The advance of remote sensing satellites, especially the CubeSat constellations, provides multi-temporal and high-resolution images covering the global land surface. 
-A notable CubeSat constellation is deployed by Planet Labs (www.planet.com) and is collecting daily images of the global land surface at the spatial resolution of 3--5 m.
-Manual delineation on these images can be used to quantify RTSs development but is impractical due to its characteristics of time-consuming and labor-intensive when applying to large areas. % with a huge volume of images. 
+A notable CubeSat constellation was deployed by Planet Labs (www.planet.com) and has been collecting daily images of the global land surface at the spatial resolution of 3--5 m.
+Manual delineation on these images can be used to quantify RTSs development but is impractical as it is time-consuming and labor-intensive when applying to large areas. % with a huge volume of images. 
 Therefore, automatic methods are necessary for addressing the unknown questions related to RTS development such as their occurrence and retreat rates throughout permafrost areas. 
 
 
@@ -204,12 +204,12 @@ change detection techniques to these multi-temporal RTS boundaries, we can quant
 %NO study on mapping RTS development automatically. 
 
 % Objectives, outline of this paper and contributions 
-The objectives of this study include (1) to apply a deep-learning-based mapping method to multi-temporal images and assess its performance; (2) to develop a method can automatically quantify RTS development 
+The objectives of this study include (1) to apply a deep-learning-based mapping method to multi-temporal images and assess its performance; (2) to develop a method that can automatically quantify RTS development 
 %based on RTS boundaries in different years
 and obtain their annual retreat distances.
-Firstly, we train a DeepLabv3+ (more in section \ref{sec_auto_delineating}) model using multi-temporal images then use this model to predict RTS boundaries in different years.
+Firstly, we train a DeepLabv3+ model (more in section \ref{sec_auto_delineating}) using multi-temporal images then use this model to predict RTS boundaries in different years.
 Secondly, we propose a method to detect changes of these boundaries (polygon-based change detection)  and obtain change polygons covering expanding areas.
-Lastly, we calculate the maximum medial circles of these polygons and obtain the retreat distances based on the circles.  
+Lastly, we calculate the maximum medial circles of these change polygons and obtain the retreat distances based on the circles.  
 %We also run the k-fold (k=3,5,10) cross-validation to evaluate the robustness of mapping method when applying to multi-temporal images and conduct the statistics of RTSs development in Beiluhe. 
 To the best of our knowledge, this is the first study that provides an automatic method for quantifying RTS development from remote sensing images and the first one reporting annual retreat distances of RTSs on the Tibetan Plateau. 
 
@@ -224,7 +224,7 @@ To the best of our knowledge, this is the first study that provides an automatic
 % Study area
 Our study area is the Beiluhe region ($92.50^\circ$E to $93.51^\circ$E, $34.69^\circ$N to $35.18^\circ$N, an area of around 5200 $km^2$) on the Tibetan Plateau as shown in Fig. \ref{fig_multi_rts_image_studyarea}a.
 The elevation is between 4418 and 5320 m; the mean annual air temperature is \SI{-3.8}{\celsius}; the annual precipitation is around 300 mm  \citep{luo_thermokarst_2015}.
-It is underlain by ice-rich permafrost with thickness ranging from 20 to 80 m: 70\% and 20\% of this region has volumetric ice content greater than 30\% and 50\%, respectively \citep{zhou_geocryology_2000, luo_thermokarst_2015}; 
+It is underlain by ice-rich permafrost with thickness ranging from 20 to 80 m: 70\% and 20\% of this region contain volumetric ice content greater than 30\% and 50\%, respectively \citep{zhou_geocryology_2000, luo_thermokarst_2015}; 
 the type of ground ice is mainly massive ice resulting from repeated segregation \citep{guodong1983mechanism}. 
 The active layer thickness and mean annual ground temperature ($\sim$15 m) range from 1.5 to 2.0 m and \SI{-2.0} to \SI{-0.5}{\celsius}, respectively \citep{zhou_geocryology_2000, wu2010changes, luo_thermokarst_2015,  wu2015changes}. 
 As reported by \cite{luo2019recent}, more than 200 RTSs initiated in or before 2016 in this region,  and their number and affected areas increased dramatically in the past decade. 
@@ -246,20 +246,19 @@ For example, an RTS developed toward upslope from 2017 to 2019, and the developm
 	%and black 
 	rectangle in (a) shows the extent of our study area
 	% and test area 
-	on the Tibetan Plateau. (b) to (d) are Planet images taken in 2017, 2018, and 2019 of an RTS whose central location is 92.912$^\circ$ E, 34.848$^\circ$ N. The white arrows point to the headwall which retreated upslope (as shown in the video in the Supplementary Materials).} % In (b), the yellow arrow indicates the upslope direction.
+	on the Tibetan Plateau. (b) to (d) are Planet images taken in 2017, 2018, and 2019 of an RTS whose central location is 92.912$^\circ$ E, 34.848$^\circ$ N. The white arrows point to the headwall which retreated upslope (also shown in the video in the Supplementary Materials).} % In (b), the yellow arrow indicates the upslope direction.
 	\label{fig_multi_rts_image_studyarea}
 \end{figure}
 
 
 %Data
 The core data are images taken in July 2017, 2018, and 2019 by the PlanetScope satellites because images from the PlanetScope CubeSat are only available after 2017 in our study area.  
-In July, vegetation reaches its maximum coverage, and active RTSs are in a rapid stage of thawing processes. 
-Therefore, identifying RTSs would be relatively easy during this period.
+In July, vegetation reaches its maximum coverage, and active RTSs are in a rapid stage of thawing, making it relatively easy to identify to RTSs.
 These images have four bands (blue, green, red, and near-infrared) with a spatial resolution of 3 m, and each of them covers an approximate area of 10 km by 30 km.
 Table \ref{table_image_list} lists the numbers and acquisition dates of these images. 
-Because of the variation of cloud cover and image coverage, the image counts in different years are different.
+Because of the variations of cloud cover and image coverage, the image counts in different years are different.
 They were downloaded from the Planet website (\url{www.planet.com}) or through a python package (\url{pypi.org/project/planet}) for Planet's public API under its Education and Research Program \citep{team2018planet}. 
-The product level of images is ``Analytic\_SR'', which means that they had been orthorectified with a positional accuracy of 10 m, the pixel values represent surface reflectance by using a bit depth of 16 bits. 
+The product level of images is ``Analytic\_SR'', which means that they had been orthorectified with a positional accuracy of 10 m and the pixel values represent surface reflectance by using a bit depth of 16 bits. 
 
 %The RTS boundaries are derived from manual delineation on Planet images using the same method proposed by \cite{huang2020using}, parts of which will be used for training our automatic method. 
 %We consider all the RTS boundaries as ground truths in the validation step, and 70\% of them are cross-checked in the field in 2014 and 2018. %on other satellite images? 
@@ -307,21 +306,21 @@ Year & Acquisition dates & Number  \\
 	\label{fig_flowchart}
 \end{figure}
 
- As shown in Fig. \ref{fig_flowchart}, the major procedures of the automatic method for quantifying RTS evolution include pre-processing of Planet images, automatic delineation of RTS, and automatic quantification of their development. 
+ As illustrated in Fig. \ref{fig_flowchart}, the major procedures of the automatic method for quantifying RTS evolution include pre-processing of Planet images, automatic delineation of RTS, and automatic quantification of their development. 
 Manual delineation of RTSs is necessary when data are not available to train DeepLabv3+, a supervised learning algorithm, because multi-temporal RTS boundaries are one of the key components of training data.
-The automatic quantification accepts multi-temporal RTS boundaries, either derived from automatic or manual delineation, and would produce annual retreat distances and areas of each RTS. 
+The automatic quantification accepts multi-temporal RTS boundaries, either derived from automatic or manual delineation, and produces annual retreat distances and areas of each RTS. 
 
 
 \subsection{Pre-processing of multi-temporal images}
 \label{sec_preprocessing}
 
-We pre-processed Planet CubeSat images to fulfil the requirements of DeepLabv3+ as well as manual delineation and to reduce the offset between multi-temporal images. 
+We pre-processed Planet CubeSat images to fulfill the requirements of DeepLabv3+ as well as manual delineation and to reduce the offset between multi-temporal images. 
 For the images of each year, we pre-processed them by band extracting, stretching, sharpening, and mosaicking then obtained a mosaic image covering the study area. 
 %Co-registration
 To increase the relative positional accuracy (reduce the offset between multi-temporal images) among multi-temporal images, we apply co-registration to the three mosaic images from 2017 to 2019. 
-Firstly, we chose the well pre-processed image \citep{huang2020using} as the reference image. 
-Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to automatically find tie-points between %other
- mosaic images and the reference image \citep{huang2016a}. 
+Firstly, we chose the well-pre-processed image \citep{huang2020using} as the reference image. 
+Secondly, we used the scale-invariant feature transform algorithm \citep{lowe2004distinctive} with a GPU implement (\url{https://github.com/pitzer/SiftGPU}) to automatically identify tie-points between %other
+the mosaic images and the reference image \citep{huang2016a}. 
 Lastly, we warped these images by using the Geospatial Data Abstraction Library (GDAL) with a first-order polynomial model.
 % add co-registration accuracy in the supplementary files, also mentioned original 10 m accuracy 
 As shown in Table S1 in the Supplementary Materials, the relative positional accuracies between images after co-registration are around 0.2 pixels, that is, 0.6 m. 
@@ -335,8 +334,8 @@ As shown in Table S1 in the Supplementary Materials, the relative positional acc
 We manually delineated RTS boundaries on multi-temporal images throughout the study area in QGIS (version 2.18.14, \url{qgis.org}). 
 Based on the square grids and mapping results presented by \cite{huang2020using}, we delineated RTS boundaries on Planet images taken in all the three years as accurately as possible. 
 The error (uncertainty) of manual delineation on Planet images is around one pixel, that is, 3 m. 
-After the delineation, we obtain 338, 342, and 344 RTS boundaries on images from 2017 to 2019. 
-The RTS numbers in this paper are larger than the one presented in \cite{huang2020using} by around 80 because multi-temporal images with better vegetation coverage enable us to identify many small and subtle RTSs. 
+After the delineation, we obtained 338, 342, and 344 RTS boundaries on images from 2017 to 2019. 
+The RTS numbers in this paper are larger than the one presented in \cite{huang2020using} by around 80 because the multi-temporal images with better vegetation coverage enable us to identify many small and subtle RTSs. 
 Two RTSs initiated in 2019 and captured by the 2019 image, but we removed them in the step of change detection (section \ref{sec_polygon_change_det}) because it needs at least two boundaries at the same location. 
 Parts of these RTS boundaries will be used for training our automatic delineation method, and all of them would be considered as ground truths for validation. 
 The locations of 55\% RTSs were cross-checked in the field in 2014 and 2018 and most of them  appear on other satellite images including WorldView-1, SPOT-5, and Gaofen-1 \citep{luo2019recent}. 
@@ -377,13 +376,13 @@ To assess the capability and generalization of DeepLabv3+ when applied to multi-
 %We considered all the ground truths as positive training polygons but did not include any negative training polygons. 
 %However, generating negative training polygons will be impractical for mapping RTSs in a large area. 
 %need to check this sentence, may not right. have checked, it is right, it happened in Beiluhe 
-We conducted experiments without negative training polygons because (1) it takes efforts to generate them and (2) they may cover areas with emerging RTSs or expanding parts of RTSs captured by images taken in a later time. 
+We conducted experiments without negative training polygons because (1) it takes efforts to generate them and (2) they may cover areas with emerging RTSs or expanding parts of RTSs captured by images taken at a later time. 
 %Therefore, we excluded negative training polygons for the training of DeepLabv3+ when applying to multi-temporal images.
 Without negative training polygons, the mapping results may contain many false positives, but we can utilize the RTS dynamic information in multi-temporal images to remove them (see section \ref{sec_improving_using_rts_dynamic}).
 
 
 For the training polygons and Planet images in each year, we extracted sub-images with a buffer area of 300 m. 
-Then we subdivided all sub-images into patches by setting a patch size as 480 pixels with an overlap of 160 pixels. 
+Then we subdivided all sub-images into patches by setting a patch size as 480 $\times$ 480 pixels with an overlap of 160 pixels. 
 Details of the extracting and subdividing operation are presented by \cite{huang2018automatic}.
 To improve the volume of training data and generalization of the trained model, we applied data augmentation (flipping, blurring, cropping, and scaling) to the patches. 
 Lastly, we considered all the patches from different years as a single training dataset. 
@@ -399,7 +398,7 @@ Lastly, we considered all the patches from different years as a single training 
 % training
 We trained a DeepLabv3+ model (i.e., network parameters) by using the training data derived in section \ref{sec_prepare_training}. 
 Instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features on multi-temporal images. 
-Moreover, the strategy of a generic model is more convenient and efficient than the one of the multiple models when expanding in the time domain. % can save a lot of computing resources, especially
+Moreover, the strategy of a general model is more convenient and efficient than the one of the multiple models when expanding in the time domain. % can save a lot of computing resources, especially
 The network architecture and pre-trained model we used were Xception65 \citep{chollet2017xception} and based on the ImageNet datasets \citep{russakovsky2015imagenet}, respectively. 
 The hyper-parameters such as the learning rate (0.007), batch size (8), and iteration number (30000) were the same as the ones used by \cite{huang2020using}.
 
@@ -411,7 +410,7 @@ The hyper-parameters such as the learning rate (0.007), batch size (8), and iter
 %k-fold cross-validation. 
 
 % prediction (delineation)
-We used the trained model to delineate (predict) RTSs on the 2017, 2018, and 2019 mosaic images. 
+We used the trained model to delineate (i.e., predict) RTSs on the 2017, 2018, and 2019 mosaic images. 
 The steps of delineating RTSs on each mosaic image include
 (1) dividing it into numerous small patches (each with a size of 480 $\times$ 480 pixels and an overlap of 160 pixels with its adjacent ones),
 (2) predicting RTS or non-RTS pixels and obtaining a binary patch,
@@ -429,7 +428,7 @@ Lastly, considering the image resolution, we removed mapped polygons with an are
 
 
 Many mapped polygons were erroneously identified as RTS polygons can be removed by utilizing the RTS dynamic feature. 
-As shown in Fig. \ref{fig_rts_expanding}, an active RTS can expand toward upslope annually, even for a non-active RTS, its extent cannot shrink. 
+As shown in Fig. \ref{fig_rts_expanding}, an active RTS can expand toward upslope annually; even for a non-active RTS, its extent cannot shrink. 
 Therefore, we can use this dynamic feature to remove non-RTS mapped polygons. 
 Firstly, we obtained a union (Fig. \ref{fig_rts_expanding}) of mapped polygons at the same location.
 The steps of obtaining the union include (1) choosing a mapped polygon as an initial union, (2) scanning through all mapped polygons until finding a mapped polygon that has not been merged to other unions and overlaps it, (3) merging the found polygon into it and updating the union, and (4) repeating steps (2) and (3) until no polygons can be merged into the union. 
@@ -443,7 +442,7 @@ Due to the expanding dynamics of RTSs, the time-IOU of an active RTS should mono
 If an RTS is already stabilized, its time-IOU will remain the same over time. 
 Considering the delineation error (e.g., the RTS boundaries in different years at non-headwall parts do not exactly overlap each other as shown in Figs. \ref{fig_rts_expanding} and \ref{fig_rts_change_det}), a relaxed threshold of $-0.1$ was set to determine if the time-IOU of an RTS is monotonically increasing, that is, if all the differences ($IOU_{next\_year}-IOU_{year}$) are greater than $-0.1$.% we consider the time-IOU is monotonically increasing. 
 Thirdly, because most of the RTSs in the Beiluhe region initiated in or before 2016,
-we can assume that at a specific location where an RTS emerges, it presents at least two mapped polygons from 2017 to 2019 with time consecutiveness, referred to as the ``two-polygon assumption''. 
+we can assume that at a specific location where an RTS emerged, it presents at least two mapped polygons from 2017 to 2019 with time consecutiveness, referred to as the ``two-polygon assumption''. 
 Lastly, we removed mapped polygons in a location that does not satisfy the two-polygon assumption or the time-IOU is not monotonically increasing.
  
 %[ht]
@@ -458,10 +457,10 @@ Lastly, we removed mapped polygons in a location that does not satisfy the two-p
 \subsubsection{Validating mapped polygons}
 \label{sec_validate_mapped_polygons}
 
-To validate the mapped polygons, we calculate their F1 scores in each year separately. 
-For each year, we calculate IOU values between the mapped polygons and the corresponding ground truths. 
-We set a threshold of 0.5 to decide a mapped polygon is a false positive (FP) or true positive (TP).
-After obtaining the counts of true positives, false positives, and false negatives (FN), we can calculate the precision and recall, then calculate the F1 score using the following equation. 
+To validate the mapped polygons, we calculated their F1 scores in each year separately. 
+For each year, we calculated IOU values between the mapped polygons and the corresponding ground truths. 
+We set a threshold of 0.5 to decide a mapped polygon is a false positive (FP) or a true positive (TP).
+After obtaining the counts of true positives, false positives, and false negatives (FN), we calculated the precision and recall, then calculate the F1 score using the following equation. 
 \begin{equation}
 F1=2 \times Precision \times Recall / (Precision + Recall)
 \label{equ_f1score}
@@ -479,7 +478,7 @@ A higher AP value indicates the better performance of the method.
 \subsection{Automatic quantification of RTS development}
 \label{sec_auto_rts_develop}
 
-To automatically quantify RTS development with the input of RTS boundaries, we proposed a method to detect changes of RTS boundaries and calculate their annual retreat distances.
+To automatically quantify RTS development with the input of RTS boundaries, we proposed a method to detect changes of RTS boundaries and to calculate their annual retreat distances.
 The RTS boundaries are in vector format and can be derived from manual or automatic delineation. 
 The main steps include polygon-based change detection, removing false changes, and calculating retreat distance as detailed below. 
 
@@ -496,7 +495,7 @@ The main steps include polygon-based change detection, removing false changes, a
 \end{figure}
 
 To obtain the annual RTS changes, we conducted change detection for RTS boundaries between one year and its previous year.%, that is, comparing 2018 with 2017 and 2019 with 2018. 
- As indicated in Equation \ref{equ_polygon_diff}, for a specific location containing RTS polygons in different years, a polygon in this year minus the one in the previous year should result in expanding regions. 
+ As indicated in Equation \ref{equ_polygon_diff}, for a specific location containing RTS polygons in different years, a polygon in a given year $(t)$ minus the one in the previous year should result in expanding regions. 
 We used the ``difference'' function in Shapely (\url{https://pypi.org/project/Shapely}) to implement the subtraction in Equation \ref{equ_polygon_diff}. 
 The expanding regions were represented as geometries with type of ``Polygon'' or ``multiPolygon'' in Shapely.
 \begin{equation}
@@ -506,7 +505,7 @@ E_{t}= P_{t} - P_{t-1}
 % \emph{t} represents year: have said t in the equation equ_time_iou
 where \emph{P} is an RTS boundary, \emph{E} is the expanding regions, and \emph{t} is the time. 
 From the perspective of change detection, $P_{t}$ is a new polygon and $P_{t-1}$ is the corresponding old polygon at the same location. 
-While $P_{t} - P_{t+1}$ can result in shrinking regions, which is caused by delineation errors. 
+A negative $P_{t} - P_{t+1}$ corresponds to shrinking regions but, in fact, is caused by delineation errors. 
 Fig. \ref{fig_rts_change_det} shows an example of the subtraction operation between the RTS boundaries in 2018 and 2017. 
 %removing the narrow parts. 
 Considering delineation errors and the resolution (3 m) of Planet images, we removed the narrow parts of expanding regions using buffer operation as follows, 
@@ -552,7 +551,7 @@ Thirdly, we removed change polygons if their elevation difference (Equation \ref
 \Delta H = H_{C_{t}} -  H_{P_{t-1}}
 \label{equ_elevation_diff}
 \end{equation}
-where $\Delta H$ is the elevation difference, $H$ is elevation, and $C_{t}$ is a change polygon at time $t$.
+where $H$ is elevation, $\Delta H$ is the elevation difference, and $C_{t}$ is a change polygon at time $t$.
 We used the 30 m digital elevation model (DEM) from the Shuttle Radar Topography Mission (SRTM) \citep{farr2007shuttle} for calculating the elevation difference. 
 For a change polygon or RTS polygon, we chose the mean of elevation within it as its elevation. 
 %minimum_retreat_distance = 6
@@ -565,7 +564,7 @@ Lastly, we set a threshold of 6 m for retreat distance (see section \ref{sec_cal
 
 % To calculate the retreat distance
 We utilized medial circles, which are the inscribed circles contained in a change polygon and tangent to it in at least two points, to calculate the annual retreat distance of RTSs. 
-A series of medial circles can represent the shape of any polygon, and their centers indicate the medial axis of the polygon \citep{zhu2014computing}, such as the circles and red lines in Fig. \ref{fig_retreat_dis}a. 
+Taking Fig. \ref{fig_retreat_dis}a as an example, a series of medial circles can represent the shape of any polygon, and their centers indicate the medial axis of the polygon \citep{zhu2014computing}. 
 % as illustrated in Fig \ref{fig_retreat_dis},
 Among these medial circles, the diameter of the maximum one is a good approximation for the retreat distance (Fig. \ref{fig_retreat_dis}b).
 Therefore, for each RTS, we calculate its retreat distance at time $t$ as equation \ref{equ_retreat_dis}.
@@ -580,7 +579,7 @@ However, due to the irregular and complex shapes of the change polygons, medial 
 To assess the underestimation and provide supplement information of retreat distance, for each change polygon, we automatically 
 drew two lines crossing the center of its maximum medial circle and calculate the distance based on these intersected line segments, as illustrated in Fig. \ref{fig_retreat_dis}c. 
 The directions of the two lines are determined by (1) the direction of the maximum elevation difference and (2) from the centroid of the corresponding old polygon (i.e., $P_{t-1}$ in equation \ref{equ_polygon_diff}) to the center of the circle. 
-The retreat distance based on the line segments tend to be overestimated but can provide additional information of automatic calculation such as confidence because their accuracies are highly sensitive to elevation accuracy and shape of the RTS boundary in the previous year (e.g., the old polygon in Fig. \ref{fig_retreat_dis}c). 
+The retreat distance based on the line segments tends to be overestimated but can provide additional information of automatic calculation such as confidence because their accuracies are highly sensitive to the elevation accuracy and the shape of the RTS boundary in the previous year (e.g., the old polygon in Fig. \ref{fig_retreat_dis}c). 
 \begin{equation}
 M_t^{max} = max\{M_{C_t^1},M_{C_t^2},...,M_{C_t^n}\}
 \label{equ_dis_slope}
@@ -618,7 +617,7 @@ Usually, higher variations are the results of irregular shapes of change polygon
 
 % manually calculate the retreat distance by drawing a line indicating toward slope direction. 
 % an RTS may have two or more branches, group RTS change polygons belongs to the same polygons. 
-To validate the retreat distance, we manually drew a line indicating expanding direction of each RTS, and based on this line to its calculate retreat distance as ground truth ($L$), as shown in Fig. \ref{fig_retreat_dis}d. 
+To validate the retreat distance, we manually drew a line indicating expanding direction of each RTS, and based on this line to calculate its retreat distance as ground truth ($L$), as shown in Fig. \ref{fig_retreat_dis}d. 
 
 
 
@@ -658,7 +657,7 @@ As shown in Fig. \ref{fig_mapping_results}c and d, the true positives are close 
 \begin{figure} 
 	\centering
 	\includegraphics[width=14cm]{figs/multi_mapping_results_v2_trim.jpg}
-	\caption{Mapped polygons in different years with applying RTS dynamic features. The black, blue, and red polygons are true positives delineated in the 2017, 2018, and 2019 images, respectively, while the yellow ones are false  positives. The background is the mosaic of 2019 Planet images. (a) shows the results in the entire Beiluhe region, and (b)--(d) are amplifications of three regions marked by rectangles in (a). The yellow rectangle in (b) marks three missed RTSs by the method. (d) shows the same RTS in Fig. \ref{fig_multi_rts_image_studyarea} and \ref{fig_rts_expanding} but with boundaries from automatic delineation.}
+	\caption{Mapped polygons in different years with applying RTS dynamic features. The black, blue, and red polygons are true positives delineated in the 2017, 2018, and 2019 images, respectively, while the yellow ones are false  positives. The background is the mosaic of 2019 Planet images. (a) shows the results in the entire Beiluhe region, and (b)--(d) are amplifications of three regions marked by rectangles in (a). The yellow rectangle in (b) marks three RTSs missed by the method. (d) shows the same RTS in Fig. \ref{fig_multi_rts_image_studyarea} and \ref{fig_rts_expanding} but with boundaries from automatic delineation.}
 	\label{fig_mapping_results}
 \end{figure}
 
@@ -680,8 +679,8 @@ As shown in Fig. \ref{fig_mapping_results}c and d, the true positives are close 
 The experiment excluding the 2019 image during training demonstrates the good generalization of our trained model. 
 As shown in Table S2, the F1 score of mapped polygons in 2019 is 0.616, similar to the ones in 2017  (0.634) and 2018 (0.720) before applying the RTS dynamic feature.
 Moreover, the precision-recall curves and AP values (Fig. S2) are similar to the one in Fig. \ref{fig_p_r_curve}.
-The number of TP in 2019 mapped polygons is less than the ones in other years by around 50, indicating relatively lower delineating accuracies in the test image (excluded during training). 
-After applying the RTS dynamic features, all F1 scores remain at similar values (Table S2), but both TP values and FP values reduce dramatically, from $\sim$290 to $\sim$190 and from $\sim$200 to $\sim$30, attributing to the relatively lower delineating accuracies on the 2019 image.
+The number of TP in the mapped polygons of 2019 is less than the ones in other years by around 50, indicating relatively lower delineating accuracies in the test image (excluded during training). 
+After applying the RTS dynamic features, all F1 scores remain at similar values (Table S2), but both TP and FP values reduce dramatically, from $\sim$290 to $\sim$190 and from $\sim$200 to $\sim$30, attributing to the relatively lower delineating accuracies on the 2019 image.
 
 
 
@@ -719,12 +718,12 @@ By utilizing the dynamic features of RTSs in the multi-temporal images, the numb
 %Therefore, the F1 scores and AP values improve significantly.
 However, the number of true positives reduces by around 40, resulting in the increased number of false negatives. 
 %TODO: need to explain this one better by  giving an example. 
-The reason is that some of the mapped polygons mismatch RTS boundaries and cannot represent the RTS development over time, leading to violation to the assumption of RTS dynamic features. 
+The reason is that some of the mapped polygons mismatch RTS boundaries and cannot represent the RTS development over time, leading to violation of the assumption of RTS dynamic features. 
  
 %compared with the ones including negative training polygons 
 The assumption of RTS dynamic features can contribute more to the improvement of mapping accuracies if we exclude negative training polygons when training the network. 
-As shown in Table S3, the F1 scores improve significantly after applying the RTS dynamic features, as that the FP reduces from around 1500 to less than 200, meanwhile, the AP values (Fig. S3) improve by around 0.2 in different years. 
-This is because excluding negative training polygons tends to produce more false positives but usually they cannot meet the criterion of the RTS dynamic feature.  
+As shown in Table S3, the F1 scores improve significantly after applying the RTS dynamic features, as that the FP reduces from around 1500 to less than 200; meanwhile, the AP values (Fig. S3) improve by around 0.2 in different years. 
+This is because excluding negative training polygons tends to produce more false positives but they seldom can meet the criterion of the RTS dynamic feature.  
 %The reason is that include: (1) the number of false positives reduces by around 70, but the number of true positives also reduces by around 40, resulting in an almost unchanged F1 score 
 %and (2) including the negative training polygons %used in \cite{huang2020using}
 % has depressed the population of false positives. 
@@ -753,7 +752,7 @@ For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea}c
 \begin{figure} 
 	\centering
 	\includegraphics[width=14cm]{figs/rts_change_area_dis_manu_v2_trim.jpg}
-	\caption{Histograms of RTS expansion areas and retreat distances. (a) and (b) are expanding areas of 2018 vs 2017 and 2019 vs 2018, respectively. One RTS with an expanding area of 2.53 ha is not included in (b) because it exceeds the axis range. (c) and (d) are retreat distances from 2017 to 2018 and 2018 to 2019, respectively.}
+	\caption{Histograms of RTS expansion areas and retreat distances. (a) and (b) are expanding areas of 2017 vs 2018 and 2018 vs 2019, respectively. One RTS with an expanding area of 2.53 ha is not included in (b) because it exceeds the axis range. (c) and (d) are retreat distances from 2017 to 2018 and 2018 to 2019, respectively.}
 	\label{fig_rts_change_area_reDis}
 \end{figure}
 
@@ -763,8 +762,8 @@ For example, the 2018 and 2019 images (Fig. \ref{fig_multi_rts_image_studyarea}c
 % In the manual delineation results, we have 266, 266, and 267 RTSs in 2017, 2018, and 2019 images, respectively. 
 % In the RSE 2020 paper, we identify 263 RTSs (2018 May images).
 
-In the Beiluhe region, most RTS expanded from 2017 to 2019 with an average expanding area of 0.20 ha from 2017 to 2018 and 0.22 ha from 2018 to 2019 as shown in Fig. \ref{fig_rts_change_area_reDis}a and b.
-From 2017 to 2018, 284 RTSs expanded, among them, 96 ones with expanding area greater than 0.2 ha; while from 2018 to 2019, 259 RTSs expanded, and 84 of them expanded by greater than 0.2 ha.
+In the Beiluhe region, most RTSs expanded from 2017 to 2019 with an average expanding area of 0.20 ha from 2017 to 2018 and 0.22 ha from 2018 to 2019 as shown in Fig. \ref{fig_rts_change_area_reDis}a and b.
+From 2017 to 2018, 284 RTSs expanded, among them, 96 ones with expanding area are greater than 0.2 ha; while from 2018 to 2019, 259 RTSs expanded, and 84 of them expanded by greater than 0.2 ha.
 The maximum expanding areas are 1.47 ha and 2.53 ha for 2017 vs 2018 and 2018 vs 2019, respectively. 
 Regarding the percentage, 83\% of them expanded from 2017 to 2018 and 76\% from 2018 to 2019. 
 As shown in Fig. S4, around half of the RTSs only had one expanding branches, while each of the remaining ones (152 for 2017 vs 2018 and 117 for 2018 vs 2019)  had two or more expanding branches. 
@@ -782,10 +781,10 @@ As shown in Fig. S4, around half of the RTSs only had one expanding branches, wh
 %add standard variation for retreat distance.  done
 The average retreat distances of RTSs from 2017 to 2018 and 2018 to 2019 were 20.1 m and 20.9 m (Fig. \ref{fig_rts_change_area_reDis}c and d), respectively. 
 The maximum retreat distances were 61.9 m and 77.2 m for 2017 vs 2018 and 2018 vs 2019, respectively, based on medial circles. 
-From 2017 to 2018, 65\% of RTSs retreated more than 15 m, while from 2018 to 2019, 58\% of them had retreat distance greater than 15 m. 
+From 2017 to 2018, 65\% of RTSs retreated by more than 15 m, while from 2018 to 2019, 58\% of them had retreat distances greater than 15 m. 
 % measure the retreat distance from manual delineation, mentioned here or in the (discussion) supplementary materials?
 %show planet images in different years for this one
-In Fig. S5, the mean retreat distances based on the manually drawn lines are 21.3 m and 25.0 m for 2017 vs 2018 and 2018 vs 2019, respectively, while the maximum retreat distances were 90.8 m and 212.8 m (Fig. \ref{fig_rts_example1}).
+In Fig. S5, the mean retreat distances based on the manually-drawn lines are 21.3 m and 25.0 m for 2017 vs 2018 and 2018 vs 2019, respectively, while the maximum retreat distances were 90.8 m and 212.8 m (Fig. \ref{fig_rts_example1}).
 
 
  % standard deviation
@@ -798,11 +797,11 @@ In Fig. S5, the mean retreat distances based on the manually drawn lines are 21.
 
 
 %Other measurement,  uncertainty, and standard variation
-The three automatic measurements of retreat distances are slightly different from the ones derived from manually drawn lines. Among them, the one based on the diameter of the maximum medial circle is closest to the manual measurement. 
+The three automatic measurements of retreat distances are slightly different from the ones derived from the manually-drawn lines. Among them, the one based on the diameter of the maximum medial circle is closest to the manual measurement. 
 As shown in Fig. S6, the mean differences are $-1.3$ m \& $-4.1$ m, 17.9 m \& 14.4 m (2017 vs 2018 \& 2018 vs 2019), and 13.4 m \& 9.7 m for the one based on the diameter of the maximum medical circles, the direction of the maximum elevation difference, and across the centroid of old polygons, respectively. 
 %Retreat distance estimated based on diameter of the maximum medical circles tends to be underestimated but a few one them 
 As mentioned in section \ref{sec_cal_retreat_dis}, the retreat distance calculated from medial circles tend to be underestimated due to the nature of inscribed circles, but the other two automatic measurements are overestimated. 
-There are also some special cases that the retreat distance of some RTSs based on medial circles are greater than the one from manually draw lines as shown in the histogram (Fig. S6).
+There are also some special cases that the retreat distances of some RTSs based on medial circles are greater than the one from the manually-drawn lines as shown in the histogram (Fig. S6).
 The reason is that the manually drawn lines may not exactly match the direction of the maximum retreat.  
 
  % standard deviation
@@ -816,8 +815,8 @@ The reason is that the manually drawn lines may not exactly match the direction 
 % why you think 30 can be used to defined a good agreement? need to think more, such as their difference? within the delineation errors?
 % has change 30 to 10 m
 The retreat distances of most RTSs measured by the three automatic methods are consistent as represented by the standard deviations (Fig. \ref{fig_re_dis_standard_var}).
-From 2017 to 2018, the percentage of RTSs have standard deviations smaller than 10 m is 60\%, while for 2018 to 2019, it is 59\%, demonstrating a good agreement among the three measurements.
-However, standard deviations of around 40\% of them are quite large ($>$10 m), indicating the complex and irregular shapes of the change polygons. 
+From 2017 to 2018, the percentage of RTSs having standard deviations smaller than 10 m is 60\%, while for 2018 to 2019, it is 59\%, demonstrating a good agreement among the three measurements.
+However, standard deviations of around 40\% of them are quite large ($>$10 m), indicating complex and irregular shapes of the change polygons. 
  
 
 
@@ -830,7 +829,7 @@ However, standard deviations of around 40\% of them are quite large ($>$10 m), i
 \subsubsection{RTS expansion based on automatic delineation}
 \label{sec_rts_change_auto_mapping}
 
-As shown in Fig. S7, the average values of expanding areas and retreat distances of RTS boundaries derived based on automatic delineation are similar to the one from manual delineation (section \ref{sec_rts_change_area} and \ref{sec_rts_retreat_distance}).
+As shown in Fig. S7, the average values of expanding areas and retreat distances of RTS boundaries derived based on automatic delineation are similar to the ones from manual delineation (section \ref{sec_rts_change_area} and \ref{sec_rts_retreat_distance}).
 In Fig. S7, the average expanding areas are 0.25 ha (2018 vs 2017) and 0.24 ha (2019 vs 2018), and the mean retreat distances are 21.5 m (2018 vs 2017)  and 21.6 m (2019 vs 2018). 
 However, the total number of expanding RTSs is smaller at 236 (2018 vs 2017) and 233 (2019 vs 2018), respectively, due to the false negatives in the automatic delineation results.
 
@@ -854,14 +853,14 @@ Although automatic delineation misses some RTSs and produces many inaccurate bou
 
 However, to delineate RTS boundaries on multi-temporal images is more challenging than to identify their location or on one-year images. 
 In this study, the targets are not only locations and extents of 342 RTSs in Beiluhe, but also their boundaries in different years, that is, $342\times3$ RTS boundaries from 2017 to 2019.
-As shown in section \ref{sec_compare_with_201805_results}, the F1 scores derived from multi-temporal images are slightly worse than one-year results, indicating the challenges of mapping RTSs in multi-temporal images. 
+As shown in section \ref{sec_compare_with_201805_results}, the F1 scores derived from multi-temporal images are slightly worse than the one-year results, indicating the challenges of mapping RTSs in multi-temporal images. 
 The possible reasons include (1) the inconsistent features of the same RTS in different images may reduce the performance of the trained model 
-and (2) inaccurately mapped boundaries cannot meet the requirement of RTS dynamic features. 
-These reasons are related to the mapping strategy, that is, training a single model and removing false mapped polygons by applying RTS dynamic features.  
+and (2) inaccurately mapped boundaries cannot meet the requirements of RTS dynamic features. 
+These reasons are related to the mapping strategy, that is, training a single model and removing falsely-mapped polygons by applying RTS dynamic features.  
 Alternatively, we may adopt other strategies such as training multiple models, one model for each year,  which is still manageable when images only span a few years.
 Applying the RTS dynamic feature can significantly reduce the number of false positives (section \ref{sec_improve_using_multi_images}), but it also removes some correctly mapped polygons with relatively lower delineation accuracy. 
 %Lowering the criteria of RTS dynamic features can help identify more mapped polygons but also reserved more RTS   %or adding some negative training polygons for training if they are available.
-Another limitation of applying the RTS dynamic features is that a new emergent RTS (in or after 2019) would be removed. 
+Another limitation of applying the RTS dynamic features is that a new RTS (in or after 2019) would be removed. 
 
 
 %Advantage: do not need negative training polygons, so save time when extend to larger areas.
@@ -877,11 +876,11 @@ Moreover, the input polygons (RTS boundaries) can be either derived from manual 
 providing the ability and flexibility to utilize both archived and newly produced data.
 
 
-The retreat distance of most RTSs are equal or close to manual measurement on images, and only a few of them show large discrepancies due to irregular or elongated shapes of expanding areas. 
+The retreat distances of most RTSs are equal or close to the manual measurements on images, and only a few of them show large discrepancies due to irregular or elongated shapes of expanding areas. 
 %Why we need three automatic measurement for the retreat distance?
-Therefore, in addition to the measurement of medical circles, we also conduct two other methods (based on DEM difference and centroid of the corresponding old polygon) as supplementary measurements. 
+Therefore, in addition to the measurement of medical circles, we also conducted two other methods (based on DEM difference and centroid of the corresponding old polygon) as supplementary measurements. 
 For a specific RTS, further investigations are needed if the discrepancy (represented by standard deviation) is large. 
-These irregular or elongated shapes of expanding areas may cause by the spatial distribution of ground ice and micro-terrain.
+These irregular or elongated shapes of expanding areas may be caused by the spatial distribution of ground ice and micro-terrain.
 The accuracy of RTS boundaries (input polygons) can affect the accuracy of retreat distance, especially when these boundaries are derived from automatic mapping methods. 
 Currently, automatic mapping (multi-temporal or one-year) usually produces a few mapped polygons that are inaccurate, leading to the uncertainties of retreat distance. 
 Therefore, in the future, we may consider using pixel-based change detection to obtain the expanding area directly from multi-temporal images. 
@@ -896,13 +895,13 @@ Therefore, in the future, we may consider using pixel-based change detection to 
 \section{Conclusions}
 \label{sec_conclusion}
 
-We proposed a method based on DeepLabv3+, change detection, and medial axis transform to automatically quantify the development of retrogressive thaw slumps in the Beiluhe region. 
-Experiments show that the results from the automatic delineation of RTS boundaries on multi-temporal images are close to the one from manual delineation for most RTSs, indicating the good performance of DeepLabv3+  that not only for identifying their locations but also for accurately delineating their boundaries. 
+We proposed a method based on deep learning, change detection, and medial axis transform to automatically quantify the development of retrogressive thaw slumps in the Beiluhe region. 
+Experiments show that the results from the automatic delineation of RTS boundaries on multi-temporal images are close to the one from manual delineation for most RTSs, indicating the good performance of DeepLabv3+ not only for identifying their locations but also for accurately delineating their boundaries. 
 However, the results also indicate the challenge of automatic delineation when applying DeepLabv3+ to multi-temporal images when compared with one-year results. 
 With the input of multi-temporal RTS boundaries, either from automatic or manual delineation, our method can obtain their expanding regions, then further produce their change areas and retreat distances based on medial circles. 
-The whole process is automatic and can be used an effective and efficient tool for quantifying RTS development in large areas. 
+The whole process is automatic and can be used as an effective and efficient tool for quantifying RTS development in large areas. 
 
-Most of the RTSs in the Beiluhe region were expanding from 2017 to 2019 with significant expanding areas and retreat distances. 
+Most of the RTSs in the Beiluhe region expanded from 2017 to 2019 with significant expanding areas and retreat distances. 
 Among the 342 RTSs, 83\% of them expanded from 2017 to 2018 and 76\% from 2018 to 2019, with an average expanding area of 0.20 ha and 0.22 ha, respectively.
 The average retreat distances of RTSs were 21.3 m (2017 vs 2018) and 25.0 m (2018 vs 2019).
 This is the first report of RTSs retreat distance and expanding areas on the Tibetan Plateau and provides valuable information for understanding permafrost degradation in this region. 
@@ -921,7 +920,7 @@ Codes are available on GitHub (\url{https://github.com/yghlc/ChangeDet_DL}) afte
 
 %TODO: thanks editors reviewers after review
 
-Thanks to Planet's Education and Research Program, through which we downloaded CubeSat images for this study. 
+We thank Planet's Education and Research Program, through which we downloaded CubeSat images for this study. 
 %Thanks to Drs. Jing Luo, Zhanju Lin, and Fujun Niu at Northwest Institute of Eco-Environment and Resources, Chinese Academy of Sciences for their support and arrangement of the Beiluhe field work in 2018. 
 This work is funded by the Hong Kong Research Grants Council (CUHK14303119).
 
