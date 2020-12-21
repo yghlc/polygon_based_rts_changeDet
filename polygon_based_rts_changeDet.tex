@@ -857,50 +857,71 @@ However, the total number of expanding RTSs is smaller at 236 (2017 vs 2018) and
 %\subsection{Advantage and disadvantage of using the RTS dynamic feature}
 %\label{sec_diss_rts_dynamic_features}
 %\subsection{Delineating RTS boundaries on multi-temporal images}
-\subsection{Advantages and limitations of automatic delineation}
-\label{sec_diss_mapping_rts_multi_images}
+%\subsection{Advantages and limitations of automatic delineation}
+%\label{sec_diss_mapping_rts_multi_images}
 
-The deep-learning-based method can automatically delineate RTS boundaries on multi-temporal images with high accuracies and can potentially be applied to large areas for investigating RTS development. 
-As demonstrated in this paper, the results from the automatic method can accurately delineate most RTS boundaries in different years.
+\subsection{An automated pipeline for investigating RTS occurrence and dynamics}
+\label{sec_diss_auto_pipeline}
+
+The automated pipeline, which is necessary for investigating RTS in large areas, consists of deep-learning-based delineation, polygon-based change detection, and RTS retreat distance calculation. 
+As demonstrated in this paper, the deep-learning-based method can automatically delineate most RTS boundaries on multi-temporal images with high accuracies.
+%As demonstrated in this paper, the results from the automatic method can accurately delineate most RTS boundaries in different years.
 %Accurate RTS boundaries from multi-temporal images are essential for quantifying their development.
 Based on these multi-temporal boundaries, we can reveal their development in unprecedented spatial and temporal details. 
-Although automatic delineation misses some RTSs and produces many inaccurate boundaries, based on its results we still can obtain similar mean retreat distances of RTS (section \ref{sec_rts_change_auto_mapping}). 
+Polygon-based change detection is straightforward and does not introduce additional uncertainties. 
+Retreat distances, one of the key components of RTS dynamics, are first time calculated in an automated manner. 
+The proposed method based on medial axis transform fills the gap of the automatic calculation of RTS retreat distance and provides an effective tool for quantifying RTS development. 
+Moreover, the input polygons (RTS boundaries) can be either derived from manual delineation or automatic mapping methods, providing the ability and flexibility to utilize both archived and newly produced data.
+As shown in section \ref{sec_rts_change_auto_mapping}, the pipeline can obtain mean RTS retreat distances which are similar to manual-based ones. 
 
-
-However, to delineate RTS boundaries on multi-temporal images is more challenging than to identify their location or on one-year images. 
-In this study, the targets are not only locations and extents of 342 RTSs in Beiluhe, but also their boundaries in different years, that is, $342\times3$ RTS boundaries from 2017 to 2019.
-As shown in section \ref{sec_compare_with_201805_results}, the F1 scores derived from multi-temporal images are slightly worse than the one-year results, indicating the challenges of mapping RTSs on multi-temporal images. 
-The possible reasons include (1) the inconsistent features of the same RTS in different images may reduce the performance of the trained model 
-and (2) some correct mapped polygons but with inaccurate boundaries were removed due to the violation of RTS dynamic features. 
-These reasons are related to the mapping strategy, that is, training a single model and removing falsely-mapped polygons by applying RTS dynamic features.  
-Alternatively, we may adopt other strategies such as training multiple models, one model for each year,  which is still manageable when images only span a few years.
-Applying the RTS dynamic feature can significantly reduce the number of false positives (section \ref{sec_improve_using_multi_images}), but it also removes some correctly mapped polygons with relatively lower delineation accuracy. 
-%Lowering the criteria of RTS dynamic features can help identify more mapped polygons but also reserved more RTS   %or adding some negative training polygons for training if they are available.
-Another limitation of applying the RTS dynamic features is that a new RTS (in or after 2019) would be removed. 
 
 
 %Advantage: do not need negative training polygons, so save time when extend to larger areas.
 
-\subsection{Advantages and limitations of automatic calculation of retreat distances}
-\label{sec_diss_retreat_distance}
+%\subsection{Advantages and limitations of automatic calculation of retreat distances}
+%\label{sec_diss_retreat_distance}
 
-Automatic calculation of RTS retreat distance is necessary for investigating RTS development in large areas.
-Currently, measurement of RTS retreat distance is manually conducted in the field or on images, which is limited to local areas. 
-In this study, a proposed method based on polygon-based change detection and medical circles fills the gap of the automatic calculation of RTS retreat distance 
-and provides an effective tool for quantifying RTS development in large areas. 
-Moreover, the input polygons (RTS boundaries) can be either derived from manual delineation or automatic mapping methods, 
-providing the ability and flexibility to utilize both archived and newly produced data.
+\subsection{Limitations of the pipeline}
+\label{sec_diss_limitations}
+
+The major limitation is that automatic delineation is not perfect, manifested as a few false positives as well as false negatives and some correct mapped polygons but with relatively lower delineation accuracies. 
+As shown in section \ref{sec_compare_with_201805_results}, the F1 scores derived from multi-temporal images are slightly worse than the one-year results, indicating that 
+delineating RTS boundaries on multi-temporal images is more challenging than identifying their location or on one-year images.
+The possible reasons include (1) the inconsistent features of the same RTS in different images may reduce the performance of the trained model 
+and (2) some correct mapped polygons but with inaccurate boundaries were removed due to the violation of RTS dynamic features. 
+Moreover, the targets in this study are not only locations of 342 RTSs in Beiluhe, but also their boundaries in different years, that is, $342\times3$ RTS boundaries from 2017 to 2019.
+Applying the RTS dynamic feature can significantly reduce the number of false positives (section \ref{sec_improve_using_multi_images}), but it also removes some correctly mapped polygons with relatively lower delineation accuracy and a new RTS (in or after 2019). 
+The uncertainties derived in automatic delineation will transfer to its following steps as this is the first step in this pipeline. 
 
 
 The retreat distances of most RTSs are equal or close to the manual measurements on images, and only a few of them show large discrepancies due to irregular or elongated shapes of expanding areas. 
-%Why we need three automatic measurement for the retreat distance?
-Therefore, in addition to the measurement of medical circles, we also conducted two other methods (section \ref{sec_cal_retreat_dis}) %(based on DEM difference and centroid of the corresponding old polygon) 
-as supplementary measurements. 
-For a specific RTS, further investigations are needed if the discrepancy (represented by standard deviation) is large. 
+This can be considered as another limitation but not as dominant as automatic delineation. 
 These irregular or elongated shapes of expanding areas may be caused by the spatial distribution of ground ice and micro-terrain.
+In addition to the measurement of medical circles, we also conducted two other methods (section \ref{sec_cal_retreat_dis}) as supplementary measurements. 
+For a specific RTS, further investigations are needed if the discrepancy (represented by standard deviation) is large. 
+Moreover, how to define retreat distances of RTSs when their expanding areas are irregular or elongated is still debatable.
 The accuracy of RTS boundaries (input polygons) can affect the accuracy of retreat distance, especially when these boundaries are derived from automatic mapping methods. 
 Currently, automatic mapping (multi-temporal or one-year) usually produces a few mapped polygons that are inaccurate, leading to the uncertainties of retreat distance. 
-Therefore, in the future, we may consider using pixel-based change detection to obtain the expanding area directly from multi-temporal images. 
+
+
+These limitations of the automated pipeline should be aware when applying it to other regions or be resolved in future work. 
+In this study we trained a single model and removed falsely-mapped polygons by applying RTS dynamic features.  
+Alternatively, to improve mapping accuracies, we may adopt other strategies such as training multiple models, one model for each year,  which is still manageable when images only span a few years.
+Lowering the criteria of RTS dynamic features can help identify more mapped polygons but also reserved more false positives.
+Because the accuracy of automatic delineation is critical but is challenging to achieve, in the future, we may consider using pixel-based change detection to obtain the expanding area directly from multi-temporal images.
+
+%This pipeline is not perfect, but useful. 
+%How to use these pipeline? be aware of some problem need to consider. 
+% adding some negative training polygons for training if they are available.
+
+
+%\subsection{RTS dynamics in Beiluhe on the Tibetan Plateau}
+%\label{sec_diss_rts_dynamics}
+%
+%talk about more images before 
+%RTS dynamic: volume?  size and distance has been resolved in this paper. 
+
+
 
 
 
