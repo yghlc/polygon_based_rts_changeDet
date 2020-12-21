@@ -657,7 +657,7 @@ To validate the retreat distance, we manually drew a line indicating expanding d
 
 The mapped polygons accurately delineate most RTS boundaries on images taken in 2017, 2018, and 2019, with F1 scores of 0.820, 0.793, and 0.788, respectively.
 Among the mapped polygons, around two-thirds of them are true positives (black, blue, and red polygons in Fig. \ref{fig_mapping_results}), and the rest are false positives (yellow polygons in Fig. \ref{fig_mapping_results}). 
-Details of these numbers are presented in Table \ref{table_accuracy_f1} (rows of RTS-dynamic).
+Details of these numbers are presented in Table \ref{table_accuracy_f1} (rows of RTS-dynamics).
 The distribution of mapped polygons for the entire Beiluhe region is shown in Fig. \ref{fig_mapping_results}a, and amplifications of three locations are shown in Fig. \ref{fig_mapping_results}b--d. 
 Compared with the ground truths presented in Fig. S1 in the Supplementary Materials,  around 90 RTSs are missed in the mapped polygons such as the three within the yellow rectangle in Fig. \ref{fig_mapping_results}b.
 As shown in Fig. \ref{fig_mapping_results}c and d, the true positives are close to the ground truths, that is, the automatically delineated ones are similar to the ones from manual delineation. 
@@ -707,7 +707,7 @@ After applying the RTS dynamic features, all F1 scores remain at similar values 
 %%%%%%% Mapping results from exp14 %%%%%%%%%%%%%\begin{table}[ht]
 \footnotesize  \centering  \caption{Accuracy of mapped polygons in 2017, 2018, and 2019, respectively, with and without considering RTS dynamic features. TP, FP, and FN are number of true positives, false positives, and false negatives.}    \begin{tabular}{c c c c c c c}
 \toprule    \textbf{Year} & \textbf{TP} & \textbf{FP} & \textbf{FN} & \textbf{Precision} & \textbf{Recall} & \textbf{F1 score} \\
-\midrule   2017 & 296   & 391   & 42    & 0.431 & 0.876 & 0.578 \\   2018 & 299   & 242   & 43    & 0.553 & 0.874 & 0.677 \\   2019 & 297   & 230   & 47    & 0.564 & 0.863 & 0.682 \\   $2017_{RTS{\text -}dynamic}$ & 250   & 22    & 88    & 0.919 & 0.740 & 0.820 \\   $2018_{RTS{\text -}dynamic}$ & 253   & 43    & 89    & 0.855 & 0.740 & 0.793 \\   $2019_{RTS{\text -}dynamic}$ & 252   & 44    & 92    & 0.851 & 0.733 & 0.788 \\
+\midrule   2017 & 296   & 391   & 42    & 0.431 & 0.876 & 0.578 \\   2018 & 299   & 242   & 43    & 0.553 & 0.874 & 0.677 \\   2019 & 297   & 230   & 47    & 0.564 & 0.863 & 0.682 \\   $2017_{RTS{\text -}dynamics}$ & 250   & 22    & 88    & 0.919 & 0.740 & 0.820 \\   $2018_{RTS{\text -}dynamics}$ & 253   & 43    & 89    & 0.855 & 0.740 & 0.793 \\   $2019_{RTS{\text -}dynamics}$ & 252   & 44    & 92    & 0.851 & 0.733 & 0.788 \\
 
 \bottomrule    \end{tabular}
 %\vspace{1ex}
@@ -941,7 +941,7 @@ Codes are available on GitHub (\url{https://github.com/yghlc/ChangeDet_DL}) afte
 We thank Planet's Education and Research Program, through which we downloaded CubeSat images for this study. 
 %Thanks to Drs. Jing Luo, Zhanju Lin, and Fujun Niu at Northwest Institute of Eco-Environment and Resources, Chinese Academy of Sciences for their support and arrangement of the Beiluhe field work in 2018. 
 %This work is funded by the Hong Kong Research Grants Council (CUHK14303119).
-Lingcao Huang and Lin Liu are supported by the Hong Kong Research Grants Council (CUHK14303119).
+Lingcao Huang and Lin Liu are supported by the Hong Kong Research Grants Council (CUHK14303119) and CUHK Direct Grant for Research (4053426).
 Jing Luo, Zhanju Lin, and Fujun Niu are supported by the Second Tibetan Plateau Scientific Expedition and Research (STEP) program (Grant No. 2019QZKK0905) and the National Natural Science Foundation of China (42071097).
 
 
