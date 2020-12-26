@@ -560,7 +560,7 @@ The reasons for setting these two thresholds are that (1) we assumed that minimu
 Secondly, a change polygon derived from erroneously mapped polygons was removed.
 % these belong to previous section. No, we have revised it. 
 We considered a mapped polygon as erroneous if it meets one of the following criteria: (1) containing holes, (2) not intersecting any mapped polygons in other years, or (3) intersecting two or more mapped polygons in another year.
-Usually, these erroneous polygons are resulted from automatic mapping methods, and most of them would be removed after applying the RTS dynamic feature (section \ref{sec_improving_using_rts_dynamic}). 
+Usually, these erroneous polygons result from automatic mapping methods, and most of them would be removed after applying the RTS dynamic feature (section \ref{sec_improving_using_rts_dynamic}). 
 %minimum_relative_elevation = 0
 Thirdly, we removed change polygons if their elevation difference (Equation \ref{equ_elevation_diff}) is smaller than zero (i.e., not in the upslope zone). 
 \begin{equation}
@@ -608,7 +608,7 @@ N_t = max\{N_{C_t^1},N_{C_t^2},...,N_{C_t^n}\}
 where $M$ and $N$ is the retreat distance calculated based on the direction of maximum elevation difference and across the centroid of the old polygon, respectively.
 %The variation of these three distances can indicate the consistency of the three measurements mentioned above . %A small value of difference indicate high confidence, and vice versa. 
 We calculated the standard deviation of the three distances ($R_t$, $M_t$, and $N_t$) for each RTS and used it as an indicator for confidence or consistency of automatic calculation. 
-Usually, higher standard deviation are the results of irregular shapes of change polygons.
+Usually, higher standard deviations are caused by irregular shapes of change polygons.
 %For the case when an RTS contains several change polygons, we chose the maximum value as the RTS retreat distance.
 %We calculate the variation based on the following equation: 
 %\begin{equation}
@@ -870,10 +870,10 @@ As demonstrated in this paper, the deep-learning-based method can automatically 
 %Accurate RTS boundaries from multi-temporal images are essential for quantifying their development.
 Based on these multi-temporal boundaries, we can reveal their development in unprecedented spatial and temporal details. 
 Polygon-based change detection is straightforward and does not introduce additional uncertainties. 
-Retreat distances, one of the key components of RTS dynamics, are first time calculated in an automated manner. 
+The pipeline enables, for the first time, an automated calculation of retreat distances, one of the key components of RTS dynamics.
 The proposed method based on medial axis transform fills the gap of the automatic calculation of RTS retreat distance and provides an effective tool for quantifying RTS development. 
-Moreover, the input polygons (RTS boundaries) can be either derived from manual delineation or automatic mapping methods, providing the ability and flexibility to utilize both archived and newly produced data.
-As shown in section \ref{sec_rts_change_auto_mapping}, the pipeline can obtain mean RTS retreat distances which are similar to manual-based ones. 
+Moreover, the input polygons (RTS boundaries) can be derived from either manual delineation or automatic mapping methods, providing the ability and flexibility to utilize both archived and newly produced data.
+As shown in section \ref{sec_rts_change_auto_mapping}, the pipeline can obtain mean RTS retreat distances similar to manual-based ones. 
 
 
 
@@ -885,14 +885,14 @@ As shown in section \ref{sec_rts_change_auto_mapping}, the pipeline can obtain m
 \subsection{Limitations of the pipeline}
 \label{sec_diss_limitations}
 
-The major limitation is that automatic delineation is not perfect, manifested as a few false positives as well as false negatives and some correct mapped polygons but with relatively lower delineation accuracies. 
+The major limitation is that the automatic delineation is imperfect, manifested as a few false positives as well as false negatives and some correct mapped polygons but with relatively lower delineation accuracies. 
 As shown in section \ref{sec_compare_with_201805_results}, the F1 scores derived from multi-temporal images are slightly worse than the one-year results, indicating that 
-delineating RTS boundaries on multi-temporal images is more challenging than identifying their location or on one-year images.
+delineating RTS boundaries on multi-temporal images is more challenging than identifying their locations or on one-year images.
 The possible reasons include (1) the inconsistent features of the same RTS in different images may reduce the performance of the trained model 
 and (2) some correct mapped polygons but with inaccurate boundaries were removed due to the violation of RTS dynamic features. 
 Moreover, the targets in this study are not only locations of 342 RTSs in Beiluhe, but also their boundaries in different years, that is, $342\times3$ RTS boundaries from 2017 to 2019.
 Applying the RTS dynamic feature can significantly reduce the number of false positives (section \ref{sec_improve_using_multi_images}), but it also removes some correctly mapped polygons with relatively lower delineation accuracy and a new RTS (in or after 2019). 
-The uncertainties derived in automatic delineation will transfer to its following steps as this is the first step in this pipeline. 
+The uncertainties derived in automatic delineation will propagate to its following steps as this is the first step in this pipeline. 
 
 
 The retreat distances of most RTSs are equal or close to the manual measurements on images, and only a few of them show large discrepancies due to irregular or elongated shapes of expanding areas. 
@@ -963,8 +963,8 @@ Codes are available on GitHub (\url{https://github.com/yghlc/ChangeDet_DL}) afte
 We thank Planet's Education and Research Program, through which we downloaded CubeSat images for this study. 
 %Thanks to Drs. Jing Luo, Zhanju Lin, and Fujun Niu at Northwest Institute of Eco-Environment and Resources, Chinese Academy of Sciences for their support and arrangement of the Beiluhe field work in 2018. 
 %This work is funded by the Hong Kong Research Grants Council (CUHK14303119).
-Jing Luo, Zhanju Lin, and Fujun Niu are supported by the Second Tibetan Plateau Scientific Expedition and Research (STEP) program (Grant No. 2019QZKK0905) and the National Natural Science Foundation of China (42071097).
-Lingcao Huang and Lin Liu are supported by the Hong Kong Research Grants Council (CUHK14303119) and CUHK Direct Grant for Research (4053426).
+Jing Luo, Zhanju Lin, and Fujun Niu were supported by the Second Tibetan Plateau Scientific Expedition and Research (STEP) program (Grant No. 2019QZKK0905) and the National Natural Science Foundation of China (42071097).
+Lingcao Huang and Lin Liu were supported by the Hong Kong Research Grants Council (CUHK14303119) and CUHK Direct Grant for Research (4053426).
 
 
 
