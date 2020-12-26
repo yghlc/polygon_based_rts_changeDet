@@ -406,7 +406,7 @@ Lastly, we considered all the patches from different years as a single training 
 
 % training
 We trained a DeepLabv3+ model (i.e., network parameters) by using the training data derived in section \ref{sec_prepare_training}. 
-Instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features on multi-temporal images. 
+Instead of training different models for different years, we only trained a single model because DeepLabv3+ has a high capability to represent RTS features on multi-temporal images \citep{zhang2021automated}. 
 Moreover, the strategy of a general model is more convenient and efficient than the one of the multiple models when expanding in the time domain. % can save a lot of computing resources, especially
 The network architecture and pre-trained model we used were Xception65 \citep{chollet2017xception} and based on the ImageNet datasets \citep{russakovsky2015imagenet}, respectively. 
 The hyper-parameters such as the learning rate (0.007), batch size (8), and iteration number (30000) were the same as the ones used by \cite{huang2020using}.
