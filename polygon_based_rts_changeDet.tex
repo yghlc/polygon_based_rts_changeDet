@@ -444,7 +444,7 @@ Lastly, considering the image resolution, we removed mapped polygons with an are
 
 
 Many mapped polygons were erroneously identified as RTS polygons can be removed by utilizing the RTS dynamic feature. 
-As shown in Fig. \ref{fig_rts_expanding}, an active RTS can expand toward upslope annually; even for a non-active RTS \replaced{in our study area, the possibility of re-vegetation and shrinking of its extent is very low due to the short period of time (three years).}{, its extent cannot shrink}. 
+As shown in Fig. \ref{fig_rts_expanding}, an active RTS can expand toward upslope annually; even for a non-active RTS \replaced{in our study area, the possibility of re-vegetation and shrinking of its extent is very low due to the short period of time (three years).}{, its extent cannot shrink.} 
 Therefore, we can use this dynamic feature to remove non-RTS mapped polygons. 
 Firstly, we obtained a union (Fig. \ref{fig_rts_expanding}) of mapped polygons at the same location.
 The steps of obtaining the union include (1) choosing a mapped polygon as an initial union, (2) scanning through all mapped polygons until finding a mapped polygon that has not been merged to other unions and overlaps it, (3) merging the found polygon into it and updating the union, and (4) repeating steps (2) and (3) until no polygons can be merged into the union. 
@@ -897,7 +897,7 @@ As shown in section \ref{sec_rts_change_auto_mapping}, the pipeline can obtain m
 The major limitation is that the automatic delineation is imperfect, manifested as a few false positives as well as false negatives and some correct mapped polygons but with relatively lower delineation accuracies. 
 As shown in section \ref{sec_compare_with_201805_results}, the F1 scores derived from multi-temporal images are slightly worse than the one-year results, indicating that 
 delineating RTS boundaries on multi-temporal images is more challenging than identifying their locations or on one-year images.
-The possible reasons include \added{(1) multi-temporal images tend to have different acquisition conditions, which may increase the bias between the training and test data and lead to lower prediction performance \citep{tuia2016domain}, and (2) changes of RTSs appearance and the surrounding over time increase the difficulty of delineating them.} \deleted{(1) the inconsistent features of the same RTS in different images may reduce the performance of the trained model,  
+The possible reasons include \added{(1) multi-temporal images tend to have different acquisition conditions, which may increase the bias between the training and test data and lead to lower prediction performance \citep{tuia2016domain}, and (2) changes of RTSs appearance and the surrounding over time increase the difficulty of delineating them.}\deleted{(1) the inconsistent features of the same RTS in different images may reduce the performance of the trained model,  
 and (2) some correct mapped polygons but with inaccurate boundaries were removed due to the violation of RTS dynamic features. }
 Moreover, the targets in this study are not only locations of 342 RTSs in Beiluhe, but also their boundaries in different years, that is, $342\times3$ RTS boundaries from 2017 to 2019.
 Applying the RTS dynamic \replaced{assumptions}{ feature} can significantly reduce the number of false positives (section \ref{sec_improve_using_multi_images}), but it also removes some correctly mapped polygons with relatively lower delineation accuracy and a new RTS (in or after 2019). 
@@ -905,10 +905,10 @@ The uncertainties derived in automatic delineation will propagate to its followi
 
 
 The retreat distances of most RTSs are equal or close to the manual measurements on images, and only a few of them show large discrepancies due to irregular or elongated shapes of expanding areas. 
-\deleted{This can be considered as another limitation but not as dominant as automatic delineation.} 
+\deleted{This can be considered as another limitation but not as dominant as automatic delineation.}
 These irregular or elongated shapes of expanding areas may be caused by the spatial distribution of ground ice and micro-terrain.
-In addition to the measurement of medical circles, we also conducted two other methods (section \ref{sec_cal_retreat_dis}) as supplementary measurements. 
-For a specific RTS, further investigations are needed if the discrepancy (represented by standard deviation) is large. 
+In addition to the measurement of medical circles, we also conducted two other methods (section \ref{sec_cal_retreat_dis}) as supplementary measurements.
+For a specific RTS, further investigations are needed if the discrepancy (represented by standard deviation) is large.
 Moreover, how to define retreat distances of RTSs when their expanding areas are irregular or elongated is still debatable \added{as the distances can vary significantly across the scarp}.
 The accuracy of RTS boundaries (input polygons) can affect the accuracy of retreat distance, especially when these boundaries are derived from automatic mapping methods. 
 Currently, automatic mapping (multi-temporal or one-year) usually produces a few mapped polygons that are inaccurate, leading to the uncertainties of retreat distance. 
