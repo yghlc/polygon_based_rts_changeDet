@@ -351,7 +351,7 @@ The error (uncertainty) of manual delineation on Planet images is around one pix
 After the delineation, we obtained 338, 342, and 344 RTS boundaries on images from 2017 to 2019. 
 The RTS numbers in this paper are larger than the one presented in \cite{huang2020using} by around 80 because the multi-temporal images with better vegetation coverage enable us to identify many small and subtle RTSs. 
 Two RTSs initiated in 2019 and captured by the 2019 image, but we removed them in the step of change detection (section \ref{sec_polygon_change_det}) because it needs at least two boundaries at the same location. 
-Depending on the experiments (section \ref{sec_prepare_training}), parts of these RTS boundaries were used for training our automatic delineation method, and all of them would be considered as ground truths for validation. 
+Depending on the experiments (section \ref{sec_prepare_training}), parts of these RTS boundaries were used for training our automatic delineation method, and all of them would be considered as ground truth\deleted{s} for validation. 
 The locations of 55\% RTSs were cross-checked in the field in 2014 and 2018 and most of them  appear on other satellite images including WorldView-1, SPOT-5, and Gaofen-1 \citep{luo2019recent}. 
 %
 % parts of which will be used for training our automatic method. 
@@ -382,18 +382,18 @@ The steps of automatic delineation include preparing training data, training a D
 % Preparing training data
 
 We derived training data that can be input into DeepLabv3+ directly from training polygons and selected Planet images.
-The training polygons consist of parts of the ground truths (i.e., positive training polygons) and polygons covering non-RTS regions (termed as negative training polygons) in different years.
+The training polygons consist of parts of \added{or all} the \replaced{manually-drawn polygons}{ground truths} (i.e., positive training polygons) and polygons covering non-RTS regions (termed as negative training polygons) in different years.
 These negative training polygons are necessary for distinguishing land covers (e.g., bare land) that are similar to RTSs but need ground information or some initial tests to generate them. 
 Based on our initial test, we drew 78 negative training polygons on the 2019 mosaic image and duplicated them to 2017 and 2018 images. 
-We chose all the ground truths as well as negative training polygons for training. 
-To assess the capability and generalization of DeepLabv3+ when applied to multi-temporal Planet images, we conducted experiments using (1) ground truths of 2017 and 2018 as well as 78 negative training polygons for training and (2) all ground truths but without negative training polygons.
+We chose all the \replaced{manually-drawn polygons}{ ground truths} as well as negative training polygons for training. 
+To assess the capability and generalization of DeepLabv3+ when applied to multi-temporal Planet images, we conducted experiments using (1) \replaced{manually-drawn polygons}{ ground truths} of 2017 and 2018 as well as 78 negative training polygons for training and (2) all \replaced{manually-drawn polygons}{ ground truths} but without negative training polygons.
 %We considered all the ground truths as positive training polygons but did not include any negative training polygons. 
 %However, generating negative training polygons will be impractical for mapping RTSs in a large area. 
 %need to check this sentence, may not right. have checked, it is right, it happened in Beiluhe 
 We conducted experiments without negative training polygons because (1) it takes efforts to generate them and (2) they may cover areas with emerging RTSs or expanding parts of RTSs captured by images taken at a later time. 
 %Therefore, we excluded negative training polygons for the training of DeepLabv3+ when applying to multi-temporal images.
 Without negative training polygons, the mapping results may contain many false positives, but we can utilize the RTS dynamic information in multi-temporal images to remove them (see section \ref{sec_improving_using_rts_dynamic}). 
-We did not conduct more experiments (e.g., k-fold cross-validation) using different portions of ground truths because these tend to obtain similar accuracies as proved by \cite{huang2020using}.
+We did not conduct more experiments (e.g., k-fold cross-validation) using different portions of \replaced{manually-drawn polygons}{ ground truths} because these tend to obtain similar accuracies as proved by \cite{huang2020using}.
 
 
 For the training polygons and Planet images in each year, we extracted sub-images with a buffer area of 300 m. 
@@ -475,7 +475,7 @@ Lastly, we removed mapped polygons in a location that does not satisfy the two-p
 \label{sec_validate_mapped_polygons}
 
 To validate the mapped polygons, we calculated their F1 scores in each year. 
-Firstly, by comparing the mapped polygons and the corresponding ground truths, we calculated IOU values of each mapped polygon. 
+Firstly, by comparing the mapped polygons and the corresponding ground truth\deleted{s}, we calculated IOU values of each mapped polygon. 
 Secondly, we counted the number of true positives (TP), false positives (FP), and false negatives (FN) by setting an IOU threshold of 0.5.
 Lastly, we calculated the precision and recall, then calculate the F1 score using the following equations. 
 \begin{equation}
@@ -668,8 +668,8 @@ The mapped polygons accurately delineate most RTS boundaries on images taken in 
 Among the mapped polygons, around two-thirds of them are true positives (black, blue, and red polygons in Fig. \ref{fig_mapping_results}), and the rest are false positives (yellow polygons in Fig. \ref{fig_mapping_results}). 
 Details of these numbers are presented in Table \ref{table_accuracy_f1} (rows of RTS-dynamics).
 The distribution of mapped polygons for the entire Beiluhe region is shown in Fig. \ref{fig_mapping_results}a, and magnifications of three locations are shown in Fig. \ref{fig_mapping_results}b--d. 
-Compared with the ground truths presented in Fig. S1 in the Supplementary Materials,  around 90 RTSs are missed in the mapped polygons such as the three within the yellow rectangle in Fig. \ref{fig_mapping_results}b.
-As shown in Fig. \ref{fig_mapping_results}c and d, the true positives are close to the ground truths, that is, the automatically delineated ones are similar to the ones from manual delineation. 
+Compared with the ground truth\deleted{s} presented in Fig. S1 in the Supplementary Materials,  around 90 RTSs are missed in the mapped polygons such as the three within the yellow rectangle in Fig. \ref{fig_mapping_results}b.
+As shown in Fig. \ref{fig_mapping_results}c and d, the true positives are close to the ground truth\deleted{s}, that is, the automatically delineated ones are similar to the ones from manual delineation. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%%% put the mapped polygons in Test Area to Supplementary Materials??? %%%%
@@ -748,7 +748,7 @@ The reason is that some of the mapped polygons mismatch RTS boundaries and canno
 %compared with the ones including negative training polygons 
 The assumption of RTS dynamic features can contribute more to the improvement of mapping accuracies if we exclude negative training polygons. % when training the network. 
 As shown in Table S3, the F1 scores improve significantly after applying the RTS dynamic features, as that the FP reduces from around 1500 to less than 200; meanwhile, the AP values (Fig. S3) improve by around 0.2 in different years. 
-This is because excluding negative training polygons tends to produce more false positives but they seldomly can meet the criteria of the RTS dynamic feature.  
+This is because excluding negative training polygons tends to produce more false positives but they \replaced{seldom}{ seldomly} can meet the criteria of the RTS dynamic feature.  
 %The reason is that include: (1) the number of false positives reduces by around 70, but the number of true positives also reduces by around 40, resulting in an almost unchanged F1 score 
 %and (2) including the negative training polygons %used in \cite{huang2020using}
 % has depressed the population of false positives. 
@@ -799,12 +799,12 @@ As shown in Fig. S4, around half of the RTSs only had one expanding branch, whil
 
 
 
-\subsubsection{RTS retreat distance based on manual delineation}
+\subsubsection{RTS retreat distance\deleted{ based on manual delineation}}
 \label{sec_rts_retreat_distance}
 
 %retreat distance from 2017 to 2019. 
 %add standard variation for retreat distance.  done
-The average retreat distances of RTSs from 2017 to 2018 and 2018 to 2019 were 20.1 m and 20.9 m (Fig. \ref{fig_rts_change_area_reDis}c and d), respectively. 
+The average retreat distances of RTSs from 2017 to 2018 and 2018 to 2019 were 20.1 m and 20.9 m (Fig. \ref{fig_rts_change_area_reDis}c and d)\added{ based on manually-drawn boundaries}, respectively. 
 The maximum retreat distances were 61.9 m and 77.2 m for 2017 vs 2018 and 2018 vs 2019, respectively, based on medial circles. 
 From 2017 to 2018, 65\% of RTSs retreated by more than 15 m, while from 2018 to 2019, 58\% of them had retreat distances greater than 15 m. 
 % measure the retreat distance from manual delineation, mentioned here or in the (discussion) supplementary materials?
@@ -857,6 +857,7 @@ However, standard deviations of around 40\% of them are quite large ($>$10 m), i
 As shown in Fig. S7, the average values of expanding areas and retreat distances of RTS boundaries derived based on automatic delineation are similar to the ones from manual delineation (section \ref{sec_rts_change_area} and \ref{sec_rts_retreat_distance}).
 In Fig. S7, the average expanding areas are 0.25 ha (2017 vs 2018) and 0.24 ha (2018 vs 2019), and the mean retreat distances are 21.5 m (2017 vs 2018)  and 21.6 m (2018 vs 2019). 
 However, the total numbers of expanding RTSs are 236 and 233 from 2017 to 2018 and 2018 to 2019, respectively, which are smaller than the ones (284 and 259) based on manual delineation, due to the false negatives in the automatic delineation results.
+\added{Regarding the total expansion areas of all RTSs from automatic delineation are 59.9 ha (2017 vs 2018) and 56.4 ha (2018 vs 2019), slightly larger than manual delineation ones (58.1 ha and 55.7 ha).}
 
 % From 2017 to 2018, 284, from 2018 to 2019, 259 RTSs expanded
  
@@ -942,7 +943,7 @@ However, we cannot rule out that they expanded but cannot be observed from the P
 If we were able to observe minor expansion, the mean values of  expansion areas and retreat distances could be smaller than what we report in this work.
 
 There remain many questions related to the retreat areas and distances such as their uncertainties for each RTS, spatial and temporal pattern of RTS expansion at longer (e.g., decadal) time scales.
-In the future, we will conduct field measurements as ground truths to validate the retreat areas and distances and calculate the corresponding uncertainties.
+In the future, we will conduct field measurements as ground truth\deleted{s} to validate the retreat areas and distances and calculate the corresponding uncertainties.
 We will also collect high resolution images that span more than a decade, delineate RTSs and quantify their expansion, and analyze the spatial as well as temporal characteristics of the expansion by including climatic and topographic data. 
 
 
